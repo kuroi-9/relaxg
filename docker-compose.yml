@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      target: dev
+    restart: always
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+      #if you’re using Windows, you may need to uncomment the next line - Sol from @Kobe E
+      #- WATCHPACK_POLLING=true
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - 3000:3000
+
+  database:
+    container_name: database
+    image: postgres:15
+    user: 999:999
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
