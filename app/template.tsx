@@ -11,7 +11,6 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     const navLinks = [
-        {href: "/", label: "Home"},
         {href: "/job-manager", label: "Job Manager"},
         {href: "/history", label: "History"},
         {href: "/about", label: "About"},
