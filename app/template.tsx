@@ -1,6 +1,6 @@
 'use client'
 
-import React from "react";
+import React, {useEffect} from "react";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
 import "./globals.css";
@@ -17,6 +17,23 @@ export default function RootLayout({
     ]
 
     const pathname = usePathname();
+
+    useEffect(() => {
+        const ws = new WebSocket("ws://localhost:8080");
+
+        ws.onopen = () => {
+            console.log('Connecté au serveur WebSocket');
+        };
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            console.log(data);
+        };
+
+        ws.onclose = () => {
+            console.log('Connexion WebSocket fermée');
+        };
+    }, []);
 
     return (
         <html lang="en">
