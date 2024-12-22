@@ -12,7 +12,7 @@ export default function RootLayout({
         const ws = new WebSocket("ws://localhost:8080");
 
         ws.onopen = () => {
-            console.log('Connecté au serveur WebSocket');
+            console.log('Connected to the WebSocket server');
         };
 
         ws.onmessage = (event) => {
@@ -21,7 +21,7 @@ export default function RootLayout({
         };
 
         ws.onclose = () => {
-            console.log('Connexion WebSocket fermée');
+            console.log('WebSocket connection closed');
         };
     }, []);
 
