@@ -11,11 +11,13 @@ export function Modal({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         if (!dialogRef.current?.open) {
             dialogRef.current?.showModal();
+            document.querySelector('body')?.classList.add('modal-open');
         }
         console.log('efw')
     }, []);
 
     function onDismiss() {
+        document.querySelector('body')?.classList.remove('modal-open');
         router.back();
     }
 

@@ -1,9 +1,12 @@
+import StandaloneTitleModal from "@/components/standaloneTitleModal";
+
 export const dynamicParams = false;
 
-export default async function TitlePage(params: {
-    params: Promise<{ id: string }>;
+export default async function TitlePage(
+    {params}: {params: Promise<{ id: string }>;
 }) {
-    const id = (await (params).params).id;
-    console.log(id);
-    return <div className="title-card">{id}</div>;
+    const id = (await params).id;
+    //TODO await fetch modal content from DB by id
+
+    return <StandaloneTitleModal id={id}/>
 }

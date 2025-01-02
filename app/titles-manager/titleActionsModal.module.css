@@ -7,7 +7,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    position: absolute;
+    position: fixed;
 }
 
 .centered {
@@ -37,4 +37,13 @@
 .actionButton {
     border: solid white 2px;
     padding: 0.5rem;
+}
+
+.close-button:hover {
+    background-color: #eee;
+}
+
+.close-button:after {
+    content: 'x';
+    color: black;
 }
