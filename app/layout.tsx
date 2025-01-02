@@ -1,35 +1,20 @@
-'use client'
-
-import React, {useEffect} from "react";
+import './globals.css';
 import NavBar from "@/components/navBar";
 
-export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
+export const metadata = {
+    title: 'RelaxG',
+    description:
+        'Tool that helps to use a manga upscaling model',
+};
+
+export default function RootLayout(props: {
     children: React.ReactNode;
-}>) {
-    useEffect(() => {
-        const ws = new WebSocket("ws://localhost:8080");
-
-        ws.onopen = () => {
-            console.log('Connected to the WebSocket server');
-        };
-
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            console.log(data);
-        };
-
-        ws.onclose = () => {
-            console.log('WebSocket connection closed');
-        };
-    }, []);
-
+}) {
     return (
-        <html lang="en">
+        <html>
         <body>
-        <NavBar/>
-        {children}
+        <NavBar></NavBar>
+        {props.children}
         </body>
         </html>
     );

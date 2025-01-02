@@ -12,4 +12,16 @@ const nextConfig: NextConfig = {
     },
 };
 
+module.exports = {
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'http',
+                hostname: 'backend',
+                port: '8080',
+            },
+        ],
+    },
+}
+
 export default nextConfig;

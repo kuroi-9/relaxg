@@ -16,7 +16,7 @@ export default async function Page() {
                 "publication-status": string; "post-treated": boolean
             }) => (
                 <Link className="title-card w-1/6 m-2 flex flex-col items-center"
-                      key={title.id} href={`/titles/${title.id}`}>
+                      key={title.id} href={`/titles/${title.id}`} passHref>
                     <TitleCard key={title.id} title={title}></TitleCard>
                 </Link>
             )))}
