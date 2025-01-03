@@ -24,6 +24,8 @@ export default function JobCard(props: { job: { id: Key | null | undefined; "tit
         ws.onclose = () => {
             console.log('Card ' + props.job['title-name'] + ' disconnected');
         };
+
+        return () => ws.close();
     }, [percentage, props.job]);
 
     return (
