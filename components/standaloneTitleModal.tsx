@@ -21,10 +21,10 @@ export default function StandaloneTitleModal(props: {id: string}) {
                     <div className="titleActionsModal__body">
                         Please choose an action below.
                     </div>
-                    <div className="titleActionsModal__footer flex flex-row w-1/2 justify-between">
+                    <div className="titleActionsModal__footer flex flex-row w-4/6 justify-between">
                         <button className={styles.actionButton}>Create Job</button>
                         <button className={styles.actionButton}>Delete previous upscaling</button>
-                        <button className={styles.actionButton} onClick={handleExit}>Return to titles manager</button>
+                        <button className={styles.actionButton} onClick={handleExit}>Return to the titles manager</button>
                     </div>
                 </div>
             </div>

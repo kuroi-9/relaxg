@@ -15,7 +15,7 @@ export default async function Page() {
                 id: Key | null | undefined; "title-name": string;
                 "publication-status": string; "post-treated": boolean
             }) => (
-                <Link className="title-card w-1/6 m-2 flex flex-col items-center"
+                <Link className="title-card w-1/6 m-4 flex flex-col items-center"
                       key={title.id} href={{
                           pathname: `/titles/${title.id}`,
                           query: {name: title["title-name"]}}}>

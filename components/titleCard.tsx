@@ -10,21 +10,27 @@ export default function TitleCard(props: {
     },
 }) {
     return (
-        <div>
-            <Image
-                src={"http://backend:8080/images/" + props.title["title-name"].replaceAll(" ", "_") + "_cover.jpg"}
-                alt="nothing to show"
-                className="border-2 m-2 w-full mb-0 border-b-0"
-                width="1080"
-                height="1920"/>
+        <div className="border-2 flex flex-col" style={{maxWidth: 300, maxHeight: 600, minWidth: 300, minHeight: 600}}>
+            <div className="flex flex-col justify-center items-center" style={{minHeight: 400, backgroundColor: "#e5e7eb"}}>
+                <Image
+                    src={"http://backend:8080/images/" + props.title["title-name"].replaceAll(" ", "_") + "_cover.jpg"}
+                    alt="nothing to show"
+                    className="w-full mb-0 border-b-2 bg-black"
+                    width={284}
+                    height={400}
+                    style={{maxHeight: 400, maxWidth: 284}}
+                />
+            </div>
             <div
-                className={`title-card border-2 m-2 mt-0 w-full bg-${props.title["post-treated"] ? "green" : "black"}-600`}>
-                <div className="card flex flex-col items-center">
-                    <h3 className="card-title">{props.title["title-name"]}</h3>
-                    <h4 className="card-publication-status">{props.title["publication-status"]}</h4>
-                    <h4 className={`post-treated text-${props.title["post-treated"] ? 'green' : 'red'}-600`}>
-                        {props.title["post-treated"] ? "UPSCALED TITLE AVAILABLE" : "ONLY ORIGINAL"}
-                    </h4>
+                className={`border-t-2 title-card mt-0 h-full w-full bg-${props.title["post-treated"] ? "green" : "black"}-600`}>
+                <div className="card h-full flex flex-col justify-between items-center">
+                    <h3 className="card-title p-2" style={{textAlign: "center"}}>{props.title["title-name"]}</h3>
+                    <div className="flex flex-col justify-between items-center">
+                        <h4 className="card-publication-status">{props.title["publication-status"]}</h4>
+                        <h4 className={`post-treated text-${props.title["post-treated"] ? 'green' : 'red'}-600`}>
+                            {props.title["post-treated"] ? "UPSCALED TITLE AVAILABLE" : "ONLY ORIGINAL"}
+                        </h4>
+                    </div>
                 </div>
             </div>
         </div>
