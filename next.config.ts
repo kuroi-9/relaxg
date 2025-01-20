@@ -18,7 +18,7 @@ module.exports = {
             {
                 protocol: 'http',
                 hostname: 'backend',
-                port: '8080',
+                port: '8082',
             },
         ],
     },

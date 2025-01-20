@@ -2,22 +2,60 @@
 
 import {Key, useEffect, useState} from "react";
 
+interface VolumeItem {
+    key: string;
+    treatedPagesCount: number;
+    totalPagesCount: number;
+    percentage: number | undefined;
+}
+
+interface TitleItem {
+    key: string;
+    volumes: VolumeItem[];
+}
+
+interface MainItem {
+    titles: TitleItem[];
+}
+
 export default function JobCard(props: { job: { id: Key | null | undefined; "title-name": string; }; }) {
     const [percentage, setPercentage] = useState(0);
 
+
+
     useEffect(() => {
-        const ws = new WebSocket("ws://localhost:8080");
+        const ws = new WebSocket("ws://localhost:8082");
+        const jobsList: MainItem = {
+            titles: [],
+        };
 
         ws.onopen = () => {
             console.log('Card ' + props.job['title-name'] + ' connected');
         };
 
         ws.onmessage = (event) => {
-            console.log(props.job['title-name'], event.data);
             const data = JSON.parse(event.data);
-            if (data[0] === props.job["title-name"]) {
+
+            if (data[0] === props.job['title-name']) {
+                console.log('[INFO]: ' + props.job['title-name'], event.data);
                 setPercentage(data[2] * 33.3 / data[3]);
-                console.log(props.job['title-name'] + " : " + percentage);
+
+                if (!jobsList.titles.find((element) => element.key = props.job['title-name'])) jobsList.titles.push({
+                    key: props.job['title-name'],
+                    volumes: []
+                });
+
+                const currentJobTitle: TitleItem | undefined = jobsList.titles.find((element) => element.key = props.job['title-name']);
+                if (!currentJobTitle?.volumes.find((element) => element.key = data[1])) {
+                    currentJobTitle?.volumes.push({
+                        key: data[1],
+                        treatedPagesCount: data[2],
+                        totalPagesCount: data[3],
+                        percentage: percentage
+                    });
+                }
+
+                console.log(jobsList);
             }
         };
 

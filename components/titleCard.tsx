@@ -13,7 +13,7 @@ export default function TitleCard(props: {
         <div className="border-2 flex flex-col" style={{maxWidth: 300, maxHeight: 600, minWidth: 300, minHeight: 600}}>
             <div className="flex flex-col justify-center items-center" style={{minHeight: 400, backgroundColor: "#e5e7eb"}}>
                 <Image
-                    src={"http://backend:8080/images/" + props.title["title-name"].replaceAll(" ", "_") + "_cover.jpg"}
+                    src={"http://backend:8082/images/" + props.title["title-name"].replaceAll(" ", "_") + "_cover.jpg"}
                     alt="nothing to show"
                     className="w-full mb-0 border-b-2 bg-black"
                     width={284}
