@@ -74,7 +74,7 @@ export default function JobCard(props: { job: { id: Key | null | undefined; "tit
     }, [percentage, props.host, props.job]);
 
     return (
-        <div className="job-card border-2 m-2 p-2">
+        <div className="job-card border-2 border-gray-700 m-2 p-2">
             <div className="card flex flex-row flex-wrap justify-between">
                 <div className="job-infos flex flex-row flex-wrap w-2/3">
                     <h1 className="card-job-id border-2 p-2" style={{width: "4rem"}}>{props.job.id}</h1>
