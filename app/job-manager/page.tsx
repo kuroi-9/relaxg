@@ -3,7 +3,7 @@ import {Key} from "react";
 
 export default async function Page() {
     //API is being rewriten, fetching its old state from gcloud run
-    const data = await fetch('http://backend:8082/jobs/')
+    const data = await fetch(`http://${process.env.DOCKER_GATEWAY_HOST}:8082/jobs/`)
     //const data = await fetch(process.env.BACKEND_API_URL + "/jobs");
     //const data = await fetch('https://relax-api-190456347501.us-central1.run.app/jobs/')
     const jobs = await data.json()
@@ -11,7 +11,7 @@ export default async function Page() {
     return (
         <ul>
             {jobs.map((job: { id: Key | null | undefined; "title-name": string; }) => (
-                <JobCard key={job.id} job={job}/>
+                <JobCard key={job.id} job={job} host={process.env.DOCKER_GATEWAY_HOST!}/>
             ))}
         </ul>
     )

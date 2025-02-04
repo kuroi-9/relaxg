@@ -1,6 +1,7 @@
 'use client'
 
 import {Key, useEffect, useState} from "react";
+import VolumeCard from "@/components/volumeCard";
 
 interface VolumeItem {
     key: string;
@@ -18,16 +19,16 @@ interface MainItem {
     titles: TitleItem[];
 }
 
-export default function JobCard(props: { job: { id: Key | null | undefined; "title-name": string; }; }) {
+export default function JobCard(props: { job: { id: Key | null | undefined; "title-name": string; }; host: string; }) {
     const [percentage, setPercentage] = useState(0);
+    const [currentJobTitle, setCurrentJobTitle] = useState<TitleItem | undefined>(undefined);
 
-
+    const jobsList: MainItem = {
+        titles: [],
+    };
 
     useEffect(() => {
-        const ws = new WebSocket("ws://localhost:8082");
-        const jobsList: MainItem = {
-            titles: [],
-        };
+        const ws = new WebSocket(`ws://${props.host}:8082`);
 
         ws.onopen = () => {
             console.log('Card ' + props.job['title-name'] + ' connected');
@@ -45,17 +46,23 @@ export default function JobCard(props: { job: { id: Key | null | undefined; "tit
                     volumes: []
                 });
 
-                const currentJobTitle: TitleItem | undefined = jobsList.titles.find((element) => element.key = props.job['title-name']);
-                if (!currentJobTitle?.volumes.find((element) => element.key = data[1])) {
-                    currentJobTitle?.volumes.push({
-                        key: data[1],
-                        treatedPagesCount: data[2],
-                        totalPagesCount: data[3],
-                        percentage: percentage
-                    });
+                const currentJT = jobsList.titles.find((element) => element.key = props.job['title-name']);
+                if (currentJT) {
+
+                    const currentVolume = currentJT.volumes.find((element) => element.key = data[1]);
+                    if (!currentVolume) {
+                        currentJT.volumes.push({
+                            key: data[1],
+                            treatedPagesCount: data[2],
+                            totalPagesCount: data[3],
+                            percentage: percentage
+                        });
+                    }
                 }
 
-                console.log(jobsList);
+                console.log(currentJT)
+
+                setCurrentJobTitle(currentJT);
             }
         };
 
@@ -64,16 +71,27 @@ export default function JobCard(props: { job: { id: Key | null | undefined; "tit
         };
 
         return () => ws.close();
-    }, [percentage, props.job]);
+    }, [percentage, props.host, props.job]);
 
     return (
         <div className="job-card border-2 m-2 p-2">
-            <div className="card flex flex-row flex-wrap justify-start">
+            <div className="card flex flex-row flex-wrap justify-between">
                 <div className="job-infos flex flex-row flex-wrap w-2/3">
                     <h1 className="card-job-id border-2 p-2" style={{width: "4rem"}}>{props.job.id}</h1>
                     <h1 className="card-job-title-name p-2">{props.job["title-name"]}</h1>
                 </div>
-                <div className="bg-green-600" style={{width: percentage + "%"}}></div>
+                <div className="border-2 border-amber-300 flex flex-row w-1/4">
+                    <div className="bg-green-600 m-2" style={{width: percentage + "%"}}></div>
+                </div>
+            </div>
+            <div className="card mt-2 border-2 flex flex-row">
+                <ul className="w-full">
+                    {
+                        currentJobTitle?.volumes.map(volume => (
+                            <VolumeCard key={volume.key} volume={volume}/>
+                        ))
+                    }
+                </ul>
             </div>
         </div>
     )

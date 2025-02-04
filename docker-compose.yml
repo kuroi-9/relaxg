@@ -7,6 +7,8 @@ services:
       target: dev
     restart: always
     command: npm run dev
+    env_file:
+      - .env
     environment:
       - NODE_ENV=development
       - HOST={$(ip route show | awk '/default/ {print $9}')}

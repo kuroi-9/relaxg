@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default async function Page() {
     //API is being rewriten, fetching its old state from gcloud run
-    const titleData = await fetch('http://backend:8082/titles/')
+    const titleData = await fetch(`http://${process.env.DOCKER_GATEWAY_HOST}:8082/titles/`)
     //const titleData = await fetch(process.env.BACKEND_API_URL + "/titles");
     //const data = await fetch('http://192.168.1.29:8080/titles'); //ETH0
     //const data = await fetch('http://192.168.1.31:8080/titles');
@@ -16,7 +16,7 @@ export default async function Page() {
                 id: Key | null | undefined; "title-name": string;
                 "publication-status": string; "post-treated": boolean
             }) => (
-                <Link className="title-card w-1/6 m-4 flex flex-col items-center"
+                <Link className="title-card m-4 flex flex-col items-center"
                       key={title.id} href={{
                           pathname: `/titles/${title.id}`,
                           query: {name: title["title-name"]}}}>

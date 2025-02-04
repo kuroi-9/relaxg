@@ -1,6 +1,6 @@
 'use client'
 
-import {Key, useState} from "react";
+import {Key} from "react";
 import Image from "next/image";
 
 export default function TitleCard(props: {
