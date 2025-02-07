@@ -28,6 +28,7 @@ export default function JobCard(props: { job: { id: Key | null | undefined; "tit
     };
 
     useEffect(() => {
+        console.log(props.host);
         const ws = new WebSocket(`ws://${props.host}:8082`);
 
         ws.onopen = () => {
