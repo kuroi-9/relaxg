@@ -9,6 +9,6 @@ export default async function TitleModal(
 
     return (
         <Modal>
-            <OverlayTitleModal id={titleId}/>
+            <OverlayTitleModal id={titleId} hostIp={process.env.VPS_IP ?? process.env.DOCKER_GATEWAY_HOST!}/>
         </Modal>)
 }

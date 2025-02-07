@@ -4,12 +4,13 @@ import styles from "@/app/titles-manager/titleActionsModal.module.css";
 import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 
-export default function OverlayTitleModal(props: { id: string }) {
+export default function OverlayTitleModal(props: { id: string; hostIp: string }) {
     const router = useRouter();
     const [title, setTitle] = useState<string>("Loading...");
 
+    console.log(props.hostIp)
     useEffect(() => {
-        fetch('http://localhost:8082/titles/' + props.id)
+        fetch(`http://${props.hostIp}:8082/titles/` + props.id)
             .then(res => {
                 console.log(res.json()
                     .then(value => {
@@ -25,7 +26,7 @@ export default function OverlayTitleModal(props: { id: string }) {
     }
 
     const handlePost = () => {
-        fetch('http://localhost:8082/jobs/', {
+        fetch(`http://${props.hostIp}:8082/jobs/`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
