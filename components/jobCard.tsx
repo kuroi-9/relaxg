@@ -44,10 +44,11 @@ export default function JobCard(props: { job: { id: Key | null | undefined; "tit
                 console.log('[INFO]: ' + props.job['title-name'], event.data);
                 setPercentage(data[2] * 33.3 / data[3]);
 
+                console.log(data[4])
                 if (!jobsList.titles.find((element) => element.key = props.job['title-name'])) jobsList.titles.push({
                     key: props.job['title-name'],
                     volumes: [],
-                    running: data[4],
+                    running: Boolean((data[4] === "true")),
                 });
 
                 const currentJT = jobsList.titles.find((element) => element.key = props.job['title-name']);
@@ -77,10 +78,13 @@ export default function JobCard(props: { job: { id: Key | null | undefined; "tit
 
     let stopOrResumeElement = undefined;
     if (currentJobTitle?.running === true) {
-        stopOrResumeElement = <button className="card-job-id border-2 p-2">Stop</button>
+        stopOrResumeElement =
+            <button className="flex justify-center ml-2 card-job-id border-2 p-2" style={{width: '10%'}}>
+                <Emoji className="flex" text=":stop_sign:"/><p className="ml-1">Stop</p></button>
     } else {
-        stopOrResumeElement = <button className="flex justify-center card-job-id border-2 p-2">
-            <Emoji className="flex" text=":play_button:"/><p className="ml-1">Resume</p></button>
+        stopOrResumeElement =
+            <button className="flex justify-center ml-2 card-job-id border-2 p-2" style={{width: '10%'}}>
+                <Emoji className="flex" text=":play_button:"/><p className="ml-1">Resume</p></button>
     }
 
     const handleResume = () => {
@@ -95,14 +99,16 @@ export default function JobCard(props: { job: { id: Key | null | undefined; "tit
 
     }
 
+    console.log(currentJobTitle?.running)
+
     return (
         <div className="job-card border-2 border-gray-700 m-2 p-2">
             <div className="card flex flex-row flex-wrap justify-between">
                 <div className="job-infos flex flex-row flex-wrap w-2/3">
                     <h1 className="card-job-id border-2 p-2" style={{width: "4rem"}}>{props.job.id}</h1>
-                    <h1 className="card-job-title-name p-2">{props.job["title-name"]}</h1>
                     {stopOrResumeElement}
                     <button className="card-job-id border-2 p-2 ml-2 border-red-700 text-red-500">Delete</button>
+                    <h1 className="card-job-title-name p-2">{props.job["title-name"]}</h1>
                 </div>
                 <div className="border-2 flex flex-row w-1/4"
                      style={{borderColor: (currentJobTitle?.running === true ? "#fcd34d" : "white")}}>
