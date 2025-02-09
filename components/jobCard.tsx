@@ -2,6 +2,7 @@
 
 import {Key, useEffect, useState} from "react";
 import VolumeCard from "@/components/volumeCard";
+import Emoji from "react-emoji-render";
 
 interface VolumeItem {
     key: string;
@@ -13,6 +14,7 @@ interface VolumeItem {
 interface TitleItem {
     key: string;
     volumes: VolumeItem[];
+    running: boolean | undefined;
 }
 
 interface MainItem {
@@ -44,7 +46,8 @@ export default function JobCard(props: { job: { id: Key | null | undefined; "tit
 
                 if (!jobsList.titles.find((element) => element.key = props.job['title-name'])) jobsList.titles.push({
                     key: props.job['title-name'],
-                    volumes: []
+                    volumes: [],
+                    running: data[4],
                 });
 
                 const currentJT = jobsList.titles.find((element) => element.key = props.job['title-name']);
@@ -61,8 +64,6 @@ export default function JobCard(props: { job: { id: Key | null | undefined; "tit
                     }
                 }
 
-                console.log(currentJT)
-
                 setCurrentJobTitle(currentJT);
             }
         };
@@ -74,22 +75,48 @@ export default function JobCard(props: { job: { id: Key | null | undefined; "tit
         return () => ws.close();
     }, [percentage, props.host, props.job]);
 
+    let stopOrResumeElement = undefined;
+    if (currentJobTitle?.running === true) {
+        stopOrResumeElement = <button className="card-job-id border-2 p-2">Stop</button>
+    } else {
+        stopOrResumeElement = <button className="flex justify-center card-job-id border-2 p-2">
+            <Emoji className="flex" text=":play_button:"/><p className="ml-1">Resume</p></button>
+    }
+
+    const handleResume = () => {
+
+    }
+
+    const handleStop = () => {
+
+    }
+
+    const handleDelete = () => {
+
+    }
+
     return (
         <div className="job-card border-2 border-gray-700 m-2 p-2">
             <div className="card flex flex-row flex-wrap justify-between">
                 <div className="job-infos flex flex-row flex-wrap w-2/3">
                     <h1 className="card-job-id border-2 p-2" style={{width: "4rem"}}>{props.job.id}</h1>
                     <h1 className="card-job-title-name p-2">{props.job["title-name"]}</h1>
+                    {stopOrResumeElement}
+                    <button className="card-job-id border-2 p-2 ml-2 border-red-700 text-red-500">Delete</button>
                 </div>
-                <div className="border-2 border-amber-300 flex flex-row w-1/4">
-                    <div className="bg-green-600 m-2" style={{width: percentage + "%"}}></div>
+                <div className="border-2 flex flex-row w-1/4"
+                     style={{borderColor: (currentJobTitle?.running === true ? "#fcd34d" : "white")}}>
+                    <div className="m-2" style={{
+                        width: percentage + "%",
+                        backgroundColor: (currentJobTitle?.running === true ? "green" : "slategray")
+                    }}></div>
                 </div>
             </div>
             <div className="card mt-2 border-2 flex flex-row">
                 <ul className="w-full">
                     {
                         currentJobTitle?.volumes.map(volume => (
-                            <VolumeCard key={volume.key} volume={volume}/>
+                            <VolumeCard key={volume.key} volume={volume} running={currentJobTitle?.running}/>
                         ))
                     }
                 </ul>
