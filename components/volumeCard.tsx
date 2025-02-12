@@ -17,7 +17,7 @@ export default function VolumeCard(props: {
                     }}></div>
                 </div>
             </div>
-            <hr/>
+            <hr style={{borderColor: (props?.running === true ? "white" : "#374151")}}/>
         </section>
     )
 }
