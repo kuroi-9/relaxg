@@ -1,6 +1,6 @@
 'use client'
 
-import {Key, ReactElement, useEffect, useRef, useState} from "react";
+import {Key, ReactElement, useCallback, useEffect, useRef, useState} from "react";
 import VolumeCard from "@/components/volumeCard";
 import Emoji from "react-emoji-render";
 
@@ -33,6 +33,7 @@ export default function JobCard(props: {
 
     const [currentJob, setCurrentJob] = useState<JobItem | undefined>(undefined);
     const stopOrResumeElement = useRef<ReactElement | undefined>(undefined);
+    const loadingText = useRef<string | undefined>(undefined);
 
     // NOT rerendering
     const isRunning = () => {
@@ -44,7 +45,7 @@ export default function JobCard(props: {
     }
 
     // NOT RERENDERING
-    const handleResume = () => {
+    const handleResume = useCallback(() => {
         fetch(`http://${props.host}:8082/jobs/resume/`, {
             method: 'POST',
             headers: {
@@ -57,6 +58,7 @@ export default function JobCard(props: {
             }
         );
 
+        loadingText.current = 'Starting...';
         stopOrResumeElement.current = undefined;
         setCurrentJob((prevState) => {
             return (
@@ -69,14 +71,38 @@ export default function JobCard(props: {
                 }
             )
         })
-    }
+    }, [props.host, props.job]);
 
-    // const handleStop = () => {
-    //
-    // }
-    //
+    const handleStop = useCallback(() => {
+        fetch(`http://${props.host}:8082/jobs/stop/`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"title-id": `${props.job["title-id"]}`, "job-id": `${props.job.id}`})
+        }).then(() => {
+                console.log("Stopping job " + props.job.id + "...")
+            }
+        );
+
+        loadingText.current = 'Stopping...';
+        stopOrResumeElement.current = undefined;
+        setCurrentJob((prevState) => {
+            return (
+                {
+                    ...prevState,
+                    title: {
+                        ...prevState!.title,
+                        running: undefined
+                    }
+                }
+            )
+        })
+    }, [props.host, props.job]);
+    
     // const handleDelete = () => {
-    //
+    
     // }
 
     // NOT rerendering, TESTED OK
@@ -94,7 +120,7 @@ export default function JobCard(props: {
         const currentWebsocket = webSocket.current;
 
         return () => currentWebsocket.close();
-    }, []);
+    }, [props.host, props.job]);
 
     useEffect(() => {
         if (!webSocket.current) return;
@@ -141,7 +167,8 @@ export default function JobCard(props: {
                         if (isRunning()) {
                             stopOrResumeElement.current =
                                 <button className="flex justify-center card-job-id border-2 p-2 shrink-0"
-                                        style={{width: '10%', minWidth: '110px'}}>
+                                        style={{width: '10%', minWidth: '110px'}}
+                                        onClick={() => handleStop()}>
                                     <Emoji className="flex" text=":stop_sign:"/><p className="ml-2">Stop</p></button>;
                         } else {
                             stopOrResumeElement.current =
@@ -167,7 +194,7 @@ export default function JobCard(props: {
                 }
             }
         };
-    }, [currentJob, currentTitleVolumes, props.job, stopOrResumeElement]);
+    }, [currentJob, currentTitleVolumes, handleResume, handleStop, props.job, stopOrResumeElement]);
 
     // RERENDERING
     if (currentJob == undefined) {
@@ -195,7 +222,7 @@ export default function JobCard(props: {
                             <button disabled
                                     className="flex justify-center card-job-id border-2 p-2 shrink-0 border-gray-700 card-job-id"
                                     style={{width: '10%', minWidth: '110px'}}>
-                                <p className="ml-1">Loading</p></button>}
+                                <p className="ml-1">{loadingText.current}</p></button>}
                     </div>
                     <button disabled={!stopOrResumeElement}
                             className="card-job-id border-2 mt-2 p-2 ml-2  text-red-500"
@@ -213,7 +240,7 @@ export default function JobCard(props: {
             <div className="card mt-2 border-2 flex flex-row" style={{borderColor: (currentJob?.title.running === true ? "white" : "#374151")}}>
                 <ul className="w-full">
                     {
-                        currentTitleVolumes.current.filter((element) => element.key !== "launcher.lock").map(volume => (
+                        currentTitleVolumes.current.filter((element) => element.key !== "launcher.lock" && element.key !== "last_pid").map(volume => (
                             <VolumeCard key={volume.key} volume={volume} running={currentJob?.title.running}/>
                         ))
                     }

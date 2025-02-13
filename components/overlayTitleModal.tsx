@@ -18,7 +18,7 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string })
                         }
                     ))
             })
-    }, [props.id, title]);
+    }, [props.hostIp, props.id, title]);
 
     const handleExit = () => {
         document.querySelector('body')?.classList.remove('modal-open');
