@@ -3,6 +3,7 @@
 import {Key, ReactElement, useCallback, useEffect, useRef, useState} from "react";
 import VolumeCard from "@/components/volumeCard";
 import Emoji from "react-emoji-render";
+import { useTimer } from 'react-timer-hook';
 
 interface VolumeItem {
     key: string;
@@ -34,9 +35,14 @@ export default function JobCard(props: {
     const [currentJob, setCurrentJob] = useState<JobItem | undefined>(undefined);
     const stopOrResumeElement = useRef<ReactElement | undefined>(undefined);
     const loadingText = useRef<string | undefined>(undefined);
+    const {
+        seconds,
+        restart,
+    } = useTimer({autoStart: false, expiryTimestamp: new Date(), onExpire: () => setJobRunningToUndefined()});
+    console.log(seconds)
 
     // NOT rerendering
-    const isRunning = () => {
+    const isJobRunning = () => {
         for (const volume of currentTitleVolumes.current) {
             if (volume.running) return true;
         }
@@ -58,20 +64,13 @@ export default function JobCard(props: {
             }
         );
 
+        const time = new Date();
+        time.setSeconds(time.getSeconds() + 12);
+        restart(time);
         loadingText.current = 'Starting...';
         stopOrResumeElement.current = undefined;
-        setCurrentJob((prevState) => {
-            return (
-                {
-                    ...prevState,
-                    title: {
-                        ...prevState!.title,
-                        running: undefined
-                    }
-                }
-            )
-        })
-    }, [props.host, props.job]);
+        webSocket.current?.close();
+    }, [props.host, props.job, restart]);
 
     const handleStop = useCallback(() => {
         fetch(`http://${props.host}:8082/jobs/stop/`, {
@@ -86,8 +85,16 @@ export default function JobCard(props: {
             }
         );
 
+        const time = new Date();
+        time.setSeconds(time.getSeconds() + 12);
+        restart(time);
         loadingText.current = 'Stopping...';
         stopOrResumeElement.current = undefined;
+        webSocket.current?.close();
+    }, [props.host, props.job, restart]);
+
+    const setJobRunningToUndefined = () => {
+        console.log("CALL TO UNDEFINED")
         setCurrentJob((prevState) => {
             return (
                 {
@@ -99,8 +106,17 @@ export default function JobCard(props: {
                 }
             )
         })
-    }, [props.host, props.job]);
-    
+
+        currentTitleVolumes.current = currentTitleVolumes.current.map((item) => {
+            return {
+                ...item,
+                running: false
+            }
+        });
+
+        webSocket.current = new WebSocket(`ws://${props.host}:8082`);
+    }
+
     // const handleDelete = () => {
     
     // }
@@ -164,7 +180,8 @@ export default function JobCard(props: {
 
                 if (currentJob !== undefined) {
                     if (currentTitleVolumes.current.length > 0) {
-                        if (isRunning()) {
+                        console.log(isJobRunning(), props.job['title-name'])
+                        if (isJobRunning()) {
                             stopOrResumeElement.current =
                                 <button className="flex justify-center card-job-id border-2 p-2 shrink-0"
                                         style={{width: '10%', minWidth: '110px'}}
@@ -187,14 +204,14 @@ export default function JobCard(props: {
                                 ...prevState!.title,
                                 key: props.job["title-name"],
                                 volumes: currentTitleVolumes.current,
-                                running: isRunning()
+                                running: isJobRunning()
                             }
                         }
                     });
                 }
             }
         };
-    }, [currentJob, currentTitleVolumes, handleResume, handleStop, props.job, stopOrResumeElement]);
+    }, [currentJob, currentTitleVolumes, handleResume, handleStop, props.job, seconds, stopOrResumeElement]);
 
     // RERENDERING
     if (currentJob == undefined) {
@@ -203,7 +220,7 @@ export default function JobCard(props: {
                 title: {
                     key: props.job["title-name"],
                     volumes: currentTitleVolumes.current,
-                    running: isRunning()
+                    running: isJobRunning()
                 }
             }
         });
