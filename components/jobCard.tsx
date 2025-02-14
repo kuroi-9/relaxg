@@ -33,11 +33,11 @@ export default function JobCard(props: {
     const [currentJob, setCurrentJob] = useState<JobItem | undefined>(undefined);
     const stopOrResumeElement = useRef<ReactElement | undefined>(undefined);
     const loadingText = useRef<string | undefined>(undefined);
+    const [isDeleted, setIsDeleted] = useState<boolean>(false);
     const {
         seconds,
         restart,
     } = useTimer({autoStart: false, expiryTimestamp: new Date(), onExpire: () => setJobRunningToUndefined()});
-    console.log(seconds)
 
     const isJobRunning = () => {
         for (const volume of currentTitleVolumes.current) {
@@ -93,7 +93,6 @@ export default function JobCard(props: {
 
     // Meant to set the stop/resume button to a loading state, awaiting the server response
     const setJobRunningToUndefined = () => {
-        console.log("CALL TO UNDEFINED")
         setCurrentJob((prevState) => {
             return (
                 {
@@ -117,9 +116,31 @@ export default function JobCard(props: {
         webSocket.current = new WebSocket(`ws://${props.host}:8082`);
     }
 
-    // const handleDelete = () => {
-    
-    // }
+    const handleDelete = () => {
+        fetch(`http://${props.host}:8082/jobs/delete/`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"title-id": `${props.job["title-id"]}`, "job-id": `${props.job.id}`})
+        }).then((response) => {
+                response.json().then((value)=>{
+                    if (value['status'] == 'deleted') {
+                        currentTitleVolumes.current = [];
+                        loadingText.current = 'Deleted';
+                        stopOrResumeElement.current = undefined;
+                        setIsDeleted(true);
+                        document.getElementById('delete-btn-' + props.job.id)?.classList.replace('text-red-500', 'text-gray-700')
+                        document.getElementById('delete-btn-' + props.job.id)!.style.borderColor = '#364050';
+                        document.getElementById('card-job-id-' + props.job.id)!.style.color = '#364050';
+                        document.getElementById('card-job-id-' + props.job.id)!.style.borderColor = '#364050';
+                        document.getElementById('card-job-title-name-' + props.job.id)!.style.color = '#364050';
+                    }
+                })
+            }
+        );
+    }
 
     useEffect(() => {
         console.log(webSocket.current);
@@ -184,13 +205,13 @@ export default function JobCard(props: {
                         console.log(isJobRunning(), props.job['title-name'])
                         if (isJobRunning()) {
                             stopOrResumeElement.current =
-                                <button className="flex justify-center card-job-id border-2 p-2 shrink-0"
+                                <button className="flex justify-center border-2 p-2 shrink-0"
                                         style={{width: '10%', minWidth: '110px'}}
                                         onClick={() => handleStop()}>
                                     <Emoji className="flex" text=":stop_sign:"/><p className="ml-2">Stop</p></button>;
                         } else {
                             stopOrResumeElement.current =
-                                <button className="flex justify-center card-job-id border-2 p-2 shrink-0"
+                                <button className="flex justify-center border-2 p-2 shrink-0"
                                         style={{width: '10%', minWidth: '110px'}}
                                         onClick={() => handleResume()}>
                                     <Emoji className="flex" text=":play_button:"/><p className="ml-2">Resume</p>
@@ -233,20 +254,22 @@ export default function JobCard(props: {
         <div className="job-card border-2 border-gray-700 m-2 p-2">
             <div className="card flex flex-col flex-wrap justify-between">
                 <div className="flex flex-row flex-wrap items-center w-full">
-                    <h1 className="card-job-id border-2 p-2" style={{width: "4rem"}}>{props.job.id}</h1>
-                    <h1 className="card-job-title-name p-2 ml-2">{props.job["title-name"]}</h1>
+                    <h1 id={"card-job-id-" + props.job.id} className="border-2 p-2" style={{width: "4rem"}}>{props.job.id}</h1>
+                    <h1 id={"card-job-title-name-" + props.job.id} className="card-job-title-name p-2 ml-2">{props.job["title-name"]}</h1>
                 </div>
                 <div className="job-infos flex flex-row flex-wrap">
                     <div className="flex flex-row mt-2 flex-wrap">
                         {stopOrResumeElement.current ??
                             <button disabled
-                                    className="flex justify-center card-job-id border-2 p-2 shrink-0 border-gray-700 card-job-id"
+                                    className="flex justify-center border-2 p-2 shrink-0 border-gray-700"
                                     style={{width: '10%', minWidth: '110px'}}>
                                 <p className="ml-1">{loadingText.current}</p></button>}
                     </div>
-                    <button disabled={!stopOrResumeElement}
-                            className="card-job-id border-2 mt-2 p-2 ml-2  text-red-500"
-                            style={{borderColor: !stopOrResumeElement ? "darkred" : "red"}}>Delete
+                    <button disabled={!stopOrResumeElement || isDeleted || currentJob?.title.running === true}
+                            id={"delete-btn-" + props.job.id}
+                            className="border-2 mt-2 p-2 ml-2 text-red-500"
+                            style={{borderColor: !stopOrResumeElement || currentJob?.title.running === true ? "darkred" : "red"}}
+                            onClick={() => handleDelete()}>Delete
                     </button>
                 </div>
                 <div className="border-2 mt-2 flex flex-row w-full"

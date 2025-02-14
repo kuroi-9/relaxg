@@ -1,7 +1,7 @@
 'use client'
 
 import styles from "@/app/titles-manager/titleActionsModal.module.css";
-import {useRouter} from "next/navigation";
+import {redirect, RedirectType, useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 
 export default function OverlayTitleModal(props: { id: string; hostIp: string }) {
@@ -26,6 +26,8 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string })
     }
 
     const handlePost = () => {
+        document.getElementById('post-button')!.style.borderColor = '#364050';
+        document.getElementById('post-button')!.setAttribute('disabled', 'disabled');
         fetch(`http://${props.hostIp}:8082/jobs/`, {
             method: 'POST',
             headers: {
@@ -33,8 +35,17 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string })
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({"title-id": `${props.id}`, "last-pid": 777, "status": "Paused"})
-        }).then(res =>
-            console.log(res.json())
+        }).then(response =>
+            response.json().then((value)=>{
+                if (value['status'] == "ok, running") {
+                    document.getElementById('post-button')!.textContent = "Started"
+                } else {
+                    console.log('server side error');
+                    document.getElementById('post-button')!.textContent = "An error occured, please click to try again :(";
+                    document.getElementById('post-button')!.style.borderColor = 'white';
+                    document.getElementById('post-button')!.removeAttribute('disabled');
+                }
+            })
         );
     }
 
