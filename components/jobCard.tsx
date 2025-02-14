@@ -5,12 +5,14 @@ import VolumeCard from "@/components/volumeCard";
 import Emoji from "react-emoji-render";
 import { useTimer } from 'react-timer-hook';
 
+// We fetch the completed property rather than calculating it because we need to know if the archive have been successfuly created
 interface VolumeItem {
     key: string;
     treatedPagesCount: number;
     totalPagesCount: number;
     percentage: number | undefined;
     running: boolean;
+    completed: boolean;
 }
 
 interface TitleItem {
@@ -38,6 +40,7 @@ export default function JobCard(props: {
         seconds,
         restart,
     } = useTimer({autoStart: false, expiryTimestamp: new Date(), onExpire: () => setJobRunningToUndefined()});
+    const eta = useRef<Date | undefined>(undefined);
 
     const isJobRunning = () => {
         for (const volume of currentTitleVolumes.current) {
@@ -171,28 +174,36 @@ export default function JobCard(props: {
                 if (!currentVolume) {
                     currentTitleVolumes.current.push({
                             key: data[1],
-                            treatedPagesCount: (data[2] - 2),
+                            treatedPagesCount: (data[2] - 3),
                             totalPagesCount: data[3],
-                            percentage: (data[2] - 2) * 100 / data[3],
-                            running: Boolean(data[4] === "true")
+                            percentage: (data[2] - 3) * 100 / data[3],
+                            running: Boolean(data[4] === "true"),
+                            completed: Boolean(data[5] === "true"),
                         }
                     );
 
                     if (currentJob == undefined) return;
                 } else {
+                    // Set global progress bar
+                    // if (data[2] !== 0 && data[2] !== data[3] && data[3] !== "") {
+                    //     globalPercentage.current = (data[2] - 3) * 100 / data[3];
+                    // }
+
                     // Handle progress update on a volume
-                    if ((((data[2] - 2) * 100 / data[3]) <= 100 && ((data[2] - 2) * 100 / data[3]) >= 0)
-                        && currentVolume.percentage !== (data[2] - 2) * 100 / data[3]) {
+                    if ((((data[2] - 3) * 100 / data[3]) <= 100 && ((data[2] - 3) * 100 / data[3]) >= 0)
+                        && currentVolume.percentage !== (data[2] - 3) * 100 / data[3]) {
                         console.log("[UPDATE] Progress detected on " + data[1]);
-                        globalPercentage.current = (data[2] - 2) * 100 / data[3];
+                        globalPercentage.current = (data[2] - 3) * 100 / data[3];
+                        eta.current = new Date(Number(data[6]) * 1000);
                     }
 
                     currentTitleVolumes.current = currentTitleVolumes.current.map((item) => {
                         if (item.key === data[1]) {
                             return {
                                 ...item,
-                                percentage: (data[2] - 2) * 100 / data[3],
-                                running: Boolean(data[4] === "true")
+                                percentage: (data[2] - 3) * 100 / data[3],
+                                running: Boolean(data[4] === "true"),
+                                completed: Boolean(data[5] === "true"),
                             }
                         } else {
                             return item
@@ -276,10 +287,16 @@ export default function JobCard(props: {
                      style={{
                         borderColor: (currentJob?.title.running === true ? "#fcd34d" : "#374151"), height: "3rem",
                         display: (currentJob?.title.running === true ? "block" : "none")}}>
-                    <div className="m-2" style={{
+                    <div className="h-full flex flex-row items-center" style={{
                         width: globalPercentage.current + "%",
                         backgroundColor: (currentJob?.title.running === true ? "green" : "slategray")
-                    }}></div>
+                    }}>
+                        <p className="z-5" style={{width: "80%", flexShrink: 0, position: "absolute", left: "35px"}}>
+                            {eta.current ? "Next volume ETA => " + eta.current.getHours() + ":" 
+                            + (eta.current.getMinutes() < 10 ? "0" : "") + eta.current.getMinutes() 
+                            : (globalPercentage.current > 0 ? "Waiting for ETA..." : "Fetching status...")}
+                        </p>
+                    </div>
                 </div>
             </div>
             <div className="card mt-2 border-2 flex flex-row" style={{borderColor: (currentJob?.title.running === true ? "white" : "#374151")}}>

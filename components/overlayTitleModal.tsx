@@ -1,7 +1,7 @@
 'use client'
 
 import styles from "@/app/titles-manager/titleActionsModal.module.css";
-import {redirect, RedirectType, useRouter} from "next/navigation";
+import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 
 export default function OverlayTitleModal(props: { id: string; hostIp: string }) {
