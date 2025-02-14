@@ -27,11 +27,9 @@ export default function JobCard(props: {
     job: { id: Key | null | undefined; "title-name": string; "title-id": number };
     host: string;
 }) {
-    //TODO: useState ONLY to re-render (currentJob) and useRef for the others, to store useEffect fetched data
     const globalPercentage = useRef<number>(0);
     const currentTitleVolumes = useRef<VolumeItem[]>([]);
     const webSocket = useRef<WebSocket>();
-
     const [currentJob, setCurrentJob] = useState<JobItem | undefined>(undefined);
     const stopOrResumeElement = useRef<ReactElement | undefined>(undefined);
     const loadingText = useRef<string | undefined>(undefined);
@@ -41,7 +39,6 @@ export default function JobCard(props: {
     } = useTimer({autoStart: false, expiryTimestamp: new Date(), onExpire: () => setJobRunningToUndefined()});
     console.log(seconds)
 
-    // NOT rerendering
     const isJobRunning = () => {
         for (const volume of currentTitleVolumes.current) {
             if (volume.running) return true;
@@ -50,7 +47,6 @@ export default function JobCard(props: {
         return false;
     }
 
-    // NOT RERENDERING
     const handleResume = useCallback(() => {
         fetch(`http://${props.host}:8082/jobs/resume/`, {
             method: 'POST',
@@ -64,6 +60,7 @@ export default function JobCard(props: {
             }
         );
 
+        // Matching maximum server response delay
         const time = new Date();
         time.setSeconds(time.getSeconds() + 12);
         restart(time);
@@ -85,6 +82,7 @@ export default function JobCard(props: {
             }
         );
 
+        // Matching maximum server response delay
         const time = new Date();
         time.setSeconds(time.getSeconds() + 12);
         restart(time);
@@ -93,6 +91,7 @@ export default function JobCard(props: {
         webSocket.current?.close();
     }, [props.host, props.job, restart]);
 
+    // Meant to set the stop/resume button to a loading state, awaiting the server response
     const setJobRunningToUndefined = () => {
         console.log("CALL TO UNDEFINED")
         setCurrentJob((prevState) => {
@@ -107,6 +106,7 @@ export default function JobCard(props: {
             )
         })
 
+        // Resetting the running value on all volumes
         currentTitleVolumes.current = currentTitleVolumes.current.map((item) => {
             return {
                 ...item,
@@ -121,7 +121,6 @@ export default function JobCard(props: {
     
     // }
 
-    // NOT rerendering, TESTED OK
     useEffect(() => {
         console.log(webSocket.current);
         webSocket.current = new WebSocket(`ws://${props.host}:8082`);
@@ -145,6 +144,7 @@ export default function JobCard(props: {
             const data = JSON.parse(event.data);
             console.log("[DATA]", data);
 
+            // Working only it the global feed message title match the current jobCard 
             if (data[0] === props.job['title-name']) {
                 const currentVolume = currentTitleVolumes.current.find(element => element.key == data[1]);
                 if (!currentVolume) {
@@ -159,6 +159,7 @@ export default function JobCard(props: {
 
                     if (currentJob == undefined) return;
                 } else {
+                    // Handle progress update on a volume
                     if ((((data[2] - 2) * 100 / data[3]) <= 100 && ((data[2] - 2) * 100 / data[3]) >= 0)
                         && currentVolume.percentage !== (data[2] - 2) * 100 / data[3]) {
                         console.log("[UPDATE] Progress detected on " + data[1]);
@@ -197,6 +198,8 @@ export default function JobCard(props: {
                         }
                     }
 
+                    // As it is only called when the correct message is recieved, there is no inite loop
+                    // Needed as else, the component will not re-render until a new message comes, 10 seconds later
                     setCurrentJob((prevState) => {
                         return {
                             ...prevState,
@@ -213,7 +216,7 @@ export default function JobCard(props: {
         };
     }, [currentJob, currentTitleVolumes, handleResume, handleStop, props.job, seconds, stopOrResumeElement]);
 
-    // RERENDERING
+    // Triggered at the first render
     if (currentJob == undefined) {
         setCurrentJob(() => {
             return {
@@ -249,7 +252,7 @@ export default function JobCard(props: {
                 <div className="border-2 mt-2 flex flex-row w-full"
                      style={{
                         borderColor: (currentJob?.title.running === true ? "#fcd34d" : "#374151"), height: "3rem",
-                        visibility: (currentJob?.title.running === true ? "visible" : "collapse")}}>
+                        display: (currentJob?.title.running === true ? "block" : "none")}}>
                     <div className="m-2" style={{
                         width: globalPercentage.current + "%",
                         backgroundColor: (currentJob?.title.running === true ? "green" : "slategray")
