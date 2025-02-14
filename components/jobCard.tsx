@@ -247,7 +247,9 @@ export default function JobCard(props: {
                     </button>
                 </div>
                 <div className="border-2 mt-2 flex flex-row w-full"
-                     style={{borderColor: (currentJob?.title.running === true ? "#fcd34d" : "#374151"), height: "3rem"}}>
+                     style={{
+                        borderColor: (currentJob?.title.running === true ? "#fcd34d" : "#374151"), height: "3rem",
+                        visibility: (currentJob?.title.running === true ? "visible" : "collapse")}}>
                     <div className="m-2" style={{
                         width: globalPercentage.current + "%",
                         backgroundColor: (currentJob?.title.running === true ? "green" : "slategray")
