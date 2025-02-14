@@ -51,25 +51,33 @@ export default function JobCard(props: {
     }
 
     const handleResume = useCallback(() => {
-        fetch(`http://${props.host}:8082/jobs/resume/`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({"title-id": `${props.job["title-id"]}`, "job-id": `${props.job.id}`})
-        }).then(() => {
-                console.log("Resuming job " + props.job.id + "...")
-            }
-        );
-
-        // Matching maximum server response delay
-        const time = new Date();
-        time.setSeconds(time.getSeconds() + 12);
-        restart(time);
-        loadingText.current = 'Starting...';
-        stopOrResumeElement.current = undefined;
-        webSocket.current?.close();
+        if (document.getElementsByClassName('stop-btn').length > 0 
+            || document.getElementsByClassName('undefined-btn').length > 0 
+            || document.getElementsByClassName('resume-btn').length 
+            == document.getElementsByClassName('stoporresume-btn').length - 1) {
+          alert('YOU NEED TO STOP THE RUNNING JOB')  
+        } else {
+            fetch(`http://${props.host}:8082/jobs/resume/`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"title-id": `${props.job["title-id"]}`, "job-id": `${props.job.id}`})
+            }).then(() => {
+                    console.log("Resuming job " + props.job.id + "...")
+                }
+            );
+    
+            // Matching maximum server response delay
+            const time = new Date();
+            time.setSeconds(time.getSeconds() + 12);
+            restart(time);
+            loadingText.current = 'Starting...';
+            stopOrResumeElement.current = undefined;
+            webSocket.current?.close();
+        }
+        
     }, [props.host, props.job, restart]);
 
     const handleStop = useCallback(() => {
@@ -216,13 +224,13 @@ export default function JobCard(props: {
                         console.log(isJobRunning(), props.job['title-name'])
                         if (isJobRunning()) {
                             stopOrResumeElement.current =
-                                <button className="flex justify-center border-2 p-2 shrink-0"
+                                <button className="stoporresume-btn stop-btn flex justify-center border-2 p-2 shrink-0"
                                         style={{width: '10%', minWidth: '110px'}}
                                         onClick={() => handleStop()}>
                                     <Emoji className="flex" text=":stop_sign:"/><p className="ml-2">Stop</p></button>;
                         } else {
                             stopOrResumeElement.current =
-                                <button className="flex justify-center border-2 p-2 shrink-0"
+                                <button className="stoporresume-btn resume-btn flex justify-center border-2 p-2 shrink-0"
                                         style={{width: '10%', minWidth: '110px'}}
                                         onClick={() => handleResume()}>
                                     <Emoji className="flex" text=":play_button:"/><p className="ml-2">Resume</p>
@@ -272,14 +280,14 @@ export default function JobCard(props: {
                     <div className="flex flex-row mt-2 flex-wrap">
                         {stopOrResumeElement.current ??
                             <button disabled
-                                    className="flex justify-center border-2 p-2 shrink-0 border-gray-700"
+                                    className="stoporresume-btn undefined-btn flex justify-center border-2 p-2 shrink-0 border-gray-700"
                                     style={{width: '10%', minWidth: '110px'}}>
                                 <p className="ml-1">{loadingText.current}</p></button>}
                     </div>
-                    <button disabled={!stopOrResumeElement || isDeleted || currentJob?.title.running === true}
+                    <button disabled={stopOrResumeElement.current === undefined || isDeleted || currentJob?.title.running === true}
                             id={"delete-btn-" + props.job.id}
                             className="border-2 mt-2 p-2 ml-2 text-red-500"
-                            style={{borderColor: !stopOrResumeElement || currentJob?.title.running === true ? "darkred" : "red"}}
+                            style={{borderColor: stopOrResumeElement.current === undefined || currentJob?.title.running === true ? "darkred" : "red"}}
                             onClick={() => handleDelete()}>Delete
                     </button>
                 </div>
