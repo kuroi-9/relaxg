@@ -190,6 +190,10 @@ export default function JobCard(props: {
                         }
                     );
 
+                    currentTitleVolumes.current.sort(function(a, b) {
+                        return a.key.localeCompare(b.key);
+                    });
+
                     if (currentJob == undefined) return;
                 } else {
                     // Set global progress bar
@@ -216,6 +220,10 @@ export default function JobCard(props: {
                         } else {
                             return item
                         }
+                    });
+
+                    currentTitleVolumes.current.sort(function(a, b) {
+                        return a.key.localeCompare(b.key);
                     });
                 }
 
