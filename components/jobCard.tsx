@@ -34,7 +34,7 @@ export default function JobCard(props: {
     const webSocket = useRef<WebSocket>();
     const [currentJob, setCurrentJob] = useState<JobItem | undefined>(undefined);
     const stopOrResumeElement = useRef<ReactElement | undefined>(undefined);
-    const loadingText = useRef<string | undefined>(undefined);
+    const loadingText = useRef<string | undefined>("Init...");
     const [isDeleted, setIsDeleted] = useState<boolean>(false);
     const {
         seconds,

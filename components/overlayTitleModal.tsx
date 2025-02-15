@@ -38,7 +38,11 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string })
         }).then(response =>
             response.json().then((value)=>{
                 if (value['status'] == "ok, running") {
-                    document.getElementById('post-button')!.textContent = "Started"
+                    setTimeout(() => {
+                        document.querySelector('body')?.classList.remove('modal-open');
+                        router.replace('/job-manager');
+                    });
+                    document.getElementById('post-button')!.textContent = "Started, redirecting...";
                 } else {
                     console.log('server side error');
                     document.getElementById('post-button')!.textContent = "An error occured, please click to try again :(";
