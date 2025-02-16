@@ -1,6 +1,7 @@
 'use client'
 
-import {Key, ReactElement, useCallback, useEffect, useRef, useState} from "react";
+import '../app/globals.css';
+import { Key, ReactElement, useCallback, useEffect, useRef, useState } from "react";
 import VolumeCard from "@/components/volumeCard";
 import Emoji from "react-emoji-render";
 import { useTimer } from 'react-timer-hook';
@@ -34,12 +35,11 @@ export default function JobCard(props: {
     const webSocket = useRef<WebSocket>();
     const [currentJob, setCurrentJob] = useState<JobItem | undefined>(undefined);
     const stopOrResumeElement = useRef<ReactElement | undefined>(undefined);
-    const loadingText = useRef<string | undefined>("Init...");
     const [isDeleted, setIsDeleted] = useState<boolean>(false);
     const {
         seconds,
         restart,
-    } = useTimer({autoStart: false, expiryTimestamp: new Date(), onExpire: () => setJobRunningToUndefined()});
+    } = useTimer({ autoStart: false, expiryTimestamp: new Date(), onExpire: () => setJobRunningToUndefined() });
     const eta = useRef<Date | undefined>(undefined);
 
     const isJobRunning = () => {
@@ -51,11 +51,11 @@ export default function JobCard(props: {
     }
 
     const handleResume = useCallback(() => {
-        if (document.getElementsByClassName('stop-btn').length > 0 
-            || document.getElementsByClassName('undefined-btn').length > 0 
-            || document.getElementsByClassName('resume-btn').length 
+        if (document.getElementsByClassName('stop-btn').length > 0
+            || document.getElementsByClassName('undefined-btn').length > 0
+            || document.getElementsByClassName('resume-btn').length
             == document.getElementsByClassName('stoporresume-btn').length - 1) {
-          alert('YOU NEED TO STOP THE RUNNING JOB')  
+            alert('YOU NEED TO STOP THE RUNNING JOB')
         } else {
             fetch(`http://${props.host}:8082/jobs/resume/`, {
                 method: 'POST',
@@ -63,21 +63,20 @@ export default function JobCard(props: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({"title-id": `${props.job["title-id"]}`, "job-id": `${props.job.id}`})
+                body: JSON.stringify({ "title-id": `${props.job["title-id"]}`, "job-id": `${props.job.id}` })
             }).then(() => {
-                    console.log("Resuming job " + props.job.id + "...")
-                }
+                console.log("Resuming job " + props.job.id + "...")
+            }
             );
-    
+
             // Matching maximum server response delay
             const time = new Date();
             time.setSeconds(time.getSeconds() + 12);
             restart(time);
-            loadingText.current = 'Starting...';
             stopOrResumeElement.current = undefined;
             webSocket.current?.close();
         }
-        
+
     }, [props.host, props.job, restart]);
 
     const handleStop = useCallback(() => {
@@ -87,17 +86,16 @@ export default function JobCard(props: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({"title-id": `${props.job["title-id"]}`, "job-id": `${props.job.id}`})
+            body: JSON.stringify({ "title-id": `${props.job["title-id"]}`, "job-id": `${props.job.id}` })
         }).then(() => {
-                console.log("Stopping job " + props.job.id + "...")
-            }
+            console.log("Stopping job " + props.job.id + "...")
+        }
         );
 
         // Matching maximum server response delay
         const time = new Date();
         time.setSeconds(time.getSeconds() + 12);
         restart(time);
-        loadingText.current = 'Stopping...';
         stopOrResumeElement.current = undefined;
         webSocket.current?.close();
     }, [props.host, props.job, restart]);
@@ -128,29 +126,41 @@ export default function JobCard(props: {
     }
 
     const handleDelete = () => {
+        let deleteBtn = document.getElementById("delete-btn-" + props.job.id);
+        deleteBtn!.textContent = "";
+        let deleteLoadingElement = document.createElement('div');
+        deleteLoadingElement.id = "delete-loading-" + props.job.id;
+        deleteLoadingElement.className = 'loader-red';
+        deleteBtn!.appendChild(deleteLoadingElement);
+
         fetch(`http://${props.host}:8082/jobs/delete/`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({"title-id": `${props.job["title-id"]}`, "job-id": `${props.job.id}`})
+            body: JSON.stringify({ "title-id": `${props.job["title-id"]}`, "job-id": `${props.job.id}` })
         }).then((response) => {
-                response.json().then((value)=>{
-                    if (value['status'] == 'deleted') {
-                        currentTitleVolumes.current = [];
-                        loadingText.current = 'Deleted';
-                        stopOrResumeElement.current = undefined;
-                        setIsDeleted(true);
-                        document.getElementById('delete-btn-' + props.job.id)?.classList.replace('text-red-500', 'text-gray-700')
-                        document.getElementById('delete-btn-' + props.job.id)!.style.borderColor = '#364050';
-                        document.getElementById('card-job-id-' + props.job.id)!.style.color = '#364050';
-                        document.getElementById('card-job-id-' + props.job.id)!.style.borderColor = '#364050';
-                        document.getElementById('card-job-title-name-' + props.job.id)!.style.color = '#364050';
-                    }
-                })
-            }
-        );
+            response.json().then((value) => {
+                if (value['status'] == 'deleted') {
+                    currentTitleVolumes.current = [];
+                    document.getElementById("resume-btn-" + props.job.id)!.style.borderColor = '#374151';
+                    document.getElementById("resume-btn-" + props.job.id)!.textContent = 'Deleted';
+                    setIsDeleted(true);
+
+                    deleteBtn!.removeChild(deleteLoadingElement);
+                    deleteBtn!.textContent = "Delete";
+                    deleteBtn?.classList.replace('text-red-500', 'text-gray-700')
+                    deleteBtn!.style.borderColor = '#364050';
+
+                    document.getElementById('card-job-id-' + props.job.id)!.style.color = '#364050';
+                    document.getElementById('card-job-id-' + props.job.id)!.style.borderColor = '#364050';
+                    document.getElementById('card-job-title-name-' + props.job.id)!.style.color = '#364050';
+                    document.getElementById("job-card-" + props.job.id)?.classList.remove('border-gray-700');
+                    document.getElementById("job-card-" + props.job.id)!.style.borderColor = '#0a0a0a';
+                }
+            })
+        });
     }
 
     useEffect(() => {
@@ -181,16 +191,16 @@ export default function JobCard(props: {
                 const currentVolume = currentTitleVolumes.current.find(element => element.key == data[1]);
                 if (!currentVolume) {
                     currentTitleVolumes.current.push({
-                            key: data[1],
-                            treatedPagesCount: (data[2] - 3),
-                            totalPagesCount: data[3],
-                            percentage: (data[2] - 3) * 100 / data[3],
-                            running: Boolean(data[4] === "true"),
-                            completed: Boolean(data[5] === "true"),
-                        }
+                        key: data[1],
+                        treatedPagesCount: (data[2] - 3),
+                        totalPagesCount: data[3],
+                        percentage: (data[2] - 3) * 100 / data[3],
+                        running: Boolean(data[4] === "true"),
+                        completed: Boolean(data[5] === "true"),
+                    }
                     );
 
-                    currentTitleVolumes.current.sort(function(a, b) {
+                    currentTitleVolumes.current.sort(function (a, b) {
                         return a.key.localeCompare(b.key);
                     });
 
@@ -222,7 +232,7 @@ export default function JobCard(props: {
                         }
                     });
 
-                    currentTitleVolumes.current.sort(function(a, b) {
+                    currentTitleVolumes.current.sort(function (a, b) {
                         return a.key.localeCompare(b.key);
                     });
                 }
@@ -232,16 +242,20 @@ export default function JobCard(props: {
                         console.log(isJobRunning(), props.job['title-name'])
                         if (isJobRunning()) {
                             stopOrResumeElement.current =
-                                <button className="stoporresume-btn stop-btn flex justify-center border-2 p-2 shrink-0"
-                                        style={{width: '10%', minWidth: '110px'}}
-                                        onClick={() => handleStop()}>
-                                    <Emoji className="flex" text=":stop_sign:"/><p className="ml-2">Stop</p></button>;
+                                <button
+                                    id={"stop-btn-" + props.job.id}
+                                    className="stoporresume-btn stop-btn flex justify-center border-2 p-2 shrink-0"
+                                    style={{ width: '10%', minWidth: '110px' }}
+                                    onClick={() => handleStop()}>
+                                    <Emoji className="flex" text=":stop_sign:" /><p className="ml-2">Stop</p></button>;
                         } else {
                             stopOrResumeElement.current =
-                                <button className="stoporresume-btn resume-btn flex justify-center border-2 p-2 shrink-0"
-                                        style={{width: '10%', minWidth: '110px'}}
-                                        onClick={() => handleResume()}>
-                                    <Emoji className="flex" text=":play_button:"/><p className="ml-2">Resume</p>
+                                <button
+                                    id={"resume-btn-" + props.job.id}
+                                    className="stoporresume-btn resume-btn flex justify-center border-2 p-2 shrink-0"
+                                    style={{ width: '10%', minWidth: '110px' }}
+                                    onClick={() => handleResume()}>
+                                    <Emoji className="flex" text=":play_button:" /><p className="ml-2">Resume</p>
                                 </button>;
                         }
                     }
@@ -278,48 +292,52 @@ export default function JobCard(props: {
     }
 
     return (
-        <div className="job-card border-2 border-gray-700 m-2 p-2">
+        <div id={"job-card-" + props.job.id} className="job-card border-2 border-gray-700 m-2 p-2">
             <div className="card flex flex-col flex-wrap justify-between">
                 <div className="flex flex-row flex-wrap items-center w-full">
-                    <h1 id={"card-job-id-" + props.job.id} className="border-2 p-2" style={{width: "4rem"}}>{props.job.id}</h1>
+                    <h1 id={"card-job-id-" + props.job.id} className="border-2 p-2" style={{ width: "4rem" }}>{props.job.id}</h1>
                     <h1 id={"card-job-title-name-" + props.job.id} className="card-job-title-name p-2 ml-2">{props.job["title-name"]}</h1>
                 </div>
                 <div className="job-infos flex flex-row flex-wrap">
                     <div className="flex flex-row mt-2 flex-wrap">
-                        {stopOrResumeElement.current ??
-                            <button disabled
-                                    className="stoporresume-btn undefined-btn flex justify-center border-2 p-2 shrink-0 border-gray-700"
-                                    style={{width: '10%', minWidth: '110px'}}>
-                                <p className="ml-1">{loadingText.current}</p></button>}
+                        {stopOrResumeElement.current ?? <button disabled
+                            className="stoporresume-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0 border-gray-700"
+                            style={{ width: '10%', minWidth: '110px' }}>
+                            <div className='loader' />
+                        </button>}
                     </div>
                     <button disabled={stopOrResumeElement.current === undefined || isDeleted || currentJob?.title.running === true}
-                            id={"delete-btn-" + props.job.id}
-                            className="border-2 mt-2 p-2 ml-2 text-red-500"
-                            style={{borderColor: stopOrResumeElement.current === undefined || currentJob?.title.running === true ? "darkred" : "red"}}
-                            onClick={() => handleDelete()}>Delete
+                        id={"delete-btn-" + props.job.id}
+                        className="flex flex-row justify-center items-center border-2 mt-2 p-2 ml-2 text-red-500"
+                        style={{
+                            borderColor: stopOrResumeElement.current === undefined || currentJob?.title.running === true ? "darkred" : "red",
+                            minWidth: "80px"
+                        }}
+                        onClick={() => handleDelete()}>Delete
                     </button>
                 </div>
                 <div className="border-2 mt-2 flex flex-row w-full"
-                     style={{
+                    style={{
                         borderColor: (currentJob?.title.running === true ? "#fcd34d" : "#374151"), height: "3rem",
-                        display: (currentJob?.title.running === true ? "block" : "none")}}>
+                        display: (currentJob?.title.running === true ? "block" : "none")
+                    }}>
                     <div className="h-full flex flex-row items-center" style={{
                         width: globalPercentage.current + "%",
                         backgroundColor: (currentJob?.title.running === true ? "green" : "slategray")
                     }}>
-                        <p className="z-5" style={{width: "80%", flexShrink: 0, position: "absolute", left: "35px"}}>
-                            {eta.current ? "Next volume ETA => " + eta.current.getHours() + ":" 
-                            + (eta.current.getMinutes() < 10 ? "0" : "") + eta.current.getMinutes() 
-                            : (globalPercentage.current > 0 ? "Waiting for ETA..." : "Fetching status...")}
+                        <p className="z-5" style={{ width: "80%", flexShrink: 0, position: "absolute", left: "35px" }}>
+                            {eta.current ? "Next volume ETA => " + eta.current.getHours() + ":"
+                                + (eta.current.getMinutes() < 10 ? "0" : "") + eta.current.getMinutes()
+                                : (globalPercentage.current > 0 ? "Waiting for ETA..." : "Fetching status...")}
                         </p>
                     </div>
                 </div>
             </div>
-            <div className="card mt-2 border-2 flex flex-row" style={{borderColor: (currentJob?.title.running === true ? "white" : "#374151")}}>
+            <div className="card mt-2 border-2 flex flex-row" style={{ borderColor: (currentJob?.title.running === true ? "white" : "#374151") }}>
                 <ul className="w-full">
                     {
                         currentTitleVolumes.current.filter((element) => element.key !== "launcher.lock" && element.key !== "last_pid").map(volume => (
-                            <VolumeCard key={volume.key} volume={volume} running={currentJob?.title.running}/>
+                            <VolumeCard key={volume.key} volume={volume} running={currentJob?.title.running} />
                         ))
                     }
                 </ul>

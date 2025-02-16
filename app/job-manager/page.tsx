@@ -1,5 +1,5 @@
 import JobCard from "@/components/jobCard";
-import {Key} from "react";
+import { Key } from "react";
 
 export async function getJobs() {
     try {
@@ -9,7 +9,7 @@ export async function getJobs() {
         //const data = await fetch('https://relax-api-190456347501.us-central1.run.app/jobs/')
         const jobs = await data.json();
         return jobs;
-    } catch(error) {
+    } catch (error) {
         console.log('error: ' + error);
         return [];
     }
@@ -19,10 +19,12 @@ export default async function Page() {
     let jobs = await getJobs();
 
     return (
-        <ul>
-            {jobs.map((job: { id: Key | null | undefined; "title-name": string; "title-id": number }) => (
-                <JobCard key={job.id} job={job} host={process.env.VPS_IP ?? process.env.DOCKER_GATEWAY_HOST!}/>
-            ))}
-        </ul>
+        <>
+            <ul>
+                {jobs.map((job: { id: Key | null | undefined; "title-name": string; "title-id": number }) => (
+                    <JobCard key={job.id} job={job} host={process.env.VPS_IP ?? process.env.DOCKER_GATEWAY_HOST!} />
+                ))}
+            </ul>
+        </>
     )
 }
