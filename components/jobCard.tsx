@@ -177,9 +177,7 @@ export default function JobCard(props: {
             console.log('Card ' + props.job['title-name'] + ' disconnected');
         };
 
-        const currentWebsocket = webSocket.current;
-
-        return () => currentWebsocket.close();
+        return () => webSocket.current?.close();
     }, [props.host, props.job]);
 
     useEffect(() => {

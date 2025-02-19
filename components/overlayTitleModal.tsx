@@ -48,8 +48,9 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string })
                 if (value['status'] == "ok, running") {
                     setTimeout(() => {
                         document.querySelector('body')?.classList.remove('modal-open');
+                        router.refresh();
                         router.replace('/job-manager');
-                    });
+                    }, 1000);
                     postBtn!.removeChild(postLoadingElement);
                     postBtn!.textContent = "Started, redirecting...";
                 } else {
