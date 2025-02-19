@@ -14,7 +14,7 @@ export default function RootLayout(props: {
         <html>
         <body>
         <NavBar></NavBar>
-        <div className="pt-32">
+        <div className="pt-28">
             {props.children}
         </div>
         </body>

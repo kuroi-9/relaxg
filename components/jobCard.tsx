@@ -144,8 +144,10 @@ export default function JobCard(props: {
             response.json().then((value) => {
                 if (value['status'] == 'deleted') {
                     currentTitleVolumes.current = [];
-                    document.getElementById("resume-btn-" + props.job.id)!.style.borderColor = '#374151';
-                    document.getElementById("resume-btn-" + props.job.id)!.textContent = 'Deleted';
+                    let resumeBtn = document.getElementById("resume-btn-" + props.job.id);
+                    resumeBtn!.style.borderColor = '#374151';
+                    resumeBtn!.textContent = 'Deleted';
+                    resumeBtn!.style.color = '#364050';
                     setIsDeleted(true);
 
                     deleteBtn!.removeChild(deleteLoadingElement);
@@ -158,6 +160,7 @@ export default function JobCard(props: {
                     document.getElementById('card-job-title-name-' + props.job.id)!.style.color = '#364050';
                     document.getElementById("job-card-" + props.job.id)?.classList.remove('border-gray-700');
                     document.getElementById("job-card-" + props.job.id)!.style.borderColor = '#0a0a0a';
+                    webSocket.current?.close();
                 }
             })
         });

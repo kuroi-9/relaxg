@@ -16,10 +16,10 @@ export default function NavBar() {
     const pathname = usePathname();
 
     return (
-        <nav className="z-10 flex flex-row justify-center border-2 border-white mb-8 fixed w-full bg-black">
+        <nav className="z-10 flex flex-row border-2 border-white mb-8 overflow-x-scroll fixed w-full bg-black">
             {navLinks.map(link => (
                 <Link href={link.href} key={link.href}
-                      className={"m-8 " + (pathname == link.href ? "underline" : "no-underline")}>{link.label}</Link>
+                      className={"m-8 shrink-0 " + (pathname == link.href ? "underline" : "no-underline")}>{link.label}</Link>
             ))}
         </nav>
     )
