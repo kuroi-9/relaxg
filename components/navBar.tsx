@@ -7,7 +7,7 @@ import '../app/globals.css'
 
 export default function NavBar() {
     const navLinks = [
-        {href: "/job-manager", label: "Job Manager"},
+        {href: "/jobs-manager", label: "Jobs Manager"},
         {href: "/titles-manager", label: "Titles Manager"},
         {href: "/history", label: "History"},
         {href: "/about", label: "About"},

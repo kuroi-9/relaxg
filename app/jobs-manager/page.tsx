@@ -1,5 +1,5 @@
 import JobCard from "@/components/jobCard";
-import { Key } from "react";
+import SocketManager from "@/components/socketManager";
 
 export async function getJobs() {
     try {
@@ -20,11 +20,7 @@ export default async function Page() {
 
     return (
         <>
-            <ul>
-                {jobs.map((job: { id: Key | null | undefined; "title-name": string; "title-id": number }) => (
-                    <JobCard key={job.id} job={job} host={process.env.VPS_IP ?? process.env.DOCKER_GATEWAY_HOST!} />
-                ))}
-            </ul>
+            <SocketManager jobs={jobs} host={process.env.VPS_IP ?? process.env.DOCKER_GATEWAY_HOST!}/>
         </>
     )
 }

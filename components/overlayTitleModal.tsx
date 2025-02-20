@@ -49,7 +49,7 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string })
                     setTimeout(() => {
                         document.querySelector('body')?.classList.remove('modal-open');
                         router.refresh();
-                        router.replace('/job-manager');
+                        router.replace('/jobs-manager');
                     }, 1000);
                     postBtn!.removeChild(postLoadingElement);
                     postBtn!.textContent = "Started, redirecting...";

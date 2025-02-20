@@ -46,3 +46,45 @@ body.modal-open {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.loader-bar {
+  position: relative;
+  min-height: 8px;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.loader-bar::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  min-height: 8px;
+  background-color: rgba(11,11,11,.5);
+}
+
+.loader-bar::after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 130px;
+  min-height: 8px;
+  background-color: orange;
+  animation: load 3.5s linear infinite;
+}
+
+@keyframes load {
+  0% {
+    left: -50%;
+    width: 20%;
+  }
+  50% {
+    left: 50%;
+    width: 40%;
+  }
+  100% {
+    left: 150%;
+    width: 60%;
+  }
+}

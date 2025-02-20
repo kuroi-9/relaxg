@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
         return [
             {
                 source: '/',
-                destination: '/job-manager', // Remplace par ta page cible
-                permanent: true, // Utilise "true" si c'est une redirection permanente
+                destination: '/jobs-manager',
+                permanent: true,
             },
         ];
     },
