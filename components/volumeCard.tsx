@@ -15,7 +15,7 @@ export default function VolumeCard(props: {
                 </div>
                 <div className="flex flex-row p w-1/4 shrink-0" style={{ paddingLeft: "3px" }}>
                     <div className="m-2 flex flex-row justify-center items-center" style={{
-                        width: props.volume.percentage + "%",
+                        width: props.volume.completed ? "100%" : props.volume.percentage + "%",
                         backgroundColor: (props?.running === true ? "green" : "slategray")
                     }}>
                         {props.volume.completed
