@@ -31,6 +31,7 @@ export default function SocketManager(props: {
     host: string;
 }) {
     const router = useRouter();
+    const websocket = useRef<WebSocket>();
     const websocketInterval = useRef<NodeJS.Timeout>();
     const [jobsState, setJobsState] = useState<JobItem[] | []>([]);
     const jobsVolumes = useRef<Map<Key, VolumeItem[] | undefined>>(new Map());
@@ -38,7 +39,7 @@ export default function SocketManager(props: {
     console.log("[REBUILD]", jobsState, jobsVolumes.current);
 
     // Component global init/update stage
-    if ((jobsState.length === 0 && props.jobs.length > 0)) {
+    if ((jobsState.length === 0 && props.jobs.length > 0) || jobsState.length !== props.jobs.length) {
         console.log("[INIT jobState]", props.jobs)
         // Init global jobs state
         setJobsState(props.jobs.sort(function (a, b) {
@@ -127,24 +128,25 @@ export default function SocketManager(props: {
         })
     }
 
-    const connect = (websocket: WebSocket) => {
-        websocket.onclose = () => {
+    const connect = (websockett: WebSocket) => {
+        websocket.current = websockett
+        websocket.current.onclose = () => {
             console.log("SocketManager disconnected");
             websocketInterval.current = setInterval(() => {
-                if (websocket && websocket.readyState === 3) {
-                    console.log("[WEBSOCKET STATUS !!] Reconnecting...", websocket);
-                    websocket = new WebSocket(`ws://${props.host}:8082`);
-                    websocket.onopen = () => {
+                if (websockett && websockett.readyState === 3) {
+                    console.log("[WEBSOCKET STATUS !!] Reconnecting...", websockett);
+                    websockett = new WebSocket(`ws://${props.host}:8082`);
+                    websockett.onopen = () => {
                         console.log("SocketManager connected");
                         console.log("[WEBSOCKET STATUS !!] Clearing interval...")
                         clearInterval(websocketInterval.current);
-                        connect(websocket);
+                        connect(websockett);
                     }
                 }
             }, 3000)
         }
 
-        websocket.onmessage = (event: MessageEvent) => {
+        websocket.current.onmessage = (event: MessageEvent) => {
             const eventData = JSON.parse(event.data);
             console.log("[DATA] ", eventData);
             console.log("[INTERVAL CHECK]", websocketInterval.current);
@@ -246,12 +248,12 @@ export default function SocketManager(props: {
 
         }
 
-        return websocket
+        return websocket.current
     }
 
     useEffect(() => {
-        let websocket = connect(new WebSocket(`ws://${props.host}:8082`));
-        websocket.onopen = () => {
+        websocket.current = connect(new WebSocket(`ws://${props.host}:8082`));
+        websocket.current.onopen = () => {
             console.log("SocketManager connected");
             if (websocketInterval.current !== undefined) {
                 console.log("[WEBSOCKET STATUS !!] Clearing interval...")
@@ -260,18 +262,20 @@ export default function SocketManager(props: {
         }
 
         return () => {
-            websocket?.close();
+            websocket.current?.close();
         }
     }, [props.host, props.jobs]);
 
     console.log(jobsState)
 
     const handleRefresh = () => {
-        window.location.reload();
-        // TODO: fix the state bug using nextjs built-in router
-        // jobsVolumes.current.clear(); 
-        // setJobsState((prevState) => prevState = []); 
-        // router.refresh()
+        //window.location.reload();
+        // TODO-OLD: fix the state bug using nextjs built-in router
+        // TODO: check the stability of this solution
+        router.refresh();
+        jobsVolumes.current.clear(); 
+        setJobsState((prevState) => prevState = []); 
+        websocket.current?.close();
     }
 
     return (
