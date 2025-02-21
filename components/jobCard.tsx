@@ -5,9 +5,7 @@ import { Key, ReactElement, ReactNode, useCallback, useEffect, useRef, useState 
 import VolumeCard from "@/components/volumeCard";
 import Emoji from "react-emoji-render";
 import { JobItem, VolumeItem } from './socketManager';
-
-// We fetch the completed property rather than calculating it because we need to know if the archive have been successfuly created
-
+import { useRouter } from 'next/navigation';
 
 export default function JobCard(props: {
     job: JobItem;
@@ -15,7 +13,9 @@ export default function JobCard(props: {
     setJobRunningToUndefined: (titleName: string) => void;
     resetTitleVolumesEntry: (titleName: string) => void;
 }) {
+    const router = useRouter();
     const stopOrResumeElement = useRef<ReactNode>();
+    const stopOrResumeElementStatus = useRef<string | undefined>();
     const resumeElement = useRef<ReactNode>();
     const stopElement = useRef<ReactNode>();
     const [isDeleted, setIsDeleted] = useState<boolean>(false);
@@ -32,13 +32,14 @@ export default function JobCard(props: {
     stopElement.current = <button
         id={"stop-btn-" + props.job.id}
         className="stoporresume-btn stop-btn flex justify-center items-center border-2 p-2 shrink-0"
-        style={{ width: '10%', minWidth: '130px', minHeight: '50px'}}
+        style={{ width: '10%', minWidth: '130px', minHeight: '50px' }}
         onClick={() => handleStop()}>
         <Emoji text=":stop_sign:" /><p className="ml-2">Stop</p></button>;
 
 
     const handleResume = useCallback(() => {
         setIsLoading(true);
+        stopOrResumeElement.current === undefined
         if (document.getElementsByClassName('stop-btn').length > 0
             || document.getElementsByClassName('undefined-btn').length > 0
             || document.getElementsByClassName('resume-btn').length
@@ -55,10 +56,11 @@ export default function JobCard(props: {
             }).then(() => {
                 console.log("Resuming job " + props.job.id + "...")
                 const resumeInterval = setInterval(() => {
-                    if (!props.job.title.running) {
+                    if (props.job.title.running) {
                         setIsLoading(false);
                         clearInterval(resumeInterval);
                         stopOrResumeElement.current = stopElement.current;
+                        stopOrResumeElementStatus.current = "stop";
                     }
                 }, 3000)
             }
@@ -69,6 +71,7 @@ export default function JobCard(props: {
 
     const handleStop = useCallback(() => {
         setIsLoading(true);
+        stopOrResumeElement.current === undefined
         fetch(`http://${props.host}:8082/jobs/stop/`, {
             method: 'POST',
             headers: {
@@ -84,6 +87,7 @@ export default function JobCard(props: {
                     setIsLoading(false);
                     clearInterval(stopInterval);
                     stopOrResumeElement.current = resumeElement.current;
+                    stopOrResumeElementStatus.current = "resume";
                 }
             }, 3000)
         });
@@ -134,13 +138,21 @@ export default function JobCard(props: {
     if (stopOrResumeElement.current === undefined) {
         if (props.job.title.running) {
             stopOrResumeElement.current = stopElement.current
+            stopOrResumeElementStatus.current = "stop";
             setIsLoading(false);
         } else if (props.job.title.running !== undefined) {
             stopOrResumeElement.current = resumeElement.current
+            stopOrResumeElementStatus.current = "resume";
             setIsLoading(false);
         }
+    } else if (
+        ((stopOrResumeElementStatus.current === "stop" && props.job.title.running === false)
+        || (stopOrResumeElementStatus.current === "resume" && props.job.title.running === true))
+        && !isLoading
+    ) { // To fix incoherence when the client has lost connection to websocket and then reconnects
+        stopOrResumeElement.current = undefined;
+        setIsLoading(true);
     }
-
 
     return (
         <div id={"job-card-" + props.job.id} className="job-card border-2 border-gray-700 m-2 p-2">
@@ -157,11 +169,11 @@ export default function JobCard(props: {
                             <div className='loader' />
                         </button> : stopOrResumeElement.current}
                     </div>
-                    <button disabled={stopOrResumeElement.current === undefined || isDeleted || props.job.title.running === true}
+                    <button disabled={isLoading || isDeleted || props.job.title.running === true}
                         id={"delete-btn-" + props.job.id}
                         className="flex flex-row justify-center items-center border-2 mt-2 p-2 ml-2 text-red-500"
                         style={{
-                            borderColor: stopOrResumeElement.current === undefined || props.job.title.running === true ? "darkred" : "red",
+                            borderColor: isLoading || props.job.title.running === true ? "darkred" : "red",
                             minWidth: "80px"
                         }}
                         onClick={() => handleDelete()}>Delete
@@ -179,7 +191,7 @@ export default function JobCard(props: {
                             {props.job.eta ? "Next volume ETA => " + new Date(props.job.eta).getHours() + ":"
                                 + (new Date(props.job.eta).getMinutes() < 10 ? "0" : "") + new Date(props.job.eta).getMinutes()
                                 //: (globalPercentage.current > 0 ? "Waiting for ETA..." : "Fetching status...")
-                                  : "Waiting for ETA..."}
+                                : "Waiting for ETA..."}
                         </p>
                     </div>
                 </div>

@@ -15,12 +15,12 @@ export async function getJobs() {
     }
 }
 
-export default async function Page() {
+export default async function JobsPage() {
     let jobs = await getJobs();
 
     return (
         <>
-            <SocketManager jobs={jobs} host={process.env.VPS_IP ?? process.env.DOCKER_GATEWAY_HOST!}/>
+            <SocketManager jobs={jobs} host={process.env.VPS_IP ?? process.env.DOCKER_GATEWAY_HOST!} />
         </>
     )
 }

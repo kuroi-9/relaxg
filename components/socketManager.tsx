@@ -2,6 +2,7 @@
 
 import { Key, useEffect, useRef, useState } from "react";
 import JobCard from "./jobCard";
+import { useRouter } from "next/navigation";
 
 export interface VolumeItem {
     name: Key;
@@ -29,16 +30,21 @@ export default function SocketManager(props: {
     jobs: [{ id: Key | null | undefined; "title-name": string; "title-id": number }];
     host: string;
 }) {
-    const websocket = useRef<WebSocket | undefined>();
+    const router = useRouter();
+    const websocketInterval = useRef<NodeJS.Timeout>();
     const [jobsState, setJobsState] = useState<JobItem[] | []>([]);
     const jobsVolumes = useRef<Map<Key, VolumeItem[] | undefined>>(new Map());
 
     console.log("[REBUILD]", jobsState, jobsVolumes.current);
 
-    if (jobsState.length === 0) {
-        console.log("[INIT jobState]")
+    // Component global init/update stage
+    if ((jobsState.length === 0 && props.jobs.length > 0)) {
+        console.log("[INIT jobState]", props.jobs)
         // Init global jobs state
-        setJobsState(props.jobs.map((job: { id: Key | null | undefined; "title-name": string; "title-id": number }) => (
+        setJobsState(props.jobs.sort(function (a, b) {
+            return a.id!.toString()
+                .localeCompare(b.id!.toString());
+        }).map((job: { id: Key | null | undefined; "title-name": string; "title-id": number }) => (
             {
                 id: job["id"]!,
                 title: {
@@ -121,20 +127,27 @@ export default function SocketManager(props: {
         })
     }
 
-    useEffect(() => {
-        websocket.current = new WebSocket(`ws://${props.host}:8082`);
-
-        websocket.current.onopen = () => {
-            console.log("SocketManager connected");
-        }
-
-        websocket.current.onclose = () => {
+    const connect = (websocket: WebSocket) => {
+        websocket.onclose = () => {
             console.log("SocketManager disconnected");
+            websocketInterval.current = setInterval(() => {
+                if (websocket && websocket.readyState === 3) {
+                    console.log("[WEBSOCKET STATUS !!] Reconnecting...", websocket);
+                    websocket = new WebSocket(`ws://${props.host}:8082`);
+                    websocket.onopen = () => {
+                        console.log("SocketManager connected");
+                        console.log("[WEBSOCKET STATUS !!] Clearing interval...")
+                        clearInterval(websocketInterval.current);
+                        connect(websocket);
+                    }
+                }
+            }, 3000)
         }
 
-        websocket.current.onmessage = (event: MessageEvent) => {
+        websocket.onmessage = (event: MessageEvent) => {
             const eventData = JSON.parse(event.data);
             console.log("[DATA] ", eventData);
+            console.log("[INTERVAL CHECK]", websocketInterval.current);
 
             // Extracting data
             const titleName = eventData[0];
@@ -231,25 +244,50 @@ export default function SocketManager(props: {
             console.log("[RESULT] Global jobs", jobsState);
             console.log("[RESULT] Global volumes", jobsVolumes);
 
-            return () => {
-                websocket.current?.close();
+        }
+
+        return websocket
+    }
+
+    useEffect(() => {
+        let websocket = connect(new WebSocket(`ws://${props.host}:8082`));
+        websocket.onopen = () => {
+            console.log("SocketManager connected");
+            if (websocketInterval.current !== undefined) {
+                console.log("[WEBSOCKET STATUS !!] Clearing interval...")
+                clearInterval(websocketInterval.current);
             }
         }
-    }, []);
+
+        return () => {
+            websocket?.close();
+        }
+    }, [props.host, props.jobs]);
 
     console.log(jobsState)
 
+    const handleRefresh = () => {
+        window.location.reload();
+        // TODO: fix the state bug using nextjs built-in router
+        // jobsVolumes.current.clear(); 
+        // setJobsState((prevState) => prevState = []); 
+        // router.refresh()
+    }
+
     return (
-        <ul>
-            {jobsState.map((job) => (
-                <JobCard
-                    key={job.id}
-                    job={job}
-                    host={props.host}
-                    setJobRunningToUndefined={setJobRunningToUndefined}
-                    resetTitleVolumesEntry={resetTitleVolumesEntry}
-                ></JobCard>
-            ))}
-        </ul>
+        <section>
+            <button className="flex border-2 p-2 items-center" onClick={() => handleRefresh()}>Refresh (vanillaJS)</button>
+            <ul>
+                {jobsState.map((job) => (
+                    <JobCard
+                        key={job.id}
+                        job={job}
+                        host={props.host}
+                        setJobRunningToUndefined={setJobRunningToUndefined}
+                        resetTitleVolumesEntry={resetTitleVolumesEntry}
+                    ></JobCard>
+                ))}
+            </ul>
+        </section>
     )
 }
