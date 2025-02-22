@@ -16,6 +16,7 @@ export default function JobCard(props: {
     const router = useRouter();
     const stopOrResumeElement = useRef<ReactNode>();
     const stopOrResumeElementStatus = useRef<string | undefined>();
+    const isRunning = useRef<boolean | undefined>();
     const resumeElement = useRef<ReactNode>();
     const stopElement = useRef<ReactNode>();
     const [isDeleted, setIsDeleted] = useState<boolean>(false);
@@ -38,14 +39,14 @@ export default function JobCard(props: {
 
 
     const handleResume = useCallback(() => {
-        setIsLoading(true);
-        stopOrResumeElement.current === undefined
         if (document.getElementsByClassName('stop-btn').length > 0
             || document.getElementsByClassName('undefined-btn').length > 0
             || document.getElementsByClassName('resume-btn').length
             == document.getElementsByClassName('stoporresume-btn').length - 1) {
             alert('YOU NEED TO STOP THE RUNNING JOB')
         } else {
+            setIsLoading(true);
+            stopOrResumeElement.current === undefined
             fetch(`http://${props.host}:8082/jobs/resume/`, {
                 method: 'POST',
                 headers: {
@@ -55,12 +56,13 @@ export default function JobCard(props: {
                 body: JSON.stringify({ "title-id": `${props.job.title.id}`, "job-id": `${props.job.id}` })
             }).then(() => {
                 console.log("Resuming job " + props.job.id + "...")
-                const resumeInterval = setInterval(() => {
-                    if (props.job.title.running) {
-                        setIsLoading(false);
-                        clearInterval(resumeInterval);
+                let resumeInterval = setInterval(() => {
+                    console.log("erghbjuhiuwerohguinoryhguirtvyuirtvyghuirytvghnuyirnhuigcnrhtyughcbrnytuibgnirngurieycgurhgyubrchrnbighuringhuiihvguruh", props.job.title.running)
+                    if (isRunning.current) {
                         stopOrResumeElement.current = stopElement.current;
                         stopOrResumeElementStatus.current = "stop";
+                        setIsLoading(false);
+                        clearInterval(resumeInterval);
                     }
                 }, 3000)
             }
@@ -83,7 +85,7 @@ export default function JobCard(props: {
         }).then(() => {
             console.log("Stopping job " + props.job.id + "...");
             const stopInterval = setInterval(() => {
-                if (!props.job.title.running) {
+                if (!isRunning.current) {
                     setIsLoading(false);
                     clearInterval(stopInterval);
                     stopOrResumeElement.current = resumeElement.current;
@@ -154,8 +156,13 @@ export default function JobCard(props: {
         setIsLoading(true);
     }
 
+    isRunning.current = props.job.title.running === true;
+
     return (
         <div id={"job-card-" + props.job.id} className="job-card border-2 border-gray-700 m-2 p-2">
+            {/* <h1>{stopOrResumeElement.current}</h1>
+            <h1>load {isLoading ? "load" : "noload"}</h1>
+            <h1>del {isDeleted ? "del" : "nodel"}</h1> */}
             <div className="card flex flex-col flex-wrap justify-between">
                 <div className="flex flex-row flex-wrap items-center w-full">
                     <h1 id={"card-job-id-" + props.job.id} className="flex border-2 p-2 items-center" style={{ width: "4rem", minHeight: "50px" }}>{props.job.id}</h1>
@@ -181,11 +188,11 @@ export default function JobCard(props: {
                 </div>
                 <div className="border-2 mt-2 flex flex-row w-full"
                     style={{
-                        borderColor: (props.job.title.running === true ? "#fcd34d" : "#374151"), height: "3rem",
-                        display: (props.job.title.running === true ? "block" : "none")
+                        borderColor: (isRunning.current === true ? "#fcd34d" : "#374151"), height: "3rem",
+                        display: (isRunning.current === true ? "block" : "none")
                     }}>
                     <div className="h-full flex flex-row items-center loader-bar" style={{
-                        backgroundColor: (props.job.title.running === true ? "green" : "slategray")
+                        backgroundColor: (isRunning.current === true ? "green" : "slategray")
                     }}>
                         <p className="z-5" style={{ width: "80%", flexShrink: 0, position: "absolute", left: "35px" }}>
                             {props.job.eta ? "Next volume ETA => " + new Date(props.job.eta).getHours() + ":"
@@ -196,11 +203,11 @@ export default function JobCard(props: {
                     </div>
                 </div>
             </div>
-            <div className="card mt-2 border-2 flex flex-row" style={{ borderColor: (props.job.title.running === true ? "white" : "#374151") }}>
+            <div className="card mt-2 border-2 flex flex-row" style={{ borderColor: (isRunning.current === true ? "white" : "#374151") }}>
                 <ul className="w-full">
                     {!isDeleted ?
                         props.job.title.volumes.filter((element) => element.name !== "launcher.lock" && element.name !== "last_pid").map(volume => (
-                            <VolumeCard key={volume.name} volume={volume} running={props.job.title.running} />
+                            <VolumeCard key={volume.name} volume={volume} running={isRunning.current} />
                         )) : ""
                     }
                 </ul>
