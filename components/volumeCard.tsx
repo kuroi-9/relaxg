@@ -13,9 +13,13 @@ export default function VolumeCard(props: {
                 <div className="flex items-center">
                     <h6 className="text-white p-2 break-words">{props.volume.name}</h6>
                 </div>
-                <div className="flex flex-row p w-1/4 shrink-0" style={{ paddingLeft: "3px" }}>
-                    <div className="m-2 flex flex-row justify-center items-center" style={{
-                        width: props.volume.completed ? "100%" : props.volume.percentage + "%",
+                <div className="flex flex-col w-1/4 shrink-0 m-2" style={{ paddingLeft: "3px" }}>
+                    <div className="flex flex-row justify-center">
+                        <h1 className="absolute">{!props.volume.completed ? Math.max(0, Number(props.volume.percentage!.toPrecision(3))) + "%" : ""}</h1>
+                    </div>
+                    <div className="flex flex-row justify-center items-center" style={{
+                        width: props.volume.completed ? "auto" : Math.max(0, Number(props.volume.percentage!.toPrecision(3))) + "%",
+                        height: "100%",
                         backgroundColor: (props?.running === true ? "green" : "slategray")
                     }}>
                         {props.volume.completed
@@ -24,7 +28,6 @@ export default function VolumeCard(props: {
                     </div>
                 </div>
             </div>
-            <hr style={{ borderColor: (props?.running === true ? "white" : "#374151") }} />
         </section>
     )
 }

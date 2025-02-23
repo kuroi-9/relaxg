@@ -280,7 +280,7 @@ export default function SocketManager(props: {
 
     return (
         <section>
-            <button className="flex border-2 p-2 items-center" onClick={() => handleRefresh()}>Refresh (vanillaJS)</button>
+            <button className="flex border-2 m-2 p-2 items-center" onClick={() => handleRefresh()}>Refresh</button>
             <ul>
                 {jobsState.map((job) => (
                     <JobCard

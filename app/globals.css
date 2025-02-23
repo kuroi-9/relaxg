@@ -24,6 +24,10 @@ body.modal-open {
   overflow: hidden;
 }
 
+.job-volumes-card > div:last-child > hr {
+  display: none;
+}
+
 .loader {
   border: 2px solid #f3f3f3; /* Light grey */
   border-top: 2px solid #3498db; /* Blue */
@@ -50,7 +54,7 @@ body.modal-open {
 .loader-bar {
   position: relative;
   min-height: 8px;
-  overflow-y: hidden;
+  overflow-x: hidden;
   scrollbar-width: none;
 }
 
