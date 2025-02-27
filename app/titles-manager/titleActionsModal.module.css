@@ -22,11 +22,11 @@
 .content {
     width: 60%;
     height: 60%;
-    background: black;
-    color: white;
+    background: var(--background);
+    color: var(--foreground);
     z-index: 10;
     box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
-    border: solid white 2px;
+    border: solid var(--foreground) 2px;
     padding: 0.5rem;
     display: flex;
     flex-direction: column;
@@ -35,7 +35,7 @@
 }
 
 .actionButton {
-    border: solid white 2px;
+    border: solid var(--foreground) 2px;
     padding: 0.5rem;
     display: flex;
     flex-direction: column;
@@ -43,11 +43,3 @@
     align-items: center;
 }
 
-.close-button:hover {
-    background-color: #eee;
-}
-
-.close-button:after {
-    content: 'x';
-    color: black;
-}

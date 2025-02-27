@@ -1,4 +1,4 @@
-import TitleCard from "@/components/titleCard";
+import TitleCard from "@/components/titles-manager/titleCard";
 import {Key} from "react";
 import Link from "next/link";
 

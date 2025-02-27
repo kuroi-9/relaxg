@@ -1,0 +1,20 @@
+.title-card-container {
+    border-color: var(--foreground);
+}
+
+.title-card-name-container {
+    border-color: var(--foreground);
+}
+
+.close-button {
+    background-color: var(--foreground);
+}
+
+.close-button:hover {
+    background-color: var(--foreground);
+}
+
+.close-button:after {
+    content: 'x';
+    color: var(--foreground);
+}

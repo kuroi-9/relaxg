@@ -2,6 +2,7 @@
 
 import {Key} from "react";
 import Image from "next/image";
+import "./titles-manager.css";
 
 export default function TitleCard(props: {
     title: {
@@ -10,7 +11,7 @@ export default function TitleCard(props: {
     },
 }) {
     return (
-        <div className="border-2 flex flex-col" style={{maxWidth: 300, maxHeight: 600, minWidth: 300, minHeight: 600}}>
+        <div className="title-card-container border-2 flex flex-col" style={{maxWidth: 300, maxHeight: 600, minWidth: 300, minHeight: 600}}>
             <div className="flex flex-col justify-center items-center" style={{minHeight: 400, backgroundColor: "#e5e7eb"}}>
                 <Image
                     src={"http://backend:8082/images/" + props.title["title-name"].replaceAll(" ", "_") + "_cover.jpg"}
@@ -22,7 +23,7 @@ export default function TitleCard(props: {
                 />
             </div>
             <div
-                className={`border-t-2 title-card mt-0 h-full w-full bg-${props.title["post-treated"] ? "green" : "black"}-600`}>
+                className={`title-card-name-container border-t-2 title-card mt-0 h-full w-full bg-${props.title["post-treated"] ? "green" : "black"}-600`}>
                 <div className="card h-full flex flex-col justify-between items-center">
                     <h3 className="card-title p-2" style={{textAlign: "center"}}>{props.title["title-name"]}</h3>
                     <div className="flex flex-col justify-between items-center">

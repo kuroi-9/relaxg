@@ -1,8 +1,8 @@
 'use client'
 
-import '../app/globals.css';
+import "./jobs-manager.css";
 import { Key, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from "react";
-import VolumeCard from "@/components/volumeCard";
+import VolumeCard from "@/components/jobs-manager/volumeCard";
 import Emoji from "react-emoji-render";
 import { JobItem, VolumeItem } from './socketManager';
 import { useRouter } from 'next/navigation';
@@ -165,8 +165,8 @@ export default function JobCard(props: {
             <h1>del {isDeleted ? "del" : "nodel"}</h1> */}
             <div className="card flex flex-col flex-wrap justify-between">
                 <div className="flex flex-row flex-wrap items-center w-full">
-                    <h1 id={"card-job-id-" + props.job.id} className="flex border-2 p-2 items-center justify-center" style={{ width: "4rem", minHeight: "50px" }}>{props.job.id}</h1>
-                    <h1 id={"card-job-title-name-" + props.job.id} className="card-job-title-name p-2 ml-2">{props.job.title.name}</h1>
+                    <h1 id={"card-job-id-" + props.job.id} className="card-job-id-label flex border-2 p-2 items-center justify-center" style={{ width: "4rem", minHeight: "50px" }}>{props.job.id}</h1>
+                    <h1 id={"card-job-title-name-" + props.job.id} className="card-job-title-name-label underline p-2 ml-2">{props.job.title.name}</h1>
                 </div>
                 <div className="job-infos flex flex-row flex-wrap">
                     <div className="flex flex-row mt-2 flex-wrap">
@@ -203,13 +203,13 @@ export default function JobCard(props: {
                     </div>
                 </div>
             </div>
-            <div className="card mt-2 border-2 flex flex-row" style={{ borderColor: (isRunning.current === true ? "white" : "#374151") }}>
+            <div className="job-volumes-card-container card mt-2 border-2 flex flex-row">
                 <ul className="job-volumes-card w-full">
                     {!isDeleted ?
                         props.job.title.volumes.filter((element) => element.name !== "launcher.lock" && element.name !== "last_pid").map(volume => (
                             <div key={volume.name}>
                                 <VolumeCard volume={volume} running={isRunning.current} />
-                                <hr style={{ borderColor: (props.job.title.running === true ? "white" : "#374151") }} />
+                                <hr/>
                             </div>
                         )) : ""
                     }
