@@ -1,6 +1,6 @@
 'use client'
 
-import styles from "@/app/titles-manager/titleActionsModal.module.css";
+import styles from "@/app/(protected)/app/titles-manager/titleActionsModal.module.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -49,7 +49,7 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string })
                     setTimeout(() => {
                         document.querySelector('body')?.classList.remove('modal-open');
                         router.refresh();
-                        router.replace('/jobs-manager');
+                        router.replace('/app/jobs-manager');
                     }, 1000);
                     postBtn!.removeChild(postLoadingElement);
                     postBtn!.textContent = "Started, redirecting...";

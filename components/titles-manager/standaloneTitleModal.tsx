@@ -1,13 +1,13 @@
 'use client'
 
-import styles from "@/app/titles-manager/titleActionsModal.module.css";
+import styles from "@/app/(protected)/app/titles-manager/titleActionsModal.module.css";
 import {useRouter} from "next/navigation";
 
 export default function StandaloneTitleModal(props: {id: string}) {
     const router = useRouter();
 
     const handleExit = () => {
-        router.push('/titles-manager');
+        router.push('/app/titles-manager');
     }
 
     return (

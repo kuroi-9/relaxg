@@ -4,6 +4,7 @@ import { Key, useEffect, useRef, useState } from "react";
 import JobCard from "./jobCard";
 import { useRouter } from "next/navigation";
 import "./jobs-manager.css";
+import { UserButton } from "@stackframe/stack";
 
 export interface VolumeItem {
     name: Key;
@@ -281,7 +282,7 @@ export default function SocketManager(props: {
 
     return (
         <section>
-            <button id="jobs-refresh-btn" className="flex border-2 m-2 p-2 items-center" onClick={() => handleRefresh()}>Refresh</button>
+            <button id="jobs-refresh-btn" className="flex border-2 m-2 p-2 items-center rounded-2xl" onClick={() => handleRefresh()}>Refresh</button>
             <ul>
                 {jobsState.map((job) => (
                     <JobCard

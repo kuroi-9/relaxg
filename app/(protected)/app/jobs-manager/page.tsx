@@ -1,4 +1,3 @@
-import JobCard from "@/components/jobCard";
 import SocketManager from "@/components/jobs-manager/socketManager";
 
 export async function getJobs() {

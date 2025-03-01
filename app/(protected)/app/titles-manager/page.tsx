@@ -30,7 +30,7 @@ export default async function Page() {
             {titlesArray.map((title: TitleItem) => (
                 <Link className="title-card m-4 flex flex-col items-center"
                       key={title.id} href={{
-                          pathname: `/titles/${title.id}`,
+                          pathname: `/app/titles/${title.id}`,
                           query: {name: title["title-name"]}}}>
                     <TitleCard key={title.id} title={title}></TitleCard>
                 </Link>

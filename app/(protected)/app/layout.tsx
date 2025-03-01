@@ -1,7 +1,6 @@
-import './globals.css';
-import { StackProvider, StackTheme } from "@stackframe/stack";
-import { stackServerApp } from "../stack";
 import NavBar from "@/components/navBar";
+import { stackServerApp } from "@/stack";
+import { StackProvider, StackTheme } from "@stackframe/stack";
 
 export const metadata = {
     title: 'RelaxG',
@@ -15,7 +14,8 @@ export default function RootLayout(props: {
     return (
         <html>
         <body><StackProvider app={stackServerApp}><StackTheme>
-        <div>
+        <NavBar></NavBar>
+        <div className="pt-28">
             {props.children}
         </div>
         </StackTheme></StackProvider></body>

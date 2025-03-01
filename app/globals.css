@@ -21,14 +21,25 @@ body {
 }
 
 .nav-links-container {
-  background-color: var(--background);
   border-color: var(--foreground);
+  background-color: var(--background);
 }
 
 .nav-link {
-  color: var(--foreground);
+  color: var(--background);
 }
 
 body.modal-open {
   overflow: hidden;
+}
+
+.primary-btn {
+  padding: 1rem;
+  border-radius: 5px;
+  background-color: var(--foreground);
+  color: var(--background);
+}
+
+.primary-btn:focus, .nav-link:focus {
+  outline: 2px solid var(--foreground);
 }
