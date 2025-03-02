@@ -14,7 +14,7 @@ export default function RootLayout(props: {
 }) {
     return (
         <html>
-        <body><StackProvider app={stackServerApp}><StackTheme>
+        <body><StackProvider app={stackServerApp} lang={'fr-FR'}><StackTheme>
         <div>
             {props.children}
         </div>
