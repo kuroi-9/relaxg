@@ -12,13 +12,11 @@ export default function RootLayout(props: {
     children: React.ReactNode;
 }) {
     return (
-        <html>
-        <body><StackProvider app={stackServerApp}><StackTheme>
-        <NavBar></NavBar>
-        <div className="pt-28">
-            {props.children}
-        </div>
-        </StackTheme></StackProvider></body>
-        </html>
+        <StackProvider app={stackServerApp}><StackTheme>
+            <NavBar></NavBar>
+            <div className="pt-28">
+                {props.children}
+            </div>
+        </StackTheme></StackProvider>
     );
 }

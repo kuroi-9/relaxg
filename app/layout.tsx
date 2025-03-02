@@ -14,11 +14,11 @@ export default function RootLayout(props: {
 }) {
     return (
         <html>
-        <body><StackProvider app={stackServerApp} lang={'fr-FR'}><StackTheme>
-        <div>
-            {props.children}
-        </div>
-        </StackTheme></StackProvider></body>
+            <body><StackProvider app={stackServerApp} lang={'fr-FR'}><StackTheme>
+                <div>
+                    {props.children}
+                </div>
+            </StackTheme></StackProvider></body>
         </html>
     );
 }
