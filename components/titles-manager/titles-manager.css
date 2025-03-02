@@ -2,6 +2,10 @@
     border-color: var(--foreground);
 }
 
+.title-card-container:active {
+    outline: 6px solid #fcd34d;
+}
+
 .title-card-name-container {
     border-color: var(--foreground);
 }

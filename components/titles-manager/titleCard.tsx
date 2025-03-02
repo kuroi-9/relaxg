@@ -11,15 +11,24 @@ export default function TitleCard(props: {
     },
 }) {
     return (
-        <div className="title-card-container border-2 flex flex-col rounded-lg" style={{maxWidth: 300, maxHeight: 600, minWidth: 300, minHeight: 600}}>
-            <div className="flex flex-col justify-center items-center rounded-ss rounded-se" style={{minHeight: 400, backgroundColor: "var(--foreground)"}}>
+        <div className="title-card-container border-2 flex flex-col rounded-2xl" style={{maxWidth: 300, maxHeight: 600, minWidth: 300, minHeight: 600}}>
+            <div 
+            className="flex flex-col justify-center items-center" 
+            style={{
+                minHeight: 400, 
+                backgroundColor: "var(--foreground)",
+                borderStartStartRadius: "13px",
+                borderStartEndRadius: "13px"}}>
                 <Image
                     src={"http://backend:8082/images/" + props.title["title-name"].replaceAll(" ", "_") + "_cover.jpg"}
                     alt="No cover available"
-                    className="w-full mb-0 overflow-hidden rounded-ss-md rounded-se-md"
+                    className="w-full mb-0 overflow-hidden rounded-ss-2xl rounded-se-2xl"
                     width={284}
                     height={400}
-                    style={{backgroundColor: "var(--background)"}}
+                    style={{
+                        backgroundColor: "var(--background)",
+                        borderStartStartRadius: "14.2px",
+                        borderStartEndRadius: "14.2px"}}
                 />
             </div>
             <div
