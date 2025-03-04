@@ -1,13 +1,12 @@
 'use client'
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { usePathname } from "next/navigation";
 import '@/app/globals.css'
 import { useUser } from "@stackframe/stack";
 
 export default function NavBar() {
-    const [scroll, setScroll] = useState<boolean>();
     const user = useUser();
     const navLinks = [
         { href: "/app/jobs-manager", label: "Jobs Manager" },
@@ -21,7 +20,7 @@ export default function NavBar() {
     return (
         <nav className="nav-links-container z-10 flex flex-row justify-between mb-8 overflow-x-scroll fixed w-full"
             style={{
-                boxShadow: "0px 0px 200px 5px var(--background)",
+                boxShadow: "0px 0px 200px 5px black",
                 borderBottom: "1px solid gray",
             }}>
             <div className="nav-links-div flex flex-row items-center overflow-x-scroll">

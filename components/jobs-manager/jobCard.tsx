@@ -1,11 +1,10 @@
 'use client'
 
 import "./jobs-manager.css";
-import { Key, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, useCallback, useRef, useState } from "react";
 import VolumeCard from "@/components/jobs-manager/volumeCard";
 import Emoji from "react-emoji-render";
-import { JobItem, VolumeItem } from './socketManager';
-import { useRouter } from 'next/navigation';
+import { JobItem } from './socketManager';
 
 export default function JobCard(props: {
     job: JobItem;
@@ -13,7 +12,6 @@ export default function JobCard(props: {
     setJobRunningToUndefined: (titleName: string) => void;
     resetTitleVolumesEntry: (titleName: string) => void;
 }) {
-    const router = useRouter();
     const stopOrResumeElement = useRef<ReactNode>();
     const stopOrResumeElementStatus = useRef<string | undefined>();
     const isRunning = useRef<boolean | undefined>();
@@ -47,7 +45,7 @@ export default function JobCard(props: {
         } else {
             setIsLoading(true);
             stopOrResumeElement.current === undefined
-            fetch(`http://${props.host}:8082/jobs/resume/`, {
+            fetch(`https://api.relaxg.app/jobs/resume/`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -56,7 +54,7 @@ export default function JobCard(props: {
                 body: JSON.stringify({ "title-id": `${props.job.title.id}`, "job-id": `${props.job.id}` })
             }).then(() => {
                 console.log("Resuming job " + props.job.id + "...")
-                let resumeInterval = setInterval(() => {
+                const resumeInterval = setInterval(() => {
                     console.log("erghbjuhiuwerohguinoryhguirtvyuirtvyghuirytvghnuyirnhuigcnrhtyughcbrnytuibgnirngurieycgurhgyubrchrnbighuringhuiihvguruh", props.job.title.running)
                     if (isRunning.current) {
                         stopOrResumeElement.current = stopElement.current;
@@ -69,12 +67,12 @@ export default function JobCard(props: {
             );
         }
 
-    }, [props.host, props.job]);
+    }, [props.job]);
 
     const handleStop = useCallback(() => {
         setIsLoading(true);
         stopOrResumeElement.current === undefined
-        fetch(`http://${props.host}:8082/jobs/stop/`, {
+        fetch(`https://api.relaxg.app/jobs/stop/`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -94,18 +92,18 @@ export default function JobCard(props: {
             }, 3000)
         });
 
-    }, [props.host, props.job]);
+    }, [props.job]);
 
     // TODO: Reduce DOM manual alteration
     const handleDelete = () => {
-        let deleteBtn = document.getElementById("delete-btn-" + props.job.id);
+        const deleteBtn = document.getElementById("delete-btn-" + props.job.id);
         deleteBtn!.textContent = "";
-        let deleteLoadingElement = document.createElement('div');
+        const deleteLoadingElement = document.createElement('div');
         deleteLoadingElement.id = "delete-loading-" + props.job.id;
         deleteLoadingElement.className = 'loader-red';
         deleteBtn!.appendChild(deleteLoadingElement);
 
-        fetch(`http://${props.host}:8082/jobs/delete/`, {
+        fetch(`https://api.relaxg.app/jobs/delete/`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -115,7 +113,7 @@ export default function JobCard(props: {
         }).then((response) => {
             response.json().then((value) => {
                 if (value['status'] == 'deleted') {
-                    let resumeBtn = document.getElementById("resume-btn-" + props.job.id);
+                    const resumeBtn = document.getElementById("resume-btn-" + props.job.id);
                     resumeBtn!.style.borderColor = '#374151';
                     resumeBtn!.textContent = 'Deleted';
                     resumeBtn!.style.color = '#364050';

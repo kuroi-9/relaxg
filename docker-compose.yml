@@ -6,7 +6,7 @@ services:
       context: .
       target: dev
     restart: always
-    command: npm run dev
+    command: npm run start
     env_file:
       - .env
     environment:

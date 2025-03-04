@@ -10,7 +10,7 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string })
 
     console.log(props.hostIp)
     useEffect(() => {
-        fetch(`http://${props.hostIp}:8082/titles/` + props.id)
+        fetch(`https://api.relaxg.app/titles/` + props.id)
             .then(res => {
                 console.log(res.json()
                     .then(value => {
@@ -26,9 +26,9 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string })
     }
 
     const handlePost = () => {
-        let postBtn = document.getElementById("post-button-" + props.id);
+        const postBtn = document.getElementById("post-button-" + props.id);
         postBtn!.textContent = "";
-        let postLoadingElement = document.createElement('div');
+        const postLoadingElement = document.createElement('div');
         postLoadingElement.id = "post-loading-" + props.id;
         postLoadingElement.className = 'loader';
 
@@ -36,7 +36,7 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string })
         postBtn!.setAttribute('disabled', 'disabled');
         postBtn!.appendChild(postLoadingElement);
 
-        fetch(`http://${props.hostIp}:8082/jobs/`, {
+        fetch(`https://api.relaxg.app/jobs/`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

@@ -2,7 +2,7 @@
 import { useStackApp } from "@stackframe/stack";
 import { useState } from "react";
 import Emoji from "react-emoji-render";
-import "@/app/sign-in/sign-in.module.css"
+import "@/app/sign-in/sign-in.css"
 
 export default function CredentialSignIn() {
     const [email, setEmail] = useState('');
@@ -39,7 +39,7 @@ export default function CredentialSignIn() {
                     <h1 className="text-center text-3xl mr-2">Accès anticipé </h1><Emoji text=":locked:" />
                 </span>
                 <span>
-                    <p className="text-center">Munissez-vous des identifiants qui vous ont été transmis dans la lettre de motivation.<br /> Ce compte n'a pas été fait sur mesure.</p>
+                    <p className="text-center">Munissez-vous des identifiants qui vous ont été transmis dans la lettre de motivation.<br /> Ce compte n&apos;a pas été fait sur mesure.</p>
                     {error ? <hr className="m-5" /> : ""}
                     <p className="text-red-500 text-center">{error}</p>
                 </span>

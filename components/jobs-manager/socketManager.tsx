@@ -4,7 +4,6 @@ import { Key, useEffect, useRef, useState } from "react";
 import JobCard from "./jobCard";
 import { useRouter } from "next/navigation";
 import "./jobs-manager.css";
-import { UserButton } from "@stackframe/stack";
 
 export interface VolumeItem {
     name: Key;
@@ -79,7 +78,7 @@ export default function SocketManager(props: {
 
     // Meant to set the stop/resume button to a loading state, awaiting the server response
     const setJobRunningToUndefined = (titleName: string) => {
-        setJobsState((prevState) => {
+        setJobsState(() => {
             return jobsState.map((job) => {
                 if (job.title.name === titleName) {
                     return (
@@ -111,7 +110,7 @@ export default function SocketManager(props: {
         // Resetting the running value on all volumes
         jobsVolumes.current.set(titleName, []);
 
-        setJobsState((prevState) => {
+        setJobsState(() => {
             return jobsState.map((job) => {
                 if (job.title.name === titleName) {
                     return (
@@ -137,7 +136,7 @@ export default function SocketManager(props: {
             websocketInterval.current = setInterval(() => {
                 if (websockett && websockett.readyState === 3) {
                     console.log("[WEBSOCKET STATUS !!] Reconnecting...", websockett);
-                    websockett = new WebSocket(`ws://${props.host}:8082`);
+                    websockett = new WebSocket(`wss://api.relaxg.app`);
                     websockett.onopen = () => {
                         console.log("SocketManager connected");
                         console.log("[WEBSOCKET STATUS !!] Clearing interval...")
@@ -163,7 +162,11 @@ export default function SocketManager(props: {
             const volumeEtaTimestamp = Number(eventData[6]);
             // Try getting current job
             const existingDefinedJobItem = jobsState.find((element) => element.title.name === titleName);
-            if (existingDefinedJobItem) console.log("[INFO] Job defined ", existingDefinedJobItem);
+            if (existingDefinedJobItem) {
+                console.log("[INFO] Job defined ", existingDefinedJobItem);
+            } else {
+                return;
+            }
 
             // Updating job volumes ref
             let existingTitlesVolumesIndex: VolumeItem[] | undefined = jobsVolumes.current.get(titleName);
@@ -225,14 +228,17 @@ export default function SocketManager(props: {
                 }
 
                 // Updating temp job variable with the temp volumes variable
-                existingDefinedJobItem!.title.volumes = existingTitlesVolumesIndex
-                existingDefinedJobItem!.title.running = isJobRunning(titleName);
+                if (existingDefinedJobItem) {
+                    existingDefinedJobItem!.title.volumes = existingTitlesVolumesIndex
+                    existingDefinedJobItem!.title.running = isJobRunning(titleName);
+                }
+                
 
                 // Updating jobVolumes global variable
                 jobsVolumes.current.set(titleName, existingTitlesVolumesIndex);
 
                 // Updating global job variable
-                setJobsState((prevState) => {
+                setJobsState(() => {
                     return jobsState.map((job) => {
                         if (job.title.name === titleName) {
                             return existingDefinedJobItem!
@@ -254,7 +260,7 @@ export default function SocketManager(props: {
     }
 
     useEffect(() => {
-        websocket.current = connect(new WebSocket(`ws://${props.host}:8082`));
+        websocket.current = connect(new WebSocket(`wss://api.relaxg.app`));
         websocket.current.onopen = () => {
             console.log("SocketManager connected");
             if (websocketInterval.current !== undefined) {
@@ -276,7 +282,7 @@ export default function SocketManager(props: {
         // TODO: check the stability of this solution
         router.refresh();
         jobsVolumes.current.clear(); 
-        setJobsState((prevState) => prevState = []); 
+        setJobsState(() => []); 
         websocket.current?.close();
     }
 

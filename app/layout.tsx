@@ -1,7 +1,6 @@
 import './globals.css';
 import { StackProvider, StackTheme } from "@stackframe/stack";
 import { stackServerApp } from "../stack";
-import NavBar from "@/components/navBar";
 
 export const metadata = {
     title: 'RelaxG',

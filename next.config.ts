@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { hostname } from "os";
 
 const nextConfig: NextConfig = {
     async redirects() {
@@ -20,6 +21,10 @@ module.exports = {
                 hostname: 'backend',
                 port: '8082',
             },
+            {
+                protocol: 'https',
+                hostname: 'api.relaxg.app',
+            }
         ],
     },
 }

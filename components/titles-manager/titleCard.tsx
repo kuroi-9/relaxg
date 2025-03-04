@@ -20,7 +20,7 @@ export default function TitleCard(props: {
                 borderStartStartRadius: "13px",
                 borderStartEndRadius: "13px"}}>
                 <Image
-                    src={"http://backend:8082/images/" + props.title["title-name"].replaceAll(" ", "_") + "_cover.jpg"}
+                    src={"https://api.relaxg.app/images/" + props.title["title-name"].replaceAll(" ", "_") + "_cover.jpg"}
                     alt="No cover available"
                     className="w-full mb-0 overflow-hidden rounded-ss-2xl rounded-se-2xl"
                     width={284}
