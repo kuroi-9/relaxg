@@ -115,21 +115,18 @@ export default function JobCard(props: {
             response.json().then((value) => {
                 if (value['status'] == 'deleted') {
                     const resumeBtn = document.getElementById("resume-btn-" + props.job.id);
-                    resumeBtn!.style.borderColor = '#374151';
                     resumeBtn!.textContent = 'Deleted';
-                    resumeBtn!.style.color = '#364050';
+                    resumeBtn!.classList.replace('primary-btn', 'secondary-btn');
                     setIsDeleted(true);
 
                     deleteBtn!.removeChild(deleteLoadingElement);
                     deleteBtn!.textContent = "Delete";
-                    deleteBtn?.classList.replace('text-red-500', 'text-gray-700')
-                    deleteBtn!.style.borderColor = '#364050';
 
                     document.getElementById('card-job-id-' + props.job.id)!.style.color = '#364050';
                     document.getElementById('card-job-id-' + props.job.id)!.style.borderColor = '#364050';
                     document.getElementById('card-job-title-name-' + props.job.id)!.style.color = '#364050';
                     document.getElementById("job-card-" + props.job.id)?.classList.remove('border-gray-700');
-                    document.getElementById("job-card-" + props.job.id)!.style.borderColor = '#0a0a0a';
+                    document.getElementById("job-card-" + props.job.id)!.style.borderColor = 'var(--background)';
                 }
             })
         });
@@ -182,11 +179,11 @@ export default function JobCard(props: {
                         id={"delete-btn-" + props.job.id}
                         className="primary-btn flex flex-row justify-center items-center border-2 mt-2 p-2 ml-2 text-red-500"
                         style={{
-                            borderColor: isLoading || props.job.title.running === true ? "darkred" : "red",
+                            borderColor: isLoading || isDeleted || props.job.title.running === true ? "darkred" : "red",
                             backgroundColor: "transparent",
                             minWidth: "80px",
                             maxHeight: '50px', 
-                            color: isLoading || props.job.title.running === true ? "darkred" : "red"
+                            color: isLoading || isDeleted || props.job.title.running === true ? "darkred" : "red"
                         }}
                         onClick={() => handleDelete()}>Delete
                     </button>
@@ -214,8 +211,9 @@ export default function JobCard(props: {
                     {!isDeleted ?
                         props.job.title.volumes.filter((element) => element.name !== "launcher.lock" && element.name !== "last_pid").map(volume => (
                             <div key={volume.name}>
+                            	<hr />
                                 <VolumeCard volume={volume} running={isRunning.current} />
-                                <hr />
+                                <hr style={{display: "none"}} />
                             </div>
                         )) : ""
                     }

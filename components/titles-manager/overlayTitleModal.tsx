@@ -82,7 +82,7 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string; d
                             onClick={() => handlePost()}
                             style={{ minWidth: "33%" }}>Create Job</button>
                         <button className={styles.actionButton + " secondary-btn"}
-                            style={{ minWidth: "33%" }}>Delete previous upscaling</button>
+                            style={{ minWidth: "33%", borderColor: "gray", color: "gray" }}>Delete previous upscaling</button>
                         <button className={styles.actionButton + " secondary-btn"} onClick={() => handleExit()}
                             style={{ minWidth: "33%" }}>Exit</button>
                     </div>

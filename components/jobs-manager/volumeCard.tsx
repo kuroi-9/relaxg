@@ -16,7 +16,7 @@ export default function VolumeCard(props: {
                 </div>
                 <div className="flex flex-col w-1/4 shrink-0 m-2" style={{ paddingLeft: "3px" }}>
                     <div className="flex flex-row justify-center">
-                        <h1 className="volume-computation-percentage absolute" style={{marginTop: "5px"}}>{!props.volume.completed ? Math.max(0, Number(props.volume.percentage!.toPrecision(3))) + "%" : ""}</h1>
+                        <h1 className="volume-computation-percentage absolute rounded-md" style={{marginTop: "5px"}}>{!props.volume.completed ? Math.max(0, Number(props.volume.percentage!.toPrecision(3))) + "%" : ""}</h1>
                     </div>
                     <div className="flex flex-row justify-center items-center" style={{
                         width: props.volume.completed ? "auto" : Math.max(0, Number(props.volume.percentage!.toPrecision(3))) + "%",

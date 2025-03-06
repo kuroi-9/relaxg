@@ -2,23 +2,23 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
     return {
-        name: 'Next.js PWA',
-        short_name: 'NextPWA',
-        description: 'A Progressive Web App built with Next.js',
+        name: 'RelaxG',
+        short_name: 'RelaxG',
+        description: 'A tool to help with manga upscaling',
         start_url: '/',
         display: 'standalone',
         background_color: '#ffffff',
         theme_color: '#000000',
         icons: [
             {
-                src: '/icon-192x192.png',
+                src: '../public/globe.svg',
                 sizes: '192x192',
-                type: 'image/png',
+                type: 'image/svg+xml',
             },
             {
-                src: '/icon-512x512.png',
+                src: '../public/globe.svg',
                 sizes: '512x512',
-                type: 'image/png',
+                type: 'image/svg+xml',
             },
         ],
     }

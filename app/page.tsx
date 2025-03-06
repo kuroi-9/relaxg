@@ -9,10 +9,15 @@ export default function Home() {
                     <h1 className="text-6xl">Loïc Delon</h1>
                     <h4 className="text-2xl">Développeur</h4>
                     <hr className="m-4" />
-                    <h4 className="text-1xl">Portfolio</h4>
                 </div>
 
-                <Link className="primary-btn" href="/app/jobs-manager">Essayer RelaxG</Link>
+                <div className="grid grid-rows-2 grid-flow-col gap-2">
+                    <Link className="primary-btn center" href="/app/jobs-manager">{"=>"} Essayer RelaxG - Ver.0.5 Rev.1</Link>
+                    <div className="grid grid-cols-2 grid-flow-row gap-2">
+                        <Link className="secondary-btn" href="https://github.com/kuroi-9">Github</Link>
+                        <Link className="secondary-btn" href="https://portfoliodelonl-kuroi-9s-projects.vercel.app/">Portfolio</Link>
+                    </div>
+                </div>
             </main>
         </div>
     );
