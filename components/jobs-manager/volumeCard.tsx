@@ -11,8 +11,8 @@ export default function VolumeCard(props: {
     return (
         <section className="flex flex-col w-full">
             <div className="flex flex-row justify-between w-full" style={{ minHeight: "50px" }}>
-                <div className="flex items-center">
-                    <h6 className="volume-title-label p-2 break-words">{props.volume.name}</h6>
+                <div className="flex items-center" style={{width: "70%"}}>
+                    <h6 className="volume-title-label p-2 whitespace-nowrap overflow-y-hidden">{props.volume.name}</h6>
                 </div>
                 <div className="flex flex-col w-1/4 shrink-0 m-2" style={{ paddingLeft: "3px" }}>
                     <div className="flex flex-row justify-center">
