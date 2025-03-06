@@ -20,7 +20,7 @@ export default function NavBar() {
     return (
         <nav className="nav-links-container z-10 flex flex-row justify-between mb-8 overflow-x-scroll fixed w-full"
             style={{
-                boxShadow: "0px 0px 200px 5px black",
+                boxShadow: "0px 0px 30px 1px black",
                 borderBottom: "1px solid gray",
             }}>
             <div className="nav-links-div flex flex-row items-center overflow-x-scroll">

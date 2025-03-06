@@ -30,6 +30,7 @@ export interface JobItem {
 export default function SocketManager(props: {
     jobs: [{ id: Key | null | undefined; "title-name": string; "title-id": number }];
     host: string;
+    dev: boolean;
 }) {
     const router = useRouter();
     const websocket = useRef<WebSocket>();
@@ -136,7 +137,7 @@ export default function SocketManager(props: {
             websocketInterval.current = setInterval(() => {
                 if (websockett && websockett.readyState === 3) {
                     console.log("[WEBSOCKET STATUS !!] Reconnecting...", websockett);
-                    websockett = new WebSocket(`wss://api.relaxg.app`);
+                    websockett = new WebSocket(`wss://api${(props.dev) ? '-dev' : ''}.relaxg.app`);
                     websockett.onopen = () => {
                         console.log("SocketManager connected");
                         console.log("[WEBSOCKET STATUS !!] Clearing interval...")
@@ -260,7 +261,7 @@ export default function SocketManager(props: {
     }
 
     useEffect(() => {
-        websocket.current = connect(new WebSocket(`wss://api.relaxg.app`));
+        websocket.current = connect(new WebSocket(`wss://api${(props.dev) ? '-dev' : ''}.relaxg.app`));
         websocket.current.onopen = () => {
             console.log("SocketManager connected");
             if (websocketInterval.current !== undefined) {
@@ -297,6 +298,7 @@ export default function SocketManager(props: {
                         host={props.host}
                         setJobRunningToUndefined={setJobRunningToUndefined}
                         resetTitleVolumesEntry={resetTitleVolumesEntry}
+                        dev={props.dev}
                     ></JobCard>
                 ))}
             </ul>

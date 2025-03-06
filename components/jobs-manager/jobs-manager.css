@@ -22,6 +22,12 @@
     background-color: var(--foreground);
 }
 
+.primary-btn {
+  padding: 1rem;
+  border-radius: 5px;
+  background-color: var(--foreground);
+  color: var(--background);
+}
 .loader {
     border: 2px solid #f3f3f3;
     /* Light grey */

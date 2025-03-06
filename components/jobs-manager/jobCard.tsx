@@ -11,6 +11,7 @@ export default function JobCard(props: {
     host: string;
     setJobRunningToUndefined: (titleName: string) => void;
     resetTitleVolumesEntry: (titleName: string) => void;
+    dev: boolean;
 }) {
     const stopOrResumeElement = useRef<ReactNode>();
     const stopOrResumeElementStatus = useRef<string | undefined>();
@@ -24,13 +25,13 @@ export default function JobCard(props: {
     // Init ReactNode variables values
     resumeElement.current = <button
         id={"resume-btn-" + props.job.id}
-        className="stoporresume-btn resume-btn flex justify-center items-center border-2 p-2 shrink-0"
+        className="stoporresume-btn primary-btn resume-btn flex justify-center items-center border-2 p-2 shrink-0"
         style={{ width: '10%', minWidth: '130px', minHeight: '50px' }}
         onClick={() => handleResume()}>
         <Emoji text=":play_button:" /><p className="ml-2">Resume</p></button>;
     stopElement.current = <button
         id={"stop-btn-" + props.job.id}
-        className="stoporresume-btn stop-btn flex justify-center items-center border-2 p-2 shrink-0"
+        className="stoporresume-btn btn-primary stop-btn flex justify-center items-center border-2 p-2 shrink-0"
         style={{ width: '10%', minWidth: '130px', minHeight: '50px' }}
         onClick={() => handleStop()}>
         <Emoji text=":stop_sign:" /><p className="ml-2">Stop</p></button>;
@@ -45,7 +46,7 @@ export default function JobCard(props: {
         } else {
             setIsLoading(true);
             stopOrResumeElement.current === undefined
-            fetch(`https://api.relaxg.app/jobs/resume/`, {
+            fetch(`https://api${(props.dev) ? '-dev' : ''}.relaxg.app/jobs/resume/`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -72,7 +73,7 @@ export default function JobCard(props: {
     const handleStop = useCallback(() => {
         setIsLoading(true);
         stopOrResumeElement.current === undefined
-        fetch(`https://api.relaxg.app/jobs/stop/`, {
+        fetch(`https://api${(props.dev) ? '-dev' : ''}.relaxg.app/jobs/stop/`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -103,7 +104,7 @@ export default function JobCard(props: {
         deleteLoadingElement.className = 'loader-red';
         deleteBtn!.appendChild(deleteLoadingElement);
 
-        fetch(`https://api.relaxg.app/jobs/delete/`, {
+        fetch(`https://api${(props.dev) ? '-dev' : ''}.relaxg.app/jobs/delete/`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

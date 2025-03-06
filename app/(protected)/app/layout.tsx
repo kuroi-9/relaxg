@@ -5,7 +5,7 @@ import { StackProvider, StackTheme } from "@stackframe/stack";
 export const metadata = {
     title: 'RelaxG',
     description:
-        'Tool that helps to use a manga upscaling model',
+        'A tool to help with manga upscaling',
 };
 
 export default function RootLayout(props: {

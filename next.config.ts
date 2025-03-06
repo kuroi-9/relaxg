@@ -23,7 +23,7 @@ module.exports = {
             },
             {
                 protocol: 'https',
-                hostname: 'api.relaxg.app',
+                hostname: `api${(process.env.MODE === 'developpment') ? '-dev' : ''}.relaxg.app`,
             }
         ],
     },

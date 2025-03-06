@@ -4,13 +4,13 @@ import styles from "@/app/(protected)/app/titles-manager/titleActionsModal.modul
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function OverlayTitleModal(props: { id: string; hostIp: string }) {
+export default function OverlayTitleModal(props: { id: string; hostIp: string; dev: boolean; }) {
     const router = useRouter();
     const [title, setTitle] = useState<string>("Loading...");
 
     console.log(props.hostIp)
     useEffect(() => {
-        fetch(`https://api.relaxg.app/titles/` + props.id)
+        fetch(`https://api${(props.dev) ? '-dev' : ''}.relaxg.app/titles/` + props.id)
             .then(res => {
                 console.log(res.json()
                     .then(value => {
@@ -36,7 +36,7 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string })
         postBtn!.setAttribute('disabled', 'disabled');
         postBtn!.appendChild(postLoadingElement);
 
-        fetch(`https://api.relaxg.app/jobs/`, {
+        fetch(`https://api${(props.dev) ? '-dev' : ''}.relaxg.app/jobs/`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

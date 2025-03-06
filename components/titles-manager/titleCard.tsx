@@ -9,6 +9,7 @@ export default function TitleCard(props: {
         id: Key | null | undefined; "title-name": string;
         "publication-status": string; "post-treated": boolean
     },
+    dev: boolean
 }) {
     return (
         <div className="title-card-container border-2 flex flex-col rounded-2xl" style={{maxWidth: 300, maxHeight: 600, minWidth: 300, minHeight: 600}}>
@@ -20,7 +21,7 @@ export default function TitleCard(props: {
                 borderStartStartRadius: "13px",
                 borderStartEndRadius: "13px"}}>
                 <Image
-                    src={"https://api.relaxg.app/images/" + props.title["title-name"].replaceAll(" ", "_") + "_cover.jpg"}
+                    src={`https://api${(props.dev) ? '-dev' : ''}.relaxg.app/images/` + props.title["title-name"].replaceAll(" ", "_") + "_cover.jpg"}
                     alt="No cover available"
                     className="w-full mb-0 overflow-hidden rounded-ss-2xl rounded-se-2xl"
                     width={284}
