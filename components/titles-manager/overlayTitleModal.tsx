@@ -3,6 +3,7 @@
 import styles from "@/app/(protected)/app/titles-manager/titleActionsModal.module.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import "./titles-manager.css";
 
 export default function OverlayTitleModal(props: { id: string; hostIp: string; dev: boolean; }) {
     const router = useRouter();
@@ -74,15 +75,15 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string; d
                     <div className="titleActionsModal__body">
                         Please choose an action below.
                     </div>
-                    <div className="titleActionsModal__footer flex flex-row w-10/12 justify-between shrink-0 flex-wrap">
+                    <div className="titleActionsModal__footer flex flex-row w-full justify-between shrink-0 flex-wrap">
                         <button
                             id={"post-button-" + props.id}
-                            className={styles.actionButton}
+                            className={styles.actionButton + " secondary-btn"}
                             onClick={() => handlePost()}
                             style={{ minWidth: "33%" }}>Create Job</button>
-                        <button className={styles.actionButton}
+                        <button className={styles.actionButton + " secondary-btn"}
                             style={{ minWidth: "33%" }}>Delete previous upscaling</button>
-                        <button className={styles.actionButton} onClick={() => handleExit()}
+                        <button className={styles.actionButton + " secondary-btn"} onClick={() => handleExit()}
                             style={{ minWidth: "33%" }}>Exit</button>
                     </div>
                 </div>

@@ -26,13 +26,13 @@ export default function JobCard(props: {
     resumeElement.current = <button
         id={"resume-btn-" + props.job.id}
         className="stoporresume-btn primary-btn resume-btn flex justify-center items-center border-2 p-2 shrink-0"
-        style={{ width: '10%', minWidth: '130px', minHeight: '50px' }}
+        style={{ width: '10%', minWidth: '130px', minHeight: '50px', maxHeight: '45px'  }}
         onClick={() => handleResume()}>
         <Emoji text=":play_button:" /><p className="ml-2">Resume</p></button>;
     stopElement.current = <button
         id={"stop-btn-" + props.job.id}
-        className="stoporresume-btn btn-primary stop-btn flex justify-center items-center border-2 p-2 shrink-0"
-        style={{ width: '10%', minWidth: '130px', minHeight: '50px' }}
+        className="stoporresume-btn primary-btn stop-btn flex justify-center items-center border-2 p-2 shrink-0"
+        style={{ width: '10%', minWidth: '130px', minHeight: '50px', maxHeight: '45px'  }}
         onClick={() => handleStop()}>
         <Emoji text=":stop_sign:" /><p className="ml-2">Stop</p></button>;
 
@@ -148,7 +148,7 @@ export default function JobCard(props: {
         }
     } else if (
         ((stopOrResumeElementStatus.current === "stop" && props.job.title.running === false)
-        || (stopOrResumeElementStatus.current === "resume" && props.job.title.running === true))
+            || (stopOrResumeElementStatus.current === "resume" && props.job.title.running === true))
         && !isLoading
     ) { // To fix incoherence when the client has lost connection to websocket and then reconnects
         stopOrResumeElement.current = undefined;
@@ -158,43 +158,50 @@ export default function JobCard(props: {
     isRunning.current = props.job.title.running === true;
 
     return (
-        <div id={"job-card-" + props.job.id} className="job-card border-2 rounded-2xl border-gray-700 m-2 p-2">
+        <div
+            id={"job-card-" + props.job.id}
+            className="job-card border-gray-700 m-2 p-2"
+            style={{border: "solid gray 1px"}}>
             {/* <h1>{stopOrResumeElement.current}</h1>
             <h1>load {isLoading ? "load" : "noload"}</h1>
             <h1>del {isDeleted ? "del" : "nodel"}</h1> */}
-            <div className="card flex flex-col flex-wrap justify-between">
+            <div className="card flex flex-col flex-wrap justify-between w-full">
                 <div className="flex flex-row flex-wrap items-center w-full">
-                    <h1 id={"card-job-id-" + props.job.id} className="card-job-id-label flex border-2 p-2 items-center justify-center rounded-ss-lg" style={{ width: "4rem", minHeight: "50px" }}>{props.job.id}</h1>
+                    <h1 id={"card-job-id-" + props.job.id} className="card-job-id-label flex rounded-md p-2 items-center justify-center" style={{ width: "4rem", minHeight: "50px", border: "1px solid gray" }}>{props.job.id}</h1>
                     <h1 id={"card-job-title-name-" + props.job.id} className="card-job-title-name-label underline p-2 ml-2">{props.job.title.name}</h1>
                 </div>
                 <div className="job-infos flex flex-row flex-wrap">
                     <div className="flex flex-row mt-2 flex-wrap">
                         {isLoading ? <button disabled
-                            className="stoporresume-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0 border-gray-700"
-                            style={{ width: '10%', minWidth: '130px', minHeight: '50px' }}>
+                            className="stoporresume-btn primary-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0 border-gray-700"
+                            style={{ width: '10%', minWidth: '130px', minHeight: '50px', maxHeight: '45px' }}>
                             <div className='loader' />
                         </button> : stopOrResumeElement.current}
                     </div>
                     <button disabled={isLoading || isDeleted || props.job.title.running === true}
                         id={"delete-btn-" + props.job.id}
-                        className="flex flex-row justify-center items-center border-2 mt-2 p-2 ml-2 text-red-500"
+                        className="primary-btn flex flex-row justify-center items-center border-2 mt-2 p-2 ml-2 text-red-500"
                         style={{
                             borderColor: isLoading || props.job.title.running === true ? "darkred" : "red",
-                            minWidth: "80px"
+                            backgroundColor: "transparent",
+                            minWidth: "80px",
+                            maxHeight: '50px', 
+                            color: isLoading || props.job.title.running === true ? "darkred" : "red"
                         }}
                         onClick={() => handleDelete()}>Delete
                     </button>
                 </div>
-                <div className="border-2 mt-2 flex flex-row w-full"
+                <div className="border-4 mt-2 flex flex-row rounded-md w-full"
                     style={{
                         borderColor: (isRunning.current === true ? "#fcd34d" : "#374151"), height: "3rem",
-                        display: (isRunning.current === true ? "block" : "none")
+                        display: (isRunning.current === true ? "block" : "none"),
+                        minHeight: '50px',
                     }}>
                     <div className="h-full flex flex-row justify-center items-center loader-bar" style={{
-                        backgroundColor: (isRunning.current === true ? "green" : "slategray")
+                        backgroundColor: (isRunning.current === true ? "green" : "slategray"), borderRadius: "2px"
                     }}>
                         <p className="z-5 shrink-0 text-center">
-                            {props.job.eta ? "Next volume ETA => " + new Date(props.job.eta).getHours() + ":"
+                            {props.job.eta ? "Next volume ETA => " + (new Date(props.job.eta).getHours() < 10 ? "0" : "") + new Date(props.job.eta).getHours() + ":"
                                 + (new Date(props.job.eta).getMinutes() < 10 ? "0" : "") + new Date(props.job.eta).getMinutes()
                                 //: (globalPercentage.current > 0 ? "Waiting for ETA..." : "Fetching status...")
                                 : "Waiting for ETA..."}
@@ -202,17 +209,17 @@ export default function JobCard(props: {
                     </div>
                 </div>
             </div>
-            <div className="job-volumes-card-container card mt-2 border-2 flex flex-row rounded-es-lg rounded-ee-lg">
+            <div className="job-volumes-card-container card mt-2 flex flex-row">
                 <ul className="job-volumes-card w-full">
                     {!isDeleted ?
                         props.job.title.volumes.filter((element) => element.name !== "launcher.lock" && element.name !== "last_pid").map(volume => (
                             <div key={volume.name}>
                                 <VolumeCard volume={volume} running={isRunning.current} />
-                                <hr/>
+                                <hr />
                             </div>
                         )) : ""
                     }
-                    
+
                 </ul>
             </div>
         </div>

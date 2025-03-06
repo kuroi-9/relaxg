@@ -22,3 +22,22 @@
     content: 'x';
     color: var(--foreground);
 }
+
+.primary-btn {
+    padding: 1rem;
+    border-radius: .375rem;
+    border: 1px solid var(--foreground);
+    background-color: var(--foreground);
+    color: var(--background);
+}
+
+.secondary-btn {
+    padding: 1rem;
+    border-radius: .375rem;
+    border: 1px solid var(--foreground);
+    background-color: transparent;
+    color: var(--foreground);
+    min-height: 50px;
+    max-height: 50px;
+    line-height: 100%;
+}

@@ -12,28 +12,29 @@ export default function TitleCard(props: {
     dev: boolean
 }) {
     return (
-        <div className="title-card-container border-2 flex flex-col rounded-2xl" style={{maxWidth: 300, maxHeight: 600, minWidth: 300, minHeight: 600}}>
+        <div className="title-card-container rounded-md flex flex-col" style={{maxWidth: 300, maxHeight: 600, minWidth: 300, minHeight: 600, border: "1px solid gray"}}>
             <div 
             className="flex flex-col justify-center items-center" 
             style={{
                 minHeight: 400, 
                 backgroundColor: "var(--foreground)",
-                borderStartStartRadius: "13px",
-                borderStartEndRadius: "13px"}}>
+                borderStartStartRadius: "5px",
+                borderStartEndRadius: "5px"}}>
                 <Image
                     src={`https://api${(props.dev) ? '-dev' : ''}.relaxg.app/images/` + props.title["title-name"].replaceAll(" ", "_") + "_cover.jpg"}
                     alt="No cover available"
-                    className="w-full mb-0 overflow-hidden rounded-ss-2xl rounded-se-2xl"
+                    className="w-full mb-0 overflow-hidden"
                     width={284}
                     height={400}
                     style={{
                         backgroundColor: "var(--background)",
-                        borderStartStartRadius: "14.2px",
-                        borderStartEndRadius: "14.2px"}}
+                        borderStartStartRadius: "5px",
+                        borderStartEndRadius: "5px"}}
                 />
             </div>
             <div
-                className={`title-card-name-container border-t-2 title-card mt-0 h-full w-full bg-${props.title["post-treated"] ? "green" : "black"}-600`}>
+                className={`title-card-name-container title-card mt-0 h-full w-full bg-${props.title["post-treated"] ? "green" : "black"}-600`}
+                style={{borderTop: "1px solid gray"}}>
                 <div className="card h-full flex flex-col justify-between items-center">
                     <h3 className="card-title p-2" style={{textAlign: "center"}}>{props.title["title-name"]}</h3>
                     <div className="flex flex-col justify-between items-center">

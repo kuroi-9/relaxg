@@ -40,7 +40,7 @@ export default function NavBar() {
                     borderLeft: "1px solid gray",
                     boxShadow: (window.innerWidth < 660) ? "0px 0px 30px 5px var(--background)" : "",
                 }}>
-                <button className="primary-btn" onClick={() => user?.signOut()}>Leave</button>
+                <button className="secondary-btn" onClick={() => user?.signOut()}>Leave</button>
             </div>
         </nav>
     )

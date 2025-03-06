@@ -25,6 +25,16 @@ body {
   background-color: var(--background);
 }
 
+.nav-links-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.nav-links-container {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 /* Hide scrollbar for IE, Edge and Firefox */
 .nav-link {
   color: var(--background);
@@ -45,9 +55,18 @@ body.modal-open {
 
 .primary-btn {
   padding: 1rem;
-  border-radius: 5px;
+  border-radius: .375rem;
+  border: 1px solid var(--foreground);
   background-color: var(--foreground);
   color: var(--background);
+}
+
+.secondary-btn {
+  padding: 1rem;
+  border-radius: .375rem;
+  border: 1px solid var(--foreground);
+  background-color: transparent;
+  color: var(--foreground);
 }
 
 .primary-input {
@@ -59,6 +78,7 @@ body.modal-open {
 }
 
 .primary-btn:active,
+.secondary-btn:active,
 .primary-input:focus,
 .nav-link:active {
   outline: 6px solid #fcd34d;
