@@ -32,7 +32,6 @@
 }
 
 .secondary-btn {
-    padding: 1rem;
     border-radius: .375rem;
     border: 1px solid var(--foreground);
     background-color: transparent;

@@ -75,7 +75,7 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string; d
                     <div className="titleActionsModal__body">
                         Please choose an action below.
                     </div>
-                    <div className="titleActionsModal__footer flex flex-row w-full justify-between shrink-0 flex-wrap">
+                    <div className="titleActionsModal__footer flex flex-row w-10/12 justify-between shrink-0 flex-wrap">
                         <button
                             id={"post-button-" + props.id}
                             className={styles.actionButton + " secondary-btn"}
