@@ -7,6 +7,8 @@ export const stackServerApp = new StackServerApp({
     urls: { 
         signIn: "/sign-in",
         afterSignIn: "/app/jobs-manager",
-        //TODO: Say goodbye to Stack Auth...
+        //NOT redirecting... I don't know why... workaround in middleware
+        //accountSettings: '/sign-in',
+        //Staying with stack auth as a workaround has been found :)
     },
 });

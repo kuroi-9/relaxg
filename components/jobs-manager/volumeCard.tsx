@@ -19,8 +19,8 @@ export default function VolumeCard(props: {
                 <div className="flex items-center" style={{width: "74.5%", borderRight: "1px var(--foreground)", borderStyle: (scroll < document.getElementById(`bruh-${props.volume.name}`)?.scrollWidth! - document.getElementById(`bruh-${props.volume.name}`)?.clientWidth! - 5) ? "dashed" : "hidden", borderWidth: "50%"}}>
                     <h6 id={`bruh-${props.volume.name}`} className={`volume-title-label p-2 pl-0 whitespace-nowrap overflow-y-hidden`} onScroll={() => handleScroll(document.getElementById(`bruh-${props.volume.name}`)?.scrollLeft!)}>{props.volume.name}</h6>
                 </div>
-                <div className="min-h-full flex flex-col" style={{borderRight: "1px solid var(--foreground)"}}></div>
-                <div className="flex flex-col w-1/4 shrink-0">
+                <div className="min-h-full flex flex-col"></div>
+                <div className="flex flex-col w-1/4 shrink-0" style={{borderLeft: "1px solid var(--foreground)"}}>
                     
                     <div className="flex m-2 mr-0 rounded-md flex-row justify-center items-center" style={{
                         width: props.volume.completed ? "auto" : "auto",

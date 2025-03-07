@@ -4,6 +4,7 @@ import { Key, useEffect, useRef, useState } from "react";
 import JobCard from "./jobCard";
 import { useRouter } from "next/navigation";
 import "./jobs-manager.css";
+import { useUser } from "@stackframe/stack"
 
 export interface VolumeItem {
     name: Key;
@@ -37,6 +38,8 @@ export default function SocketManager(props: {
     const websocketInterval = useRef<NodeJS.Timeout>();
     const [jobsState, setJobsState] = useState<JobItem[] | []>([]);
     const jobsVolumes = useRef<Map<Key, VolumeItem[] | undefined>>(new Map());
+    const signedOut = useRef<boolean>(false);
+    signedOut.current = useUser() ? true : false;
 
     console.log("[REBUILD]", jobsState, jobsVolumes.current);
 
@@ -134,18 +137,20 @@ export default function SocketManager(props: {
         websocket.current = websockett
         websocket.current.onclose = () => {
             console.log("SocketManager disconnected");
-            websocketInterval.current = setInterval(() => {
-                if (websockett && websockett.readyState === 3) {
-                    console.log("[WEBSOCKET STATUS !!] Reconnecting...", websockett);
-                    websockett = new WebSocket(`wss://api${(props.dev) ? '-dev' : ''}.relaxg.app`);
-                    websockett.onopen = () => {
-                        console.log("SocketManager connected");
-                        console.log("[WEBSOCKET STATUS !!] Clearing interval...")
-                        clearInterval(websocketInterval.current);
-                        connect(websockett);
+            if (!signedOut.current) {       
+                websocketInterval.current = setInterval(() => {
+                    if (websockett && websockett.readyState === 3) {
+                        console.log("[WEBSOCKET STATUS !!] Reconnecting...", websockett);
+                        websockett = new WebSocket(`wss://api${(props.dev) ? '-dev' : ''}.relaxg.app`);
+                        websockett.onopen = () => {
+                            console.log("SocketManager connected");
+                            console.log("[WEBSOCKET STATUS !!] Clearing interval...")
+                            clearInterval(websocketInterval.current);
+                            connect(websockett);
+                        }
                     }
-                }
-            }, 3000)
+                }, 3000)
+            }
         }
 
         websocket.current.onmessage = (event: MessageEvent) => {
@@ -272,6 +277,7 @@ export default function SocketManager(props: {
 
         return () => {
             websocket.current?.close();
+            return;
         }
     }, [props.host, props.jobs]);
 

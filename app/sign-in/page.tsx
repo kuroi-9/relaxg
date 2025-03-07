@@ -1,4 +1,5 @@
 'use client';
+
 import { useStackApp } from "@stackframe/stack";
 import { useState } from "react";
 import Emoji from "react-emoji-render";
