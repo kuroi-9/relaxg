@@ -18,8 +18,8 @@
 }
 
 .volume-computation-percentage {
-    color: var(--background);
-    background-color: var(--foreground);
+    color: white;
+    background-color: #171717;
     padding-left: 4px;
     padding-right: 4px;
 }

@@ -299,6 +299,7 @@ export default function SocketManager(props: {
                         setJobRunningToUndefined={setJobRunningToUndefined}
                         resetTitleVolumesEntry={resetTitleVolumesEntry}
                         dev={props.dev}
+                        refresh={handleRefresh}
                     ></JobCard>
                 ))}
             </ul>

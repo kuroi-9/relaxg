@@ -11,11 +11,11 @@ export default function Home() {
                     <hr className="m-4" />
                 </div>
 
-                <div className="grid grid-rows-2 grid-flow-col gap-2">
-                    <Link className="primary-btn center" href="/app/jobs-manager">{"=>"} Essayer RelaxG - Ver.0.5 Rev.1</Link>
+                <div className="grid grid-rows-[1fr_10px] grid-flow-col gap-2 w-full">
+                    <Link className="primary-btn text-center" href="/app/jobs-manager">Essayer RelaxG - v0.5</Link>
                     <div className="grid grid-cols-2 grid-flow-row gap-2">
-                        <Link className="secondary-btn" href="https://github.com/kuroi-9">Github</Link>
-                        <Link className="secondary-btn" href="https://portfoliodelonl-kuroi-9s-projects.vercel.app/">Portfolio</Link>
+                        <Link className="secondary-btn text-center" href="https://github.com/kuroi-9">Github</Link>
+                        <Link className="secondary-btn text-center" href="https://portfoliodelonl-kuroi-9s-projects.vercel.app/">Portfolio</Link>
                     </div>
                 </div>
             </main>

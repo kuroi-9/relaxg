@@ -26,10 +26,11 @@ export default function NavBar() {
             <div className="nav-links-div flex flex-row items-center overflow-x-scroll">
                 {navLinks.map(link => (
                     <Link href={link.href} key={link.href}
-                        className={"nav-link p-4 shrink-0 m-4 rounded-md "}
+                        className={"nav-link p-4 shrink-0 m-4 rounded-md primary-btn"}
                         style={{
-                            color: pathname == link.href ? "var(--background)" : "var(--foreground)",
-                            backgroundColor: pathname == link.href ? "var(--foreground)" : "",
+                        	color: pathname == link.href ? "white" : "var(--foreground)",
+                            borderColor: pathname == link.href ? "var(--foreground)" : "var(--background)",
+                            backgroundColor: pathname == link.href ? "#171717" : "var(--background)"
                         }}
                     >{link.label}</Link>
                 ))}

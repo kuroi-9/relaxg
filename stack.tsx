@@ -6,6 +6,7 @@ export const stackServerApp = new StackServerApp({
     tokenStore: "nextjs-cookie",
     urls: { 
         signIn: "/sign-in",
-        afterSignIn: "/app/jobs-manager"
+        afterSignIn: "/app/jobs-manager",
+        //TODO: Say goodbye to Stack Auth...
     },
 });

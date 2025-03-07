@@ -12,6 +12,7 @@ export default function JobCard(props: {
     setJobRunningToUndefined: (titleName: string) => void;
     resetTitleVolumesEntry: (titleName: string) => void;
     dev: boolean;
+    refresh: () => void;
 }) {
     const stopOrResumeElement = useRef<ReactNode>();
     const stopOrResumeElementStatus = useRef<string | undefined>();
@@ -25,14 +26,24 @@ export default function JobCard(props: {
     // Init ReactNode variables values
     resumeElement.current = <button
         id={"resume-btn-" + props.job.id}
-        className="stoporresume-btn primary-btn resume-btn flex justify-center items-center border-2 p-2 shrink-0"
-        style={{ width: '10%', minWidth: '130px', minHeight: '50px', maxHeight: '45px'  }}
+        className="stoporresume-btn secondary-btn resume-btn flex justify-center items-center border-2 p-2 shrink-0"
+        style={{
+            width: '10%', minWidth: '130px', minHeight: '50px', maxHeight: '45px',
+            color: "white",
+            borderColor: "var(--foreground)",
+            backgroundColor: "#171717"
+        }}
         onClick={() => handleResume()}>
         <Emoji text=":play_button:" /><p className="ml-2">Resume</p></button>;
     stopElement.current = <button
         id={"stop-btn-" + props.job.id}
-        className="stoporresume-btn primary-btn stop-btn flex justify-center items-center border-2 p-2 shrink-0"
-        style={{ width: '10%', minWidth: '130px', minHeight: '50px', maxHeight: '45px'  }}
+        className="stoporresume-btn secondary-btn stop-btn flex justify-center items-center border-2 p-2 shrink-0"
+        style={{
+            width: '10%', minWidth: '130px', minHeight: '50px', maxHeight: '45px',
+            color: "white",
+            borderColor: "var(--foreground)",
+            backgroundColor: "#171717"
+        }}
         onClick={() => handleStop()}>
         <Emoji text=":stop_sign:" /><p className="ml-2">Stop</p></button>;
 
@@ -127,6 +138,8 @@ export default function JobCard(props: {
                     document.getElementById('card-job-title-name-' + props.job.id)!.style.color = '#364050';
                     document.getElementById("job-card-" + props.job.id)?.classList.remove('border-gray-700');
                     document.getElementById("job-card-" + props.job.id)!.style.borderColor = 'var(--background)';
+
+                    props.refresh();
                 }
             })
         });
@@ -158,7 +171,7 @@ export default function JobCard(props: {
         <div
             id={"job-card-" + props.job.id}
             className="job-card border-gray-700 m-2 p-2"
-            style={{border: "solid gray 1px"}}>
+            style={{ border: "solid gray 1px" }}>
             {/* <h1>{stopOrResumeElement.current}</h1>
             <h1>load {isLoading ? "load" : "noload"}</h1>
             <h1>del {isDeleted ? "del" : "nodel"}</h1> */}
@@ -170,8 +183,13 @@ export default function JobCard(props: {
                 <div className="job-infos flex flex-row flex-wrap">
                     <div className="flex flex-row mt-2 flex-wrap">
                         {isLoading ? <button disabled
-                            className="stoporresume-btn primary-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0 border-gray-700"
-                            style={{ width: '10%', minWidth: '130px', minHeight: '50px', maxHeight: '45px' }}>
+                            className="stoporresume-btn secondary-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0 border-gray-700"
+                            style={{
+                                width: '10%', minWidth: '130px', minHeight: '50px', maxHeight: '45px',
+                                color: "white",
+                                borderColor: "var(--foreground)",
+                                backgroundColor: "#171717"
+                            }}>
                             <div className='loader' />
                         </button> : stopOrResumeElement.current}
                     </div>
@@ -182,7 +200,7 @@ export default function JobCard(props: {
                             borderColor: isLoading || isDeleted || props.job.title.running === true ? "darkred" : "red",
                             backgroundColor: "transparent",
                             minWidth: "80px",
-                            maxHeight: '50px', 
+                            maxHeight: '50px',
                             color: isLoading || isDeleted || props.job.title.running === true ? "darkred" : "red"
                         }}
                         onClick={() => handleDelete()}>Delete
@@ -211,9 +229,9 @@ export default function JobCard(props: {
                     {!isDeleted ?
                         props.job.title.volumes.filter((element) => element.name !== "launcher.lock" && element.name !== "last_pid").map(volume => (
                             <div key={volume.name}>
-                            	<hr />
+                                <hr />
                                 <VolumeCard volume={volume} running={isRunning.current} />
-                                <hr style={{display: "none"}} />
+                                <hr style={{ display: "none" }} />
                             </div>
                         )) : ""
                     }
