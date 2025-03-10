@@ -138,8 +138,9 @@ export default function JobCard(props: {
                     document.getElementById('card-job-title-name-' + props.job.id)!.style.color = '#364050';
                     document.getElementById("job-card-" + props.job.id)?.classList.remove('border-gray-700');
                     document.getElementById("job-card-" + props.job.id)!.style.borderColor = 'var(--background)';
-
-                    props.refresh();
+                    document.getElementById("job-volumes-card" + props.job.id)!.style.border = 'none';
+                    
+                    //props.refresh();
                 }
             })
         });
@@ -225,7 +226,7 @@ export default function JobCard(props: {
                 </div>
             </div>
             <div className="job-volumes-card-container card mt-2 flex flex-row">
-                <ul className="job-volumes-card w-full rounded-md" style={{border:`1px solid ${isRunning.current ? "var(--foreground)" : "gray"}`}}>
+                <ul id={"job-volumes-card" + props.job.id} className="job-volumes-card w-full rounded-md" style={{border:`1px solid ${isRunning.current ? "var(--foreground)" : "gray"}`}}>
                     {!isDeleted ?
                         props.job.title.volumes.filter((element) => element.name !== "launcher.lock" && element.name !== "last_pid").map(volume => (
                             <div key={volume.name}>

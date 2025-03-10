@@ -12,7 +12,7 @@ export default function TitleCard(props: {
     dev: boolean
 }) {
     return (
-        <div className="title-card-container rounded-md flex flex-col" style={{maxWidth: 300, maxHeight: 600, minWidth: 300, minHeight: 600, border: "1px solid gray"}}>
+        <div className="title-card-container rounded-md flex flex-col" style={{maxWidth: 300, maxHeight: 600, minWidth: 300, border: "1px solid gray"}}>
             <div 
             className="flex flex-col justify-center items-center" 
             style={{

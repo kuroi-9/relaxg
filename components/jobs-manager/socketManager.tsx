@@ -2,7 +2,6 @@
 
 import { Key, useEffect, useRef, useState } from "react";
 import JobCard from "./jobCard";
-import { useRouter } from "next/navigation";
 import "./jobs-manager.css";
 
 export interface VolumeItem {
@@ -32,7 +31,6 @@ export default function SocketManager(props: {
     host: string;
     dev: boolean;
 }) {
-    const router = useRouter();
     const websocket = useRef<WebSocket>(undefined);
     const websockets = useRef<WebSocket[]>([]);
     const websocketInterval = useRef<NodeJS.Timeout>();
@@ -143,10 +141,11 @@ export default function SocketManager(props: {
      * Refreshs the job lists, making deleted jobs disapear
      */
     const handleRefresh = () => {
-        router.refresh();
-        jobsVolumes.current.clear();
-        setJobsState(() => []);
-        websocket.current?.close();
+        // router.refresh();
+        // jobsVolumes.current.clear();
+        // setJobsState(() => []);
+        // websocket.current?.close();
+        window.location.reload()
     }
 
     /**

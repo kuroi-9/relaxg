@@ -1,3 +1,4 @@
+export const dynamic = 'force-static'
 
 import TitleCard from "@/components/titles-manager/titleCard";
 import { Key } from "react";
@@ -26,11 +27,12 @@ export default async function Page() {
     return (
         <ul className="flex flex-row flex-wrap justify-center">
             {titlesArray.map((title: TitleItem) => (
-                <Link className="title-card m-4 flex flex-col items-center"
+                <Link 
+                    className="title-card m-4 flex flex-col items-center"
                     key={title.id} href={{
                         pathname: `/app/titles/${title.id}`,
                         query: { name: title["title-name"] }
-                    }}>
+                    }} scroll={false}>
                     <TitleCard
                         key={title.id}
                         title={title}
