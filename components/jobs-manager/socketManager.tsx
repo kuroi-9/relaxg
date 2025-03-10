@@ -42,7 +42,7 @@ export default function SocketManager(props: {
     if ((jobsState.length === 0 && props.jobs.length > 0) || jobsState.length !== props.jobs.length) {
         // Init global jobs state
         setJobsState(props.jobs.sort(function (a, b) {
-            return a.id!.toString()
+            return -a.id!.toString()
                 .localeCompare(b.id!.toString());
         }).map((job: { id: Key | null | undefined; "title-name": string; "title-id": number }) => (
             {
