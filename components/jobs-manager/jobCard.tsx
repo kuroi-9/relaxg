@@ -127,6 +127,7 @@ export default function JobCard(props: {
                 if (value['status'] == 'deleted') {
                     const resumeBtn = document.getElementById("resume-btn-" + props.job.id);
                     resumeBtn!.textContent = 'Deleted';
+                    resumeBtn!.setAttribute('disabled', 'true');
                     resumeBtn!.classList.replace('primary-btn', 'secondary-btn');
                     setIsDeleted(true);
 

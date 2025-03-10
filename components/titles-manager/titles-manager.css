@@ -10,6 +10,11 @@
     border-color: var(--foreground);
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.title-card-name-container::-webkit-scrollbar {
+  display: none;
+}
+
 .close-button {
     background-color: var(--foreground);
 }

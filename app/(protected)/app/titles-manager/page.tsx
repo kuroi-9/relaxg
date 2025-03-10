@@ -12,22 +12,26 @@ interface TitleItem {
 }
 
 export default async function Page() {
-    //TODO: Implement Incremental Static Regeneration (ISR)
-    const titleData = await fetch(`https://api${(process.env.MODE === 'developpment') ? '-dev' : ''}.relaxg.app/titles/`).then((res) =>
-        res.json()
-    )
-    const titlesArray: TitleItem[] = [];
+    // Fetching using ISR, so the static page will be regenerated each 60 seconds here
+    const titleData = await fetch(
+        `https://api${(process.env.MODE === 'developpment')
+            ? '-dev'
+            : ''}.relaxg.app/titles/`,
+        { next: { revalidate: 60 } }).then((res) =>
+            res.json()
+        )
+    const titles: TitleItem[] = [];
     for (const title of titleData) {
-        titlesArray.push(title);
+        titles.push(title);
     }
-    titlesArray.sort(function (a, b) {
+    titles.sort(function (a, b) {
         return a['title-name'].localeCompare(b['title-name']);
     });
 
     return (
         <ul className="flex flex-row flex-wrap justify-center">
-            {titlesArray.map((title: TitleItem) => (
-                <Link 
+            {titles.map((title: TitleItem) => (
+                <Link
                     className="title-card m-4 flex flex-col items-center"
                     key={title.id} href={{
                         pathname: `/app/titles/${title.id}`,
