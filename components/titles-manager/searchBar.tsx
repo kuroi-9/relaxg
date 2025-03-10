@@ -5,7 +5,7 @@ export default function SearchBar(
 ) {
 
     return (
-        <section className="flex justify-center w-full">
+        <section className="flex justify-center w-full fixed z-50">
             <input
                 className="primary-input m-2 w-10/12"
                 placeholder="Find your next reading..."

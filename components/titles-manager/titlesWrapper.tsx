@@ -161,9 +161,13 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                 style={{
                     minWidth: "80px",
                     minHeight: "80px",
-                    margin: "10%"
+                    margin: "10%",
+                    marginTop: "10rem",
                 }}></span>
-            <section id="titles-wrapper-content-container" className="masonry-wrapper">
+            <section id="titles-wrapper-content-container" className="masonry-wrapper"
+            style={{
+                marginTop: "6rem",
+            }}>
                 <ul className="masonry">
                     {filteredTitles.map((title: TitleItem) => (
                         <Link
