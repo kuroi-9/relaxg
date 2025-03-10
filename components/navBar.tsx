@@ -28,7 +28,7 @@ export default function NavBar() {
                     <Link href={link.href} key={link.href}
                         className={"nav-link p-4 shrink-0 m-4 rounded-md primary-btn"}
                         style={{
-                        	color: pathname == link.href ? "white" : "var(--foreground)",
+                            color: pathname == link.href ? "white" : "var(--foreground)",
                             borderColor: pathname == link.href ? "var(--foreground)" : "var(--background)",
                             backgroundColor: pathname == link.href ? "#171717" : "var(--background)"
                         }}
@@ -41,7 +41,15 @@ export default function NavBar() {
                     borderLeft: "1px solid gray",
                     boxShadow: (window.innerWidth < 660) ? "0px 0px 30px 5px var(--background)" : "",
                 }}>
-                <button className="secondary-btn" onClick={() => user?.signOut()}>Leave</button>
+                <button
+                    style={{
+                        padding: "1rem",
+                        borderRadius: ".375rem",
+                        border: "1px solid var(--foreground)",
+                        backgroundColor: "transparent",
+                        color: "var(--foreground)",
+                    }}
+                    onClick={() => user?.signOut()}>Leave</button>
             </div>
         </nav>
     )

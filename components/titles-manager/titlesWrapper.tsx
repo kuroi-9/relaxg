@@ -20,9 +20,9 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
     */
     function resizeMasonryItem(item: any) {
         /* Get the grid object, its row-gap, and the size of its implicit rows */
-        var grid = document.getElementsByClassName('masonry')[0];
+        const grid = document.getElementsByClassName('masonry')[0];
         if (grid) {
-            var rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap')),
+            const rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap')),
                 rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows')),
                 gridImagesAsContent = item.querySelector('img.masonry-content');
 
@@ -35,7 +35,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
              * Net height of the implicit row-track = T = G + R
              * S = H1 / T
              */
-            var rowSpan = Math.ceil((item.querySelector('.masonry-content').getBoundingClientRect().height + rowGap) / (rowHeight + rowGap));
+            const rowSpan = Math.ceil((item.querySelector('.masonry-content').getBoundingClientRect().height + rowGap) / (rowHeight + rowGap));
 
             /* Set the spanning as calculated above (S) */
             item.style.gridRowEnd = 'span ' + rowSpan;
@@ -56,14 +56,14 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
      */
     function resizeAllMasonryItems() {
         // Get all item class objects in one list
-        var allItems = document.querySelectorAll('.masonry-item');
+        const allItems = document.querySelectorAll('.masonry-item');
 
         /*
          * Loop through the above list and execute the spanning function to
          * each list-item (i.e. each masonry item)
          */
         if (allItems) {
-            for (var i = 0; i > allItems.length; i++) {
+            for (let i = 0; i > allItems.length; i++) {
                 resizeMasonryItem(allItems[i]);
             }
         }
@@ -80,11 +80,11 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
      */
     function waitForImages() {
         //var grid = document.getElementById("masonry");
-        var allItems = document.querySelectorAll('.masonry-item');
+        const allItems = document.querySelectorAll('.masonry-item');
         if (allItems) {
-            for (var i = 0; i < allItems.length; i++) {
+            for (let i = 0; i < allItems.length; i++) {
                 imagesLoaded(allItems[i], function (instance: any) {
-                    let item = instance.elements[0];
+                    const item = instance.elements[0];
                     resizeMasonryItem(item);
                     console.log("Waiting for Images");
                 });
@@ -94,7 +94,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
 
     useEffect(() => {
         /* Resize all the grid items on the load and resize events */
-        var masonryEvents = ['load', 'resize'];
+        const masonryEvents = ['load', 'resize'];
         masonryEvents.forEach(function (event) {
             window.addEventListener(event, resizeAllMasonryItems);
         });
@@ -121,7 +121,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                         ></TitleCard>
                     </Link>
                 ))}
-            </ul><script src="//unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+            </ul>
         </section>
     );
 }

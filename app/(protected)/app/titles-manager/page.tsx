@@ -1,10 +1,7 @@
 export const dynamic = 'force-static'
 
-import TitleCard from "@/components/titles-manager/titleCard";
 import { Key } from "react";
-import Link from "next/link";
 import './titles-manager.css';
-import StuffPage from "@/components/titles-manager/titlesWrapper";
 import TitlesWrapper from "@/components/titles-manager/titlesWrapper";
 
 export interface TitleItem {

@@ -13,8 +13,9 @@ export default function Home() {
                     <hr className="m-4" />
                 </div>
 
-                <div className="grid grid-rows-[1fr_10px] grid-flow-col gap-2 w-full">
+                <div className="grid grid-rows-[1fr_1fr_1fr] grid-flow-col gap-4 w-full">
                     <Link className="primary-btn text-center" href="/app/jobs-manager">Essayer RelaxG - v0.5</Link>
+                    <p className="italic font-serif text-lg">{'\u275D'}A tool to help with manga upscaling{'\u275E'}</p>
                     <div className="grid grid-cols-2 grid-flow-row gap-2">
                         <Link className="secondary-btn text-center" href="https://github.com/kuroi-9">Github</Link>
                         <Link className="secondary-btn text-center" href="https://portfoliodelonl-kuroi-9s-projects.vercel.app/">Portfolio</Link>
