@@ -61,4 +61,8 @@
     .titleActionsModal__footer>button {
         margin-bottom: 0.5rem;
     }
+
+    .title-card-container {
+        min-height: auto;
+    }
 }

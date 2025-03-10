@@ -4,6 +4,7 @@ import SocketManager from "@/components/jobs-manager/socketManager";
 export default async function JobsPage() {
     const jobs = await fetch(`https://api${(process.env.MODE === 'developpment') ? '-dev' : ''}.relaxg.app/jobs/`);
 
+    console.log(`https://api${(process.env.MODE === 'developpment')}`)
     return (
         <>
             <SocketManager

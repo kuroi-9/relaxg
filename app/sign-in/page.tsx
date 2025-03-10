@@ -41,6 +41,8 @@ export default function CredentialSignIn() {
                 </span>
                 <span>
                     <p className="text-center">Munissez-vous des identifiants qui vous ont été transmis dans la lettre de motivation.<br /> Ce compte n&apos;a pas été fait sur mesure.</p>
+                    <br />
+                    <p className="text-center">Tout job que vous lancez pourra être interrompu, le processus étant extrêment couteux en ressources.</p>
                     {error ? <hr className="m-5" /> : ""}
                     <p className="text-red-500 text-center">{error}</p>
                 </span>

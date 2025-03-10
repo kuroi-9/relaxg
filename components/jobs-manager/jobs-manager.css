@@ -6,7 +6,16 @@
 }
 
 .volume-title-label {
-    color: var(--foreground)
+    color: var(--foreground);
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.volume-title-label::-webkit-scrollbar {
+  display: none;
 }
 
 .job-volumes-card>div>hr {
@@ -14,7 +23,7 @@
 }
 
 .job-volumes-card>div:last-child>hr:last-child {
-    display: block ! important;
+    display: none;
 }
 
 .volume-computation-percentage {

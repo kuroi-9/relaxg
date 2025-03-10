@@ -225,13 +225,12 @@ export default function JobCard(props: {
                 </div>
             </div>
             <div className="job-volumes-card-container card mt-2 flex flex-row">
-                <ul className="job-volumes-card w-full">
+                <ul className="job-volumes-card w-full rounded-md" style={{border:`1px solid ${isRunning.current ? "var(--foreground)" : "gray"}`}}>
                     {!isDeleted ?
                         props.job.title.volumes.filter((element) => element.name !== "launcher.lock" && element.name !== "last_pid").map(volume => (
                             <div key={volume.name}>
-                                <hr />
                                 <VolumeCard volume={volume} running={isRunning.current} />
-                                <hr style={{ display: "none" }} />
+                                <hr style={{borderColor: isRunning.current ? "var(--foreground)" : "gray"}}/>
                             </div>
                         )) : ""
                     }

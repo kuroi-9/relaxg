@@ -16,16 +16,15 @@ export default function TitleCard(props: {
             <div 
             className="flex flex-col justify-center items-center" 
             style={{
-                minHeight: 400, 
                 backgroundColor: "var(--foreground)",
                 borderStartStartRadius: "5px",
                 borderStartEndRadius: "5px"}}>
                 <Image
                     src={`https://api${(props.dev) ? '-dev' : ''}.relaxg.app/images/` + props.title["title-name"].replaceAll(" ", "_") + "_cover.jpg"}
                     alt="No cover available"
-                    className="w-full mb-0 overflow-hidden"
-                    width={284}
-                    height={400}
+                    className="h-full mb-0 overflow-hidden"
+                    width={300}
+                    height={0}
                     style={{
                         backgroundColor: "var(--background)",
                         borderStartStartRadius: "5px",
@@ -33,7 +32,7 @@ export default function TitleCard(props: {
                 />
             </div>
             <div
-                className={`title-card-name-container title-card mt-0 h-full w-full bg-${props.title["post-treated"] ? "green" : "black"}-600`}
+                className={`title-card-name-container overflow-scroll title-card mt-0 h-full w-full bg-${props.title["post-treated"] ? "green" : "black"}-600`}
                 style={{borderTop: "1px solid gray"}}>
                 <div className="card h-full flex flex-col justify-between items-center">
                     <h3 className="card-title p-2" style={{textAlign: "center"}}>{props.title["title-name"]}</h3>

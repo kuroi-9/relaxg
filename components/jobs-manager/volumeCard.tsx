@@ -15,17 +15,18 @@ export default function VolumeCard(props: {
 
     return (
         <section className="flex flex-col w-full">
-            <div className="flex flex-row justify-between w-full" style={{ minHeight: "50px", backgroundColor: "var(--background)" }}>
-                <div className="flex items-center" style={{width: "74.5%", borderRight: "1px var(--foreground)", borderStyle: (scroll < document.getElementById(`bruh-${props.volume.name}`)?.scrollWidth! - document.getElementById(`bruh-${props.volume.name}`)?.clientWidth! - 5) ? "dashed" : "hidden", borderWidth: "50%"}}>
-                    <h6 id={`bruh-${props.volume.name}`} className={`volume-title-label p-2 pl-0 whitespace-nowrap overflow-y-hidden`} onScroll={() => handleScroll(document.getElementById(`bruh-${props.volume.name}`)?.scrollLeft!)}>{props.volume.name}</h6>
+            <div className="flex flex-row justify-between w-full" style={{ minHeight: "50px"}}>
+                <div className="flex items-center" style={{width: "74.5%", borderRight: (scroll < document.getElementById(`bruh-${props.volume.name}`)?.scrollWidth! - document.getElementById(`bruh-${props.volume.name}`)?.clientWidth! - 5) ? `dashed 1px ${props.running ? "var(--foreground)" : "gray"}` : "hidden"}}>
+                    <h6 id={`bruh-${props.volume.name}`} className={`volume-title-label p-2 whitespace-nowrap overflow-y-hidden`} onScroll={() => handleScroll(document.getElementById(`bruh-${props.volume.name}`)?.scrollLeft!)}
+                    style={{color: props.running ? "var(--foreground)" : "gray"}}>{props.volume.name}</h6>
                 </div>
                 <div className="min-h-full flex flex-col"></div>
-                <div className="flex flex-col w-1/4 shrink-0" style={{borderLeft: "1px solid var(--foreground)"}}>
+                <div className="flex flex-col w-1/4 shrink-0" style={{borderLeft: `1px solid ${props.running ? "var(--foreground)" : "gray"}`}}>
                     
-                    <div className="flex m-2 mr-0 rounded-md flex-row justify-center items-center" style={{
+                    <div className="flex m-2 rounded-md flex-row justify-center items-center" style={{
                         width: props.volume.completed ? "auto" : "auto",
                         height: "100%",
-                        backgroundColor: props.volume.completed ? "green" : "transparent"
+                        backgroundColor: props.volume.completed ? ((props.running) ? "green" : "slategray" ) : "transparent"
                     }}>
                         {props.volume.completed
                             ? ""
