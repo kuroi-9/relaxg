@@ -6,7 +6,6 @@ import Link from "next/link";
 import TitleCard from "./titleCard";
 import { TitleItem } from "@/app/(protected)/app/titles-manager/page";
 import SearchBar from "./searchBar";
-import styles from '../../app/(protected)/app/titles-manager/titleActionsModal.module.css';
 
 export default function TitlesWrapper(props: { titles: TitleItem[] }) {
     const [inputText, setInputText] = useState<string>('');
@@ -130,21 +129,25 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
 
     /**
      * Typing and titles filtering delay management
-     * @param inputText 
+     * @param _inputText 
      */
-    const filterTitles = (inputText: string) => {
+    const filterTitles = (_inputText: string) => {
         if (currentTimeout.current !== undefined) {
             clearTimeout(currentTimeout.current);
             currentTimeout.current = setTimeout(() => {
-                document.getElementById('titles-wrapper-content-container')!.style.visibility = 'hidden';
-                document.getElementById('titles-wrapper-search-loading')!.style.display = 'inline-block';
-                setInputText(inputText);
+                if (inputText !== _inputText) {
+                    document.getElementById('titles-wrapper-content-container')!.style.visibility = 'hidden';
+                    document.getElementById('titles-wrapper-search-loading')!.style.display = 'inline-block';
+                    setInputText(_inputText);
+                }
             }, 500)
         } else {
             currentTimeout.current = setTimeout(() => {
-                document.getElementById('titles-wrapper-content-container')!.style.visibility = 'hidden';
-                document.getElementById('titles-wrapper-search-loading')!.style.display = 'inline-block';
-                setInputText(inputText);
+                if (inputText !== _inputText) {
+                    document.getElementById('titles-wrapper-content-container')!.style.visibility = 'hidden';
+                    document.getElementById('titles-wrapper-search-loading')!.style.display = 'inline-block';
+                    setInputText(_inputText);
+                }
             }, 500)
         }
     }
