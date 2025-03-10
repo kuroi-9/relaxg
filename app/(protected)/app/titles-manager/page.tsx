@@ -3,8 +3,11 @@ export const dynamic = 'force-static'
 import TitleCard from "@/components/titles-manager/titleCard";
 import { Key } from "react";
 import Link from "next/link";
+import './titles-manager.css';
+import StuffPage from "@/components/titles-manager/titlesWrapper";
+import TitlesWrapper from "@/components/titles-manager/titlesWrapper";
 
-interface TitleItem {
+export interface TitleItem {
     id: Key | null | undefined;
     "title-name": string;
     "publication-status": string;
@@ -29,21 +32,8 @@ export default async function Page() {
     });
 
     return (
-        <ul className="flex flex-row flex-wrap justify-center">
-            {titles.map((title: TitleItem) => (
-                <Link
-                    className="title-card m-4 flex flex-col items-center"
-                    key={title.id} href={{
-                        pathname: `/app/titles/${title.id}`,
-                        query: { name: title["title-name"] }
-                    }} scroll={false}>
-                    <TitleCard
-                        key={title.id}
-                        title={title}
-                        dev={(process.env.MODE === 'developpment')}
-                    ></TitleCard>
-                </Link>
-            ))}
-        </ul>
+        <section>
+            <TitlesWrapper titles={titles}></TitlesWrapper>
+        </section>
     );
 }

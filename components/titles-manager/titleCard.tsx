@@ -12,7 +12,7 @@ export default function TitleCard(props: {
     dev: boolean
 }) {
     return (
-        <div className="title-card-container rounded-md flex flex-col" style={{maxWidth: 300, maxHeight: 600, minWidth: 300, border: "1px solid gray"}}>
+        <div className="title-card-container masonry-content rounded-md flex flex-col" style={{maxWidth: 300, minWidth: 300, border: "1px solid gray"}}>
             <div 
             className="flex flex-col justify-center items-center" 
             style={{
@@ -32,7 +32,7 @@ export default function TitleCard(props: {
                 />
             </div>
             <div
-                className={`title-card-name-container overflow-scroll title-card mt-0 h-full w-full bg-${props.title["post-treated"] ? "green" : "black"}-600`}
+                className={`title-card-name-container overflow-scroll title-card mt-0 w-full bg-${props.title["post-treated"] ? "green" : "black"}-600`}
                 style={{borderTop: "1px solid gray"}}>
                 <div className="card h-full flex flex-col justify-between items-center">
                     <h3 className="card-title p-2" style={{textAlign: "center"}}>{props.title["title-name"]}</h3>
