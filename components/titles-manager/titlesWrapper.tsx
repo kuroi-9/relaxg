@@ -1,12 +1,30 @@
 'use client'
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import imagesLoaded from "imagesloaded";
 import Link from "next/link";
 import TitleCard from "./titleCard";
 import { TitleItem } from "@/app/(protected)/app/titles-manager/page";
+import SearchBar from "./searchBar";
+import styles from '../../app/(protected)/app/titles-manager/titleActionsModal.module.css';
 
 export default function TitlesWrapper(props: { titles: TitleItem[] }) {
+    const [inputText, setInputText] = useState<string>('');
+    const currentTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
+    const imagesInLoadingState = useRef<number[]>([])
+    const filteredTitles = props.titles.filter((title) => {
+        return title["title-name"]
+            .toLocaleLowerCase()
+            .includes(
+                inputText.toLocaleLowerCase());
+    });
+
+    if (filteredTitles.length === 0) {
+        document.getElementById('titles-wrapper-content-container')!.style.visibility = 'visible';
+        document.getElementById('titles-wrapper-search-loading')!.style.display = 'none';
+    }
+
+
     /**
     * Set appropriate spanning to any masonry item
     *
@@ -79,14 +97,21 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
      * @link https://w3bits.com/css-grid-masonry/
      */
     function waitForImages() {
-        //var grid = document.getElementById("masonry");
         const allItems = document.querySelectorAll('.masonry-item');
         if (allItems) {
             for (let i = 0; i < allItems.length; i++) {
+                // We set the image as in a loading state
+                imagesInLoadingState.current.push(i);
                 imagesLoaded(allItems[i], function (instance: any) {
                     const item = instance.elements[0];
                     resizeMasonryItem(item);
-                    console.log("Waiting for Images");
+                    // When loaded, we remove the image from the array
+                    // Once all the images have been removed from the array, we show the titles section to the user
+                    imagesInLoadingState.current.splice(imagesInLoadingState.current?.indexOf(i), 1);
+                    if (imagesInLoadingState.current.length === 0) {
+                        document.getElementById('titles-wrapper-content-container')!.style.visibility = 'visible';
+                        document.getElementById('titles-wrapper-search-loading')!.style.display = 'none';
+                    }
                 });
             }
         }
@@ -103,25 +128,56 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
         waitForImages();
     })
 
-    return (
+    /**
+     * Typing and titles filtering delay management
+     * @param inputText 
+     */
+    const filterTitles = (inputText: string) => {
+        if (currentTimeout.current !== undefined) {
+            clearTimeout(currentTimeout.current);
+            currentTimeout.current = setTimeout(() => {
+                document.getElementById('titles-wrapper-content-container')!.style.visibility = 'hidden';
+                document.getElementById('titles-wrapper-search-loading')!.style.display = 'inline-block';
+                setInputText(inputText);
+            }, 500)
+        } else {
+            currentTimeout.current = setTimeout(() => {
+                document.getElementById('titles-wrapper-content-container')!.style.visibility = 'hidden';
+                document.getElementById('titles-wrapper-search-loading')!.style.display = 'inline-block';
+                setInputText(inputText);
+            }, 500)
+        }
+    }
 
-        <section className="masonry-wrapper">
-            <ul className="masonry">
-                {props.titles.map((title: TitleItem) => (
-                    <Link
-                        className="masonry-item rounded-md min-w-max"
-                        key={title.id} href={{
-                            pathname: `/app/titles/${title.id}`,
-                            query: { name: title["title-name"] }
-                        }} scroll={false}>
-                        <TitleCard
-                            key={title.id}
-                            title={title}
-                            dev={(process.env.MODE === 'developpment')}
-                        ></TitleCard>
-                    </Link>
-                ))}
-            </ul>
+    return (
+        <section className="flex flex-col items-center w-full">
+            <SearchBar filterTitles={filterTitles}></SearchBar>
+            <span
+                id="titles-wrapper-search-loading"
+                className="loader"
+                style={{
+                    minWidth: "80px",
+                    minHeight: "80px",
+                    margin: "10%"
+                }}></span>
+            <section id="titles-wrapper-content-container" className="masonry-wrapper">
+                <ul className="masonry">
+                    {filteredTitles.map((title: TitleItem) => (
+                        <Link
+                            className="masonry-item rounded-md min-w-max"
+                            key={title.id} href={{
+                                pathname: `/app/titles/${title.id}`,
+                                query: { name: title["title-name"] }
+                            }} scroll={false}>
+                            <TitleCard
+                                key={title.id}
+                                title={title}
+                                dev={(process.env.MODE === 'developpment')}
+                            ></TitleCard>
+                        </Link>
+                    ))}
+                </ul>
+            </section>
         </section>
     );
 }
