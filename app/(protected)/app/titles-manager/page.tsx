@@ -1,7 +1,6 @@
-export const dynamic = 'force-static'
-
 import { Key } from "react";
-import './titles-manager.css';
+import "@/app/globals.css"
+import "@/app/(protected)/app/titles-manager/titlesManager.css";
 import TitlesWrapper from "@/components/titles-manager/titlesWrapper";
 
 export interface TitleItem {

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React from "react";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import '@/app/globals.css'
 import { useUser } from "@stackframe/stack";
 
@@ -42,13 +42,7 @@ export default function NavBar() {
                     boxShadow: (window.innerWidth < 660) ? "0px 0px 30px 5px var(--background)" : "",
                 }}>
                 <button
-                    style={{
-                        padding: "1rem",
-                        borderRadius: ".375rem",
-                        border: "1px solid var(--foreground)",
-                        backgroundColor: "transparent",
-                        color: "var(--foreground)",
-                    }}
+                    className="secondary-btn"
                     onClick={() => user?.signOut()}>Leave</button>
             </div>
         </nav>

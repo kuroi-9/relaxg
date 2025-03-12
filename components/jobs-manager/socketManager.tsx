@@ -2,7 +2,8 @@
 
 import { Key, useEffect, useRef, useState } from "react";
 import JobCard from "./jobCard";
-import "./jobs-manager.css";
+import "@/app/globals.css"
+import "@/app/(protected)/app/jobs-manager/jobsManager.css";
 
 export interface VolumeItem {
     name: Key;

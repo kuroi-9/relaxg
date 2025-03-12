@@ -2,7 +2,9 @@
 
 import {Key} from "react";
 import Image from "next/image";
-import "./titles-manager.css";
+import "@/app/globals.css"
+import "@/app/(protected)/app/titles-manager/titlesManager.css";
+
 
 export default function TitleCard(props: {
     title: {
@@ -14,14 +16,14 @@ export default function TitleCard(props: {
     return (
         <div className="title-card-container masonry-content rounded-md flex flex-col" style={{maxWidth: 300, minWidth: 300, border: "1px solid gray"}}>
             <div 
-            className="flex flex-col justify-center items-center" 
+            className="flex flex-col justify-center items-center animate" 
             style={{
                 backgroundColor: "var(--foreground)",
                 borderStartStartRadius: "5px",
                 borderStartEndRadius: "5px"}}>
                 <Image
                     src={`https://api${(props.dev) ? '-dev' : ''}.relaxg.app/images/` + props.title["title-name"].replaceAll(" ", "_") + "_cover.jpg"}
-                    alt="No cover available"
+                    alt={`cover-${props.title.id}`} 
                     className="h-full mb-0 overflow-hidden"
                     width={300}
                     height={0}

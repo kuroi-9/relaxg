@@ -1,6 +1,7 @@
 'use client'
 
-import "./jobs-manager.css";
+import "@/app/globals.css"
+import "@/app/(protected)/app/jobs-manager/jobsManager.css";
 import { ReactNode, useCallback, useRef, useState } from "react";
 import VolumeCard from "@/components/jobs-manager/volumeCard";
 import Emoji from "react-emoji-render";
@@ -172,7 +173,7 @@ export default function JobCard(props: {
     return (
         <div
             id={"job-card-" + props.job.id}
-            className="job-card border-gray-700 m-2 p-2"
+            className="job-card border-gray-700 m-2 p-2 animate-fast"
             style={{ border: "solid gray 1px" }}>
             {/* <h1>{stopOrResumeElement.current}</h1>
             <h1>load {isLoading ? "load" : "noload"}</h1>
@@ -227,7 +228,7 @@ export default function JobCard(props: {
                 </div>
             </div>
             <div className="job-volumes-card-container card mt-2 flex flex-row">
-                <ul id={"job-volumes-card" + props.job.id} className="job-volumes-card w-full rounded-md" style={{border:`1px solid ${isRunning.current ? "var(--foreground)" : "gray"}`}}>
+                <ul id={"job-volumes-card" + props.job.id} className="job-volumes-card w-full rounded-md animate-faster" style={{border:`${props.job.title.volumes.length === 0 ? "0px" : "1px"} solid ${isRunning.current ? "var(--foreground)" : "gray"}`}}>
                     {!isDeleted ?
                         props.job.title.volumes.filter((element) => element.name !== "launcher.lock" && element.name !== "last_pid").map(volume => (
                             <div key={volume.name}>

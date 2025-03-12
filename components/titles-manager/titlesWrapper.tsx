@@ -136,6 +136,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
             clearTimeout(currentTimeout.current);
             currentTimeout.current = setTimeout(() => {
                 if (inputText !== _inputText) {
+                    //TODO: Remove the animate attr in titleCards so it reset the animation, and it can be triggered each time there's an update
                     document.getElementById('titles-wrapper-content-container')!.style.visibility = 'hidden';
                     document.getElementById('titles-wrapper-search-loading')!.style.display = 'inline-block';
                     setInputText(_inputText);
@@ -144,6 +145,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
         } else {
             currentTimeout.current = setTimeout(() => {
                 if (inputText !== _inputText) {
+                    //TODO: Remove the animate attr in titleCards so it reset the animation, and it can be triggered each time there's an update
                     document.getElementById('titles-wrapper-content-container')!.style.visibility = 'hidden';
                     document.getElementById('titles-wrapper-search-loading')!.style.display = 'inline-block';
                     setInputText(_inputText);
@@ -153,7 +155,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
     }
 
     return (
-        <section className="flex flex-col items-center w-full">
+        <section className="titles-wrapper-container flex flex-col items-center w-full">
             <SearchBar filterTitles={filterTitles}></SearchBar>
             <span
                 id="titles-wrapper-search-loading"
@@ -163,11 +165,12 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     minHeight: "80px",
                     margin: "10%",
                     marginTop: "10rem",
+                    position: "fixed",
                 }}></span>
             <section id="titles-wrapper-content-container" className="masonry-wrapper"
-            style={{
-                marginTop: "6rem",
-            }}>
+                style={{
+                    marginTop: "6rem",
+                }}>
                 <ul className="masonry">
                     {filteredTitles.map((title: TitleItem) => (
                         <Link
