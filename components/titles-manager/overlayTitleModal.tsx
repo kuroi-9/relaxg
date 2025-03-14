@@ -10,7 +10,6 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string; d
     const router = useRouter();
     const [title, setTitle] = useState<string>("Loading...");
 
-    console.log(props.hostIp)
     useEffect(() => {
         fetch(`https://api${(props.dev) ? '-dev' : ''}.relaxg.app/titles/` + props.id)
             .then(res => {
@@ -22,11 +21,17 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string; d
             })
     }, [props.hostIp, props.id, title]);
 
+    /**
+     * Handle the modal close button
+     */
     const handleExit = () => {
         document.querySelector('body')?.classList.remove('modal-open');
         router.back();
     }
 
+    /**
+     * Handle the create job post
+     */
     const handlePost = () => {
         const postBtn = document.getElementById("post-button-" + props.id);
         postBtn!.textContent = "";
@@ -34,6 +39,7 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string; d
         postLoadingElement.id = "post-loading-" + props.id;
         postLoadingElement.className = 'loader';
 
+        // Change the button to a loading state
         postBtn!.style.borderColor = '#364050';
         postBtn!.setAttribute('disabled', 'disabled');
         postBtn!.appendChild(postLoadingElement);
@@ -56,8 +62,7 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string; d
                     postBtn!.removeChild(postLoadingElement);
                     postBtn!.textContent = "Started, redirecting...";
                 } else {
-                    console.log('server side error');
-                    postBtn!.textContent = "An error occured, please click to try again :(";
+                    postBtn!.textContent = "Job duplicate ?";
                     postBtn!.style.borderColor = 'white';
                     postBtn!.removeAttribute('disabled');
                 }
@@ -68,7 +73,7 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string; d
     return (
         <section>
             <div className={styles.darkBG} />
-            <div className={styles.centered + " animate-fast"}>
+            <div className={styles.centered}>
                 <div className={styles.content}>
                     <div className="titleActionsModal__header border-b-2 animate-fast">
                         {title}
@@ -79,13 +84,13 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string; d
                     <div className="titleActionsModal__footer flex flex-row w-10/12 justify-between shrink-0 flex-wrap">
                         <button
                             id={"post-button-" + props.id}
-                            className={styles.actionButton + " secondary-btn"}
+                            className={"secondary-btn"}
                             onClick={() => handlePost()}
-                            style={{ minWidth: "33%" }}>Create Job</button>
-                        <button className={styles.actionButton + " secondary-btn"}
-                            style={{ minWidth: "33%", borderColor: "gray", color: "gray" }}>Delete previous upscaling</button>
-                        <button className={styles.actionButton + " secondary-btn"} onClick={() => handleExit()}
-                            style={{ minWidth: "33%" }}>Exit</button>
+                            style={{ minWidth: "33%", lineHeight: "50%", minHeight: "50px", maxHeight: "50px" }}>Create Job</button>
+                        <button className={"secondary-btn"}
+                            style={{ minWidth: "33%", minHeight: "50px", maxHeight: "50px", borderColor: "gray", color: "gray" }}>Delete previous upscaling</button>
+                        <button className={"secondary-btn"} onClick={() => handleExit()}
+                            style={{ minWidth: "33%", minHeight: "50px", maxHeight: "50px" }}>Exit</button>
                     </div>
                 </div>
             </div>

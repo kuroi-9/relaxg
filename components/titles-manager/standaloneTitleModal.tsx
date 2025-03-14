@@ -24,13 +24,12 @@ export default function StandaloneTitleModal(props: {id: string}) {
                     <div className="titleActionsModal__footer flex flex-row w-10/12 justify-between shrink-0 flex-wrap">
                         <button
                             id={"post-button-" + props.id}
-                            className={styles.actionButton + " secondary-btn"}
-                            style={{ minWidth: "33%", borderColor: "gray", color: "gray" }}
-                            disabled>Create Job</button>
-                        <button className={styles.actionButton + " secondary-btn"}
-                            style={{ minWidth: "33%", borderColor: "gray", color: "gray" }}>Delete previous upscaling</button>
-                        <button className={styles.actionButton + " secondary-btn"} onClick={() => handleExit()}
-                            style={{ minWidth: "33%" }}>Return to the title manager</button>
+                            className={"secondary-btn"}
+                            style={{ minWidth: "33%", lineHeight: "50%", minHeight: "50px", maxHeight: "50px" }}>Create Job</button>
+                        <button className={"secondary-btn"}
+                            style={{ minWidth: "33%", minHeight: "50px", maxHeight: "50px", borderColor: "gray", color: "gray" }}>Delete previous upscaling</button>
+                        <button className={"secondary-btn"} onClick={() => handleExit()}
+                            style={{ minWidth: "33%", minHeight: "50px", maxHeight: "50px" }}>Return to the title manager</button>
                     </div>
                 </div>
             </div>

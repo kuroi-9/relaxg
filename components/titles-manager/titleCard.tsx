@@ -14,13 +14,12 @@ export default function TitleCard(props: {
     dev: boolean
 }) {
     return (
-        <div className="title-card-container masonry-content rounded-md flex flex-col" style={{maxWidth: 300, minWidth: 300, border: "1px solid gray"}}>
+        <div className="title-card-container masonry-content flex flex-col" style={{maxWidth: 300, minWidth: 300, border: "1px solid gray"}}>
             <div 
             className="flex flex-col justify-center items-center animate" 
             style={{
                 backgroundColor: "var(--foreground)",
-                borderStartStartRadius: "5px",
-                borderStartEndRadius: "5px"}}>
+                }}>
                 <Image
                     src={`https://api${(props.dev) ? '-dev' : ''}.relaxg.app/images/` + props.title["title-name"].replaceAll(" ", "_") + "_cover.jpg"}
                     alt={`cover-${props.title.id}`} 
@@ -29,8 +28,7 @@ export default function TitleCard(props: {
                     height={0}
                     style={{
                         backgroundColor: "var(--background)",
-                        borderStartStartRadius: "5px",
-                        borderStartEndRadius: "5px"}}
+                        }}
                 />
             </div>
             <div

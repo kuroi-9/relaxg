@@ -20,6 +20,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
 
     if (filteredTitles.length === 0) {
         document.getElementById('titles-wrapper-content-container')!.style.visibility = 'visible';
+        document.getElementById('titles-wrapper-content-container')!.style.opacity = '1';
         document.getElementById('titles-wrapper-search-loading')!.style.display = 'none';
     }
 
@@ -109,6 +110,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     imagesInLoadingState.current.splice(imagesInLoadingState.current?.indexOf(i), 1);
                     if (imagesInLoadingState.current.length === 0) {
                         document.getElementById('titles-wrapper-content-container')!.style.visibility = 'visible';
+                        document.getElementById('titles-wrapper-content-container')!.style.opacity = '1';
                         document.getElementById('titles-wrapper-search-loading')!.style.display = 'none';
                     }
                 });
@@ -138,6 +140,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                 if (inputText !== _inputText) {
                     //TODO: Remove the animate attr in titleCards so it reset the animation, and it can be triggered each time there's an update
                     document.getElementById('titles-wrapper-content-container')!.style.visibility = 'hidden';
+                    document.getElementById('titles-wrapper-content-container')!.style.opacity = '0';
                     document.getElementById('titles-wrapper-search-loading')!.style.display = 'inline-block';
                     setInputText(_inputText);
                 }
@@ -147,6 +150,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                 if (inputText !== _inputText) {
                     //TODO: Remove the animate attr in titleCards so it reset the animation, and it can be triggered each time there's an update
                     document.getElementById('titles-wrapper-content-container')!.style.visibility = 'hidden';
+                    document.getElementById('titles-wrapper-content-container')!.style.opacity = '0';
                     document.getElementById('titles-wrapper-search-loading')!.style.display = 'inline-block';
                     setInputText(_inputText);
                 }
@@ -167,18 +171,18 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     marginTop: "10rem",
                     position: "fixed",
                 }}></span>
-            <section id="titles-wrapper-content-container" className="masonry-wrapper"
+            <section id="titles-wrapper-content-container" className="masonry-wrapper animate with-opacity-transition"
                 style={{
                     marginTop: "6rem",
                 }}>
                 <ul className="masonry">
                     {filteredTitles.map((title: TitleItem) => (
                         <Link
-                            className="masonry-item rounded-md min-w-max"
+                            className="masonry-item min-w-max"
                             key={title.id} href={{
                                 pathname: `/app/titles/${title.id}`,
                                 query: { name: title["title-name"] }
-                            }} scroll={false}>
+                            }} scroll={false} prefetch={false}>
                             <TitleCard
                                 key={title.id}
                                 title={title}

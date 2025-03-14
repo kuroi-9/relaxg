@@ -173,7 +173,7 @@ export default function JobCard(props: {
     return (
         <div
             id={"job-card-" + props.job.id}
-            className="job-card border-gray-700 m-2 p-2 animate-fast"
+            className="job-card border-gray-700 m-2 p-2"
             style={{ border: "solid gray 1px" }}>
             {/* <h1>{stopOrResumeElement.current}</h1>
             <h1>load {isLoading ? "load" : "noload"}</h1>

@@ -2,19 +2,18 @@
 
 import Link from "next/link";
 import React from "react";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import '@/app/globals.css'
 import { useUser } from "@stackframe/stack";
 
 export default function NavBar() {
-    const user = useUser();
+    const user = useUser({ or: 'redirect' });
     const navLinks = [
         { href: "/app/jobs-manager", label: "Jobs Manager" },
         { href: "/app/titles-manager", label: "Titles Manager" },
         { href: "/app/history", label: "History" },
         { href: "/about", label: "About" },
-    ]
-
+    ];
     const pathname = usePathname();
 
     return (
@@ -40,6 +39,7 @@ export default function NavBar() {
                 style={{
                     borderLeft: "1px solid gray",
                     boxShadow: (window.innerWidth < 660) ? "0px 0px 30px 5px var(--background)" : "",
+                    
                 }}>
                 <button
                     className="secondary-btn"

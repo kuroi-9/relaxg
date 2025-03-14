@@ -32,12 +32,3 @@
     justify-content: space-between;
     align-items: center;
 }
-
-.actionButton {
-    border: solid var(--foreground) 2px;
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}

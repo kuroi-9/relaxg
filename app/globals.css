@@ -74,9 +74,9 @@ body.modal-open {
   border: 1px solid var(--foreground);
   background-color: transparent;
   color: var(--foreground);
-  /* min-height: 50px;
-  max-height: 50px;
-  line-height: 100%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .primary-input {
@@ -113,6 +113,10 @@ body.modal-open {
   animation-name: animate-fade;
   animation-delay: 0.0s;
   animation-fill-mode: backwards;
+}
+
+.with-opacity-transition {
+  transition: opacity 0.3s ease-in-out;
 }
 
 @keyframes animate-fade {
