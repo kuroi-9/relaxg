@@ -1,34 +1,39 @@
-'use client'
+'use client';
 
-import "@/app/globals.css"
-import "@/app/(protected)/app/titles-manager/titlesManager.css";
+import "@/app/globals.css";
+import "@/app/(protected)/app/titles-manager/titlesManager.module.css";
 import styles from "@/app/(protected)/app/titles-manager/titleActionsModal.module.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-
-export default function OverlayTitleModal(props: { id: string; hostIp: string; dev: boolean; }) {
+export default function OverlayTitleModal(props: {
+    id: string;
+    hostIp: string;
+    dev: boolean;
+}) {
     const router = useRouter();
     const [title, setTitle] = useState<string>("Loading...");
 
     useEffect(() => {
-        fetch(`https://api${(props.dev) ? '-dev' : ''}.relaxg.app/titles/` + props.id)
-            .then(res => {
-                console.log(res.json()
-                    .then(value => {
-                        setTitle(value["title_name"])
-                    }
-                    ))
-            })
+        fetch(
+            `https://api${props.dev ? "-dev" : ""}.relaxg.app/titles/` +
+                props.id
+        ).then((res) => {
+            console.log(
+                res.json().then((value) => {
+                    setTitle(value["title_name"]);
+                })
+            );
+        });
     }, [props.hostIp, props.id, title]);
 
     /**
      * Handle the modal close button
      */
     const handleExit = () => {
-        document.querySelector('body')?.classList.remove('modal-open');
+        document.querySelector("body")?.classList.remove("modal-open");
         router.back();
-    }
+    };
 
     /**
      * Handle the create job post
@@ -36,64 +41,85 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string; d
     const handlePost = () => {
         const postBtn = document.getElementById("post-button-" + props.id);
         postBtn!.textContent = "";
-        const postLoadingElement = document.createElement('div');
+        const postLoadingElement = document.createElement("div");
         postLoadingElement.id = "post-loading-" + props.id;
-        postLoadingElement.className = 'loader';
+        postLoadingElement.className = "loader";
 
         // Change the button to a loading state
-        postBtn!.style.borderColor = '#364050';
-        postBtn!.setAttribute('disabled', 'disabled');
+        postBtn!.style.borderColor = "#364050";
+        postBtn!.setAttribute("disabled", "disabled");
         postBtn!.appendChild(postLoadingElement);
 
-        fetch(`https://api${(props.dev) ? '-dev' : ''}.relaxg.app/jobs/`, {
-            method: 'POST',
+        fetch(`https://api${props.dev ? "-dev" : ""}.relaxg.app/jobs/`, {
+            method: "POST",
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                Accept: "application/json",
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify({ "title-id": `${props.id}`, "last-pid": 777, "status": "Paused" })
-        }).then(response =>
+            body: JSON.stringify({
+                "title-id": `${props.id}`,
+                "last-pid": 777,
+                status: "Paused",
+            }),
+        }).then((response) =>
             response.json().then((value) => {
-                if (value['status'] == "ok, running") {
+                if (value["status"] == "ok, running") {
                     setTimeout(() => {
-                        document.querySelector('body')?.classList.remove('modal-open');
+                        document
+                            .querySelector("body")
+                            ?.classList.remove("modal-open");
                         router.refresh();
-                        router.replace('/app/jobs-manager');
+                        router.replace("/app/jobs-manager");
                     }, 1000);
                     postBtn!.removeChild(postLoadingElement);
                     postBtn!.textContent = "Started, redirecting...";
                 } else {
                     postBtn!.textContent = "Job duplicate ?";
-                    postBtn!.style.borderColor = 'white';
-                    postBtn!.removeAttribute('disabled');
+                    postBtn!.style.borderColor = "white";
+                    postBtn!.removeAttribute("disabled");
                 }
             })
         );
-    }
+    };
 
     return (
         <section>
-            <div className={styles.darkBG} />
+            <div className={styles.darkBackground} />
             <div className={styles.centered}>
-                <div className={styles.content + " grid-rows-[1fr_1fr_1fr]"}>
-                    <div className="titleActionsModal__header animate-fast">
-                        <p className="text-center border-b-2 text-wrap break-words w-full">{title}</p>
+                <div className={styles.content}>
+                    <div
+                        className={
+                            styles.titleActionsModalHeader + " animate-fast"
+                        }
+                    >
+                        <p>{title}</p>
                     </div>
-                    <div className="titleActionsModal__body  flex flex-row justify-center items-center">
-                        <p className="text-center">Please choose an action below.</p>
+                    <div className={styles.titleActionsModalBody}>
+                        <p>Please choose an action below.</p>
                     </div>
-                    <div className="titleActionsModal__footer flex flex-row justify-between items-end shrink-0 flex-wrap">
+                    <div className={styles.titleActionsModalFooter}>
                         <button
                             id={"post-button-" + props.id}
                             className={"secondary-btn"}
                             onClick={() => handlePost()}
-                            style={{ minWidth: "33%", lineHeight: "50%", minHeight: "50px", maxHeight: "50px" }}>Create Job</button>
-                        <button className={"secondary-btn"}
-                            style={{ minWidth: "33%", minHeight: "50px", maxHeight: "50px", borderColor: "gray", color: "gray" }}>Delete previous upscaling</button>
-                        <button className={"secondary-btn"} onClick={() => handleExit()}
-                            style={{ minWidth: "33%", minHeight: "50px", maxHeight: "50px" }}>Exit</button>
+                        >
+                            Create Job
+                        </button>
+                        <button
+                            className={"secondary-btn"}
+                            style={{ borderColor: "gray", color: "gray" }}
+                        >
+                            Delete previous upscaling
+                        </button>
+                        <button
+                            className={"secondary-btn"}
+                            onClick={() => handleExit()}
+                        >
+                            Exit
+                        </button>
                     </div>
                 </div>
             </div>
-        </section>)
+        </section>
+    );
 }

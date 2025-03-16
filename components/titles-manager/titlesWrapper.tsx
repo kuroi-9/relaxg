@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useEffect, useRef, useState } from "react";
 import imagesLoaded from "imagesloaded";
@@ -6,17 +6,19 @@ import Link from "next/link";
 import TitleCard from "./titleCard";
 import { TitleItem } from "@/app/(protected)/app/titles-manager/page";
 import SearchBar from "./searchBar";
+import styles from "@/app/(protected)/app/titles-manager/titlesManager.module.css";
 
 export default function TitlesWrapper(props: { titles: TitleItem[] }) {
-    const [inputText, setInputText] = useState<string>('');
+    const [inputText, setInputText] = useState<string>("");
     const currentTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
-    const currentSearchBarInputVisibilityTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
-    const imagesInLoadingState = useRef<number[]>([])
+    const currentSearchBarInputVisibilityTimeout = useRef<
+        NodeJS.Timeout | undefined
+    >(undefined);
+    const imagesInLoadingState = useRef<number[]>([]);
     const filteredTitles = props.titles.filter((title) => {
         return title["title-name"]
             .toLocaleLowerCase()
-            .includes(
-                inputText.toLocaleLowerCase());
+            .includes(inputText.toLocaleLowerCase());
     });
     const baseScroll = useRef<number>(0);
     const toScroll = useRef<number>(0);
@@ -25,31 +27,48 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
     const [jumpNeeded, setJumpNeeded] = useState<boolean>(false);
 
     if (filteredTitles.length === 0) {
-        document.getElementById('titles-wrapper-content-container')!.style.visibility = 'visible';
-        document.getElementById('titles-wrapper-content-container')!.style.opacity = '1';
-        document.getElementById('titles-wrapper-search-loading')!.style.display = 'none';
-        document.getElementById('titles-wrapper-search-loading')!.style.opacity = '0';
+        document.getElementById(
+            "titles-wrapper-content-container"
+        )!.style.visibility = "visible";
+        document.getElementById(
+            "titles-wrapper-content-container"
+        )!.style.opacity = "1";
+        document.getElementById(
+            "titles-wrapper-search-loading"
+        )!.style.display = "none";
+        document.getElementById(
+            "titles-wrapper-search-loading"
+        )!.style.opacity = "0";
     }
 
-
     /**
-    * Set appropriate spanning to any masonry item
-    *
-    * Get different properties we already set for the masonry, calculate 
-    * height or spanning for any cell of the masonry grid based on its 
-    * content-wrapper's height, the (row) gap of the grid, and the size 
-    * of the implicit row tracks.
-    *
-    * @param item Object A brick/tile/cell inside the masonry
-    * @link https://w3bits.com/css-grid-masonry/
-    */
-    function resizeMasonryItem(item: any) {
+     * Set appropriate spanning to any titles list item
+     *
+     * Get different properties we already set for the titles list, calculate
+     * height or spanning for any cell of the titles list grid based on its
+     * content-wrapper's height, the (row) gap of the grid, and the size
+     * of the implicit row tracks.
+     *
+     * @param item Object A brick/tile/cell inside the titles list
+     * @link https://w3bits.com/css-grid-masonry/
+     */
+    function resizeTitlesList(item: any) {
         /* Get the grid object, its row-gap, and the size of its implicit rows */
-        const grid = document.getElementsByClassName('masonry')[0];
+        const grid = document.getElementsByClassName("titles-list")[0];
         if (grid) {
-            const rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap')),
-                rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows')),
-                gridImagesAsContent = item.querySelector('img.masonry-content');
+            const rowGap = parseInt(
+                    window
+                        .getComputedStyle(grid)
+                        .getPropertyValue("grid-row-gap")
+                ),
+                rowHeight = parseInt(
+                    window
+                        .getComputedStyle(grid)
+                        .getPropertyValue("grid-auto-rows")
+                ),
+                gridImagesAsContent = item.querySelector(
+                    "img.titles-list-content"
+                );
 
             /*
              * Spanning for any brick = S
@@ -60,76 +79,104 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
              * Net height of the implicit row-track = T = G + R
              * S = H1 / T
              */
-            const rowSpan = Math.ceil((item.querySelector('.masonry-content').getBoundingClientRect().height + rowGap) / (rowHeight + rowGap));
+            const rowSpan = Math.ceil(
+                (item
+                    .querySelector(".titles-list-content")
+                    .getBoundingClientRect().height +
+                    rowGap) /
+                    (rowHeight + rowGap)
+            );
 
             /* Set the spanning as calculated above (S) */
-            item.style.gridRowEnd = 'span ' + rowSpan;
+            item.style.gridRowEnd = "span " + rowSpan;
             if (gridImagesAsContent) {
-                item.querySelector('img.masonry-content').style.height = item.getBoundingClientRect().height + "px";
+                item.querySelector("img.titles-list-content").style.height =
+                    item.getBoundingClientRect().height + "px";
             }
         }
     }
 
     /**
-     * Apply spanning to all the masonry items
+     * Apply spanning to all the titles list items
      *
-     * Loop through all the items and apply the spanning to them using 
-     * `resizeMasonryItem()` function.
+     * Loop through all the items and apply the spanning to them using
+     * `resizeTitlesList()` function.
      *
-     * @uses resizeMasonryItem
-     * @link https://w3bits.com/css-grid-masonry/
+     * @uses resizeTitlesList
+     * @link https://w3bits.com/css-grid-TitlesList/
      */
-    function resizeAllMasonryItems() {
+    function resizeAllTitlesList() {
         // Get all item class objects in one list
-        const allItems = document.querySelectorAll('.masonry-item');
+        const allItems = document.querySelectorAll(".titles-list-item");
 
         /*
          * Loop through the above list and execute the spanning function to
-         * each list-item (i.e. each masonry item)
+         * each list-item (i.e. each TitlesList item)
          */
         if (allItems) {
             for (let i = 0; i > allItems.length; i++) {
-                resizeMasonryItem(allItems[i]);
+                resizeTitlesList(allItems[i]);
             }
         }
     }
 
     /**
-     * Resize the items when all the images inside the masonry grid 
+     * Resize the items when all the images inside the titles list grid
      * finish loading. This will ensure that all the content inside our
-     * masonry items is visible.
+     * TitlesList items is visible.
      *
      * @uses ImagesLoaded
-     * @uses resizeMasonryItem
-     * @link https://w3bits.com/css-grid-masonry/
+     * @uses resizeTitlesList
+     * @link https://w3bits.com/css-grid-TitlesList/
      */
     function waitForImages() {
-        const allItems = document.querySelectorAll('.masonry-item');
+        const allItems = document.querySelectorAll(".titles-list-item");
         if (allItems) {
             for (let i = 0; i < allItems.length; i++) {
                 // We set the image as in a loading state
                 imagesInLoadingState.current.push(i);
                 imagesLoaded(allItems[i], function (instance: any) {
                     const item = instance.elements[0];
-                    resizeMasonryItem(item);
+                    resizeTitlesList(item);
                     // When loaded, we remove the image from the array
                     // Once all the images have been removed from the array, we show the titles section to the user
-                    imagesInLoadingState.current.splice(imagesInLoadingState.current?.indexOf(i), 1);
+                    imagesInLoadingState.current.splice(
+                        imagesInLoadingState.current?.indexOf(i),
+                        1
+                    );
                     if (imagesInLoadingState.current.length === 0) {
-                        document.getElementById('titles-wrapper-content-container')!.style.visibility = 'visible';
-                        document.getElementById('titles-wrapper-content-container')!.style.opacity = '1';
-                        document.getElementById('titles-wrapper-search-loading')!.style.display = 'none';
-                        document.getElementById('titles-wrapper-search-loading')!.style.opacity = '0';
+                        document.getElementById(
+                            "titles-wrapper-content-container"
+                        )!.style.visibility = "visible";
+                        document.getElementById(
+                            "titles-wrapper-content-container"
+                        )!.style.opacity = "1";
+                        document.getElementById(
+                            "titles-wrapper-search-loading"
+                        )!.style.display = "none";
+                        document.getElementById(
+                            "titles-wrapper-search-loading"
+                        )!.style.opacity = "0";
                         if (jumpNeeded) {
                             // Reset scroll to the state previous typing
                             //TODO: Fix possible scrollTo induced layout shift
                             //window.scrollTo(0, toScroll.current);
                             toScroll.current = 0;
-                            if (currentSearchBarInputVisibilityTimeout.current) clearTimeout(currentSearchBarInputVisibilityTimeout.current);
-                            currentSearchBarInputVisibilityTimeout.current = setTimeout(() => {
-                                document.getElementById('search-bar-container')!.style.opacity = '1';
-                                document.getElementById('title-manager-search-bar-input')!.removeAttribute('disabled');
-                            }, 1200)
+                            if (currentSearchBarInputVisibilityTimeout.current)
+                                clearTimeout(
+                                    currentSearchBarInputVisibilityTimeout.current
+                                );
+                            currentSearchBarInputVisibilityTimeout.current =
+                                setTimeout(() => {
+                                    document.getElementById(
+                                        "search-bar-container"
+                                    )!.style.opacity = "1";
+                                    document
+                                        .getElementById(
+                                            "title-manager-search-bar-input"
+                                        )!
+                                        .removeAttribute("disabled");
+                                }, 1200);
                             setJumpNeeded(false);
                         }
                     }
@@ -140,18 +187,18 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
 
     useEffect(() => {
         /* Resize all the grid items on the load and resize events */
-        const masonryEvents = ['load', 'resize'];
-        masonryEvents.forEach(function (event) {
-            window.addEventListener(event, resizeAllMasonryItems);
+        const TitlesList = ["load", "resize"];
+        TitlesList.forEach(function (event) {
+            window.addEventListener(event, resizeAllTitlesList);
         });
 
         /* Do a resize once more when all the images finish loading */
         waitForImages();
-    })
+    });
 
     /**
      * Typing and titles filtering delay management
-     * @param _inputText 
+     * @param _inputText
      */
     const filterTitles = (_inputText: string) => {
         if (currentTimeout.current !== undefined) {
@@ -159,71 +206,92 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
             currentTimeout.current = setTimeout(() => {
                 if (inputText !== _inputText) {
                     //TODO: Remove the animate attr in titleCards so it reset the animation, and it can be triggered each time there's an update
-                    document.getElementById('titles-wrapper-content-container')!.style.visibility = 'hidden';
-                    document.getElementById('titles-wrapper-content-container')!.style.opacity = '0';
-                    document.getElementById('titles-wrapper-search-loading')!.style.display = 'inline-block';
-                    document.getElementById('titles-wrapper-search-loading')!.style.opacity = '1';
+                    document.getElementById(
+                        "titles-wrapper-content-container"
+                    )!.style.visibility = "hidden";
+                    document.getElementById(
+                        "titles-wrapper-content-container"
+                    )!.style.opacity = "0";
+                    document.getElementById(
+                        "titles-wrapper-search-loading"
+                    )!.style.display = "inline-block";
+                    document.getElementById(
+                        "titles-wrapper-search-loading"
+                    )!.style.opacity = "1";
                     setInputText(_inputText);
 
-                    console.log('base' + baseScroll.current)
-                    console.log('toscroll' + toScroll.current)                    
+                    console.log("base" + baseScroll.current);
+                    console.log("toscroll" + toScroll.current);
 
                     if (baseScroll.current === 0) {
                         baseScroll.current = window.pageYOffset;
                         toScroll.current = window.pageYOffset;
                         window.scrollTo(0, 0);
                     } else {
-                        console.log('input' + _inputText)
-                        if (_inputText === '') {
-                            console.log('iuerhugierg')
+                        console.log("input" + _inputText);
+                        if (_inputText === "") {
+                            console.log("iuerhugierg");
                             setJumpNeeded(true);
                             baseScroll.current = 0;
-                        } else { window.scrollTo(0, 0); }
+                        } else {
+                            window.scrollTo(0, 0);
+                        }
                     }
-
-                    
                 }
-            }, 500)
+            }, 500);
         } else {
             currentTimeout.current = setTimeout(() => {
                 if (inputText !== _inputText) {
                     //TODO: Remove the animate attr in titleCards so it reset the animation, and it can be triggered each time there's an update
-                    document.getElementById('titles-wrapper-content-container')!.style.visibility = 'hidden';
-                    document.getElementById('titles-wrapper-content-container')!.style.opacity = '0';
-                    document.getElementById('titles-wrapper-search-loading')!.style.display = 'inline-block';
-                    document.getElementById('titles-wrapper-search-loading')!.style.opacity = '1';
+                    document.getElementById(
+                        "titles-wrapper-content-container"
+                    )!.style.visibility = "hidden";
+                    document.getElementById(
+                        "titles-wrapper-content-container"
+                    )!.style.opacity = "0";
+                    document.getElementById(
+                        "titles-wrapper-search-loading"
+                    )!.style.display = "inline-block";
+                    document.getElementById(
+                        "titles-wrapper-search-loading"
+                    )!.style.opacity = "1";
                     setInputText(_inputText);
-                    
-                    console.log('base' + baseScroll.current)
-                    console.log('toscroll' + toScroll.current)                    
+
+                    console.log("base" + baseScroll.current);
+                    console.log("toscroll" + toScroll.current);
 
                     if (baseScroll.current === 0) {
                         baseScroll.current = window.pageYOffset;
                         toScroll.current = window.pageYOffset;
                         window.scrollTo(0, 0);
                     } else {
-                        console.log('input' + _inputText)
-                        if (_inputText === '') {
-                            console.log('iuerhugierg')
+                        console.log("input" + _inputText);
+                        if (_inputText === "") {
+                            console.log("iuerhugierg");
                             setJumpNeeded(true);
                             baseScroll.current = 0;
-                        } else { window.scrollTo(0, 0); }
+                        } else {
+                            window.scrollTo(0, 0);
+                        }
                     }
                 }
-            }, 500)
+            }, 500);
         }
-    }
+    };
 
     /**
      * Show or hide the searchBar depending on scrolling
-     * @param value 
+     * @param value
      */
     const handleScroll = (value: number) => {
         if (value > currentMaxScroll.current) {
             currentMinScroll.current = value;
             currentMaxScroll.current = value;
-            document.getElementById('search-bar-container')!.style.opacity = '0';
-            document.getElementById('title-manager-search-bar-input')!.setAttribute('disabled', 'true');
+            document.getElementById("search-bar-container")!.style.opacity =
+                "0";
+            document
+                .getElementById("title-manager-search-bar-input")!
+                .setAttribute("disabled", "true");
         } else if (value < currentMinScroll.current) {
             currentMinScroll.current = value;
         } else {
@@ -232,45 +300,61 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
         }
 
         if (currentMaxScroll.current - currentMinScroll.current > 0) {
-            document.getElementById('search-bar-container')!.style.opacity = '1';
-            document.getElementById('title-manager-search-bar-input')!.removeAttribute('disabled');
+            document.getElementById("search-bar-container")!.style.opacity =
+                "1";
+            document
+                .getElementById("title-manager-search-bar-input")!
+                .removeAttribute("disabled");
             currentMaxScroll.current = value;
         }
-    }
+    };
 
-    window.addEventListener('scroll', function () { handleScroll(window.pageYOffset) }, true)
+    window.addEventListener(
+        "scroll",
+        function () {
+            handleScroll(window.pageYOffset);
+        },
+        true
+    );
 
     return (
         <section className="titles-wrapper-container flex flex-col items-center w-full">
-            <div id="search-bar-container" className={`w-full with-opacity-transition`}>
+            <div
+                id="search-bar-container"
+                className="w-full with-opacity-transition"
+            >
                 <SearchBar filterTitles={filterTitles}></SearchBar>
             </div>
             <span
                 id="titles-wrapper-search-loading"
-                className="loader with-opacity-transition"
-                style={{
-                    minWidth: "80px",
-                    minHeight: "80px",
-                    margin: "10%",
-                    marginTop: "10rem",
-                    position: "fixed",
-                }}></span>
-            <section id="titles-wrapper-content-container" className="masonry-wrapper animate with-opacity-transition"
-                style={{
-                    marginTop: "6rem",
-                }}>
-                <ul className="masonry">
+                className={
+                    styles.titles_wrapper_search_loading +
+                    " loader with-opacity-transition"
+                }
+            ></span>
+            <section
+                id="titles-wrapper-content-container"
+                className={
+                    styles.titles_list_wrapper +
+                    " animate with-opacity-transition"
+                }
+            >
+                <ul className={`${styles.titles_list} titles-list`}>
                     {filteredTitles.map((title: TitleItem) => (
                         <Link
-                            className="masonry-item min-w-max"
-                            key={title.id} href={{
+                            className={`${styles.titles_list_item} titles-list-item min-w-max`}
+                            key={title.id}
+                            href={{
                                 pathname: `/app/titles/${title.id}`,
-                                query: { name: title["title-name"] }
-                            }} scroll={false} prefetch={false}>
+                                query: { name: title["title-name"] },
+                            }}
+                            scroll={false}
+                            prefetch={false}
+                        >
                             <TitleCard
                                 key={title.id}
                                 title={title}
-                                dev={(process.env.MODE === 'developpment')}
+                                dev={process.env.MODE === "developpment"}
                             ></TitleCard>
                         </Link>
                     ))}

@@ -1,5 +1,4 @@
 import "@/app/globals.css"
-import "@/app/(protected)/app/titles-manager/titlesManager.css";
 
 export default function TitlesManagerLayout(props: {
     children: React.ReactNode

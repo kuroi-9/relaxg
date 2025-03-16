@@ -1,4 +1,4 @@
-.darkBG {
+.darkBackground {
     background-color: rgba(0, 0, 0, 0.6);
     width: 170%;
     height: 200%;
@@ -29,4 +29,59 @@
     padding: 0.5rem;
     display: grid;
     grid-auto-flow: column;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.titleActionsModalHeader>p {
+    text-align: center;
+    border-bottom: 2px solid var(--foreground);
+    text-wrap: wrap;
+    overflow-wrap: break-word;
+}
+
+.titleActionsModalBody {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.titleActionsModalBody>p {
+    text-align: center;
+}
+
+.titleActionsModalFooter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+.titleActionsModalFooter>button {
+    min-width: 33%;
+    min-height: 50px;
+    max-height: 50px; 
+}
+
+@media screen and (max-width: 730px) {
+    .titleActionsModalBody {
+        align-items: start;
+    }
+
+    .titleActionsModalFooter {
+        flex-direction: column;
+        align-items: baseline;
+        justify-content: end;
+    }
+
+    .titleActionsModalFooter>button {
+        margin-bottom: 0.5rem;
+        width: 100%;
+    }
+
+    .titleActionsModalFooter>button:last-child {
+        margin-bottom: 0.1rem;
+    }
 }

@@ -1,19 +1,19 @@
-'use client'
+'use client';
 
-import "@/app/globals.css"
-import "@/app/(protected)/app/titles-manager/titlesManager.css";
+import "@/app/globals.css";
+import styles from "@/app/(protected)/app/titles-manager/titleSearchBar.module.css";
 
-export default function SearchBar(
-    props: { filterTitles: (inputText: string) => void }
-) {
-
+export default function SearchBar(props: {
+    filterTitles: (inputText: string) => void;
+}) {
     return (
-        <section className="search-bar-container flex justify-center w-full fixed z-50">
+        <section className={styles.search_bar_container}>
             <input
                 id="title-manager-search-bar-input"
-                className="search-bar-input primary-input m-2 w-10/12"
+                className={`${styles.search_bar_input} primary-input`}
                 placeholder="Find your next reading..."
-                onChange={(event) => props.filterTitles(event.target.value)}></input>
+                onChange={(event) => props.filterTitles(event.target.value)}
+            ></input>
         </section>
-    )
+    );
 }

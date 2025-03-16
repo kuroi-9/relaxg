@@ -1,0 +1,12 @@
+.search_bar_container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: fixed;
+    z-index: 50;
+}
+
+.search_bar_input {
+    margin: 0.5rem;
+    width: 83.33%;
+}
