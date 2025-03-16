@@ -4,15 +4,12 @@ services:
     container_name: frontend-prod
     build:
       context: .
-      target: dev
+      target: base
       dockerfile: Dockerfile.prod
     restart: always
     command: npm run start
-    env_file:
-      - .env
     environment:
       - NODE_ENV=production
-      - HOST={$(ip route show | awk '/default/ {print $9}')}
     volumes:
       - .:/app
       - /app/node_modules

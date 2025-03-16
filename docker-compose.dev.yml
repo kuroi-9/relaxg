@@ -12,7 +12,6 @@ services:
       - .env
     environment:
       - NODE_ENV=development
-      - HOST={$(ip route show | awk '/default/ {print $9}')}
     volumes:
       - .:/app
       - /app/node_modules
