@@ -10,6 +10,7 @@ import SearchBar from "./searchBar";
 export default function TitlesWrapper(props: { titles: TitleItem[] }) {
     const [inputText, setInputText] = useState<string>('');
     const currentTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
+    const currentSearchBarInputVisibilityTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
     const imagesInLoadingState = useRef<number[]>([])
     const filteredTitles = props.titles.filter((title) => {
         return title["title-name"]
@@ -123,6 +124,11 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                             // Reset scroll to the state previous typing
                             window.scrollTo(0, toScroll.current);
                             toScroll.current = 0;
+                            if (currentSearchBarInputVisibilityTimeout.current) clearTimeout(currentSearchBarInputVisibilityTimeout.current);
+                            currentSearchBarInputVisibilityTimeout.current = setTimeout(() => {
+                                document.getElementById('search-bar-container')!.style.opacity = '1';
+                                document.getElementById('title-manager-search-bar-input')!.removeAttribute('disabled');
+                            }, 1200)
                             setJumpNeeded(false);
                         }
                     }
