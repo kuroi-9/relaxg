@@ -18,7 +18,7 @@ export default function Home() {
                 </div>
 
                 <div className="grid grid-rows-[1fr_1fr] grid-flow-col gap-4 w-full">
-                    <Link className="primary-btn text-center" href="/app/jobs-manager">Essayer relaxg - v0.5</Link>
+                    <Link className="primary-btn text-center" href="/app/jobs-manager">Essayer RelaxG - v0.5</Link>
                     <p className="italic font-serif text-lg">{'\u275D'}A tool to help with manga upscaling{'\u275E'}</p>
                 </div>
             </main>
