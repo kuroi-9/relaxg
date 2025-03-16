@@ -1,10 +1,11 @@
 'use client'
 
+import "@/app/globals.css"
+import "@/app/(protected)/app/titles-manager/titlesManager.css";
 import styles from "@/app/(protected)/app/titles-manager/titleActionsModal.module.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import "@/app/globals.css"
-import "@/app/(protected)/app/titles-manager/titlesManager.css";
+
 
 export default function OverlayTitleModal(props: { id: string; hostIp: string; dev: boolean; }) {
     const router = useRouter();
@@ -74,14 +75,14 @@ export default function OverlayTitleModal(props: { id: string; hostIp: string; d
         <section>
             <div className={styles.darkBG} />
             <div className={styles.centered}>
-                <div className={styles.content}>
-                    <div className="titleActionsModal__header border-b-2 animate-fast">
-                        {title}
+                <div className={styles.content + " grid-rows-[1fr_1fr_1fr]"}>
+                    <div className="titleActionsModal__header animate-fast">
+                        <p className="text-center border-b-2 text-wrap break-words w-full">{title}</p>
                     </div>
-                    <div className="titleActionsModal__body animate-fast">
-                        Please choose an action below.
+                    <div className="titleActionsModal__body  flex flex-row justify-center items-center">
+                        <p className="text-center">Please choose an action below.</p>
                     </div>
-                    <div className="titleActionsModal__footer flex flex-row w-10/12 justify-between shrink-0 flex-wrap">
+                    <div className="titleActionsModal__footer flex flex-row justify-between items-end shrink-0 flex-wrap">
                         <button
                             id={"post-button-" + props.id}
                             className={"secondary-btn"}

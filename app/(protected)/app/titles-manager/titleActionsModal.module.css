@@ -25,10 +25,8 @@
     color: var(--foreground);
     z-index: 10;
     box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
-    border: solid var(--foreground) 1px;
+    border: 1px solid gray;
     padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-auto-flow: column;
 }

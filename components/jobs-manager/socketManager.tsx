@@ -303,6 +303,8 @@ export default function SocketManager(props: {
         }
     }, [props.host, props.jobs]);
 
+    window.scrollTo(0, 0);
+
     return (
         <section className="flex flex-col items-center">
             <ul className="w-full">

@@ -107,9 +107,9 @@
     background: var(--background);
 }
 
-.masonry-item:hover {
+/* .masonry-item:hover {
     filter: drop-shadow(0px 0px 5px rgb(159, 159, 159));
-}
+} */
 
 .masonry-item:active {
     outline: 6px solid #fcd34d;
@@ -139,10 +139,17 @@
     .titleActionsModal__footer {
         display: flex;
         flex-direction: column;
+        align-items: baseline;
+        justify-content: end;
     }
 
     .titleActionsModal__footer>button {
         margin-bottom: 0.5rem;
+        width: 100%;
+    }
+
+    .titleActionsModal__footer>button:last-child {
+        margin-bottom: 0.1rem;
     }
 
     .title-card-container {

@@ -130,6 +130,9 @@ export default function JobCard(props: {
                     resumeBtn!.textContent = 'Deleted';
                     resumeBtn!.setAttribute('disabled', 'true');
                     resumeBtn!.classList.replace('primary-btn', 'secondary-btn');
+                    resumeBtn!.style.color = 'gray';
+                    resumeBtn!.style.borderColor = 'gray';
+                    resumeBtn!.style.backgroundColor = 'var(--background)';
                     setIsDeleted(true);
 
                     deleteBtn!.removeChild(deleteLoadingElement);

@@ -17,7 +17,7 @@ export default function NavBar() {
     const pathname = usePathname();
 
     return (
-        <nav className="nav-links-container z-10 flex flex-row justify-between mb-8 overflow-x-scroll fixed w-full"
+        <nav className="nav-links-container z-50 flex flex-row justify-between mb-8 overflow-x-scroll fixed w-full"
             style={{
                 boxShadow: "0px 0px 30px 1px black",
                 borderBottom: "1px solid gray",

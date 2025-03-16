@@ -17,11 +17,17 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
             .includes(
                 inputText.toLocaleLowerCase());
     });
+    const baseScroll = useRef<number>(0);
+    const toScroll = useRef<number>(0);
+    const currentMinScroll = useRef<number>(0);
+    const currentMaxScroll = useRef<number>(0);
+    const [jumpNeeded, setJumpNeeded] = useState<boolean>(false);
 
     if (filteredTitles.length === 0) {
         document.getElementById('titles-wrapper-content-container')!.style.visibility = 'visible';
         document.getElementById('titles-wrapper-content-container')!.style.opacity = '1';
         document.getElementById('titles-wrapper-search-loading')!.style.display = 'none';
+        document.getElementById('titles-wrapper-search-loading')!.style.opacity = '0';
     }
 
 
@@ -112,6 +118,13 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                         document.getElementById('titles-wrapper-content-container')!.style.visibility = 'visible';
                         document.getElementById('titles-wrapper-content-container')!.style.opacity = '1';
                         document.getElementById('titles-wrapper-search-loading')!.style.display = 'none';
+                        document.getElementById('titles-wrapper-search-loading')!.style.opacity = '0';
+                        if (jumpNeeded) {
+                            // Reset scroll to the state previous typing
+                            window.scrollTo(0, toScroll.current);
+                            toScroll.current = 0;
+                            setJumpNeeded(false);
+                        }
                     }
                 });
             }
@@ -142,7 +155,26 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     document.getElementById('titles-wrapper-content-container')!.style.visibility = 'hidden';
                     document.getElementById('titles-wrapper-content-container')!.style.opacity = '0';
                     document.getElementById('titles-wrapper-search-loading')!.style.display = 'inline-block';
+                    document.getElementById('titles-wrapper-search-loading')!.style.opacity = '1';
                     setInputText(_inputText);
+
+                    console.log('base' + baseScroll.current)
+                    console.log('toscroll' + toScroll.current)                    
+
+                    if (baseScroll.current === 0) {
+                        baseScroll.current = window.pageYOffset;
+                        toScroll.current = window.pageYOffset;
+                        window.scrollTo(0, 0);
+                    } else {
+                        console.log('input' + _inputText)
+                        if (_inputText === '') {
+                            console.log('iuerhugierg')
+                            setJumpNeeded(true);
+                            baseScroll.current = 0;
+                        } else { window.scrollTo(0, 0); }
+                    }
+
+                    
                 }
             }, 500)
         } else {
@@ -152,18 +184,63 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     document.getElementById('titles-wrapper-content-container')!.style.visibility = 'hidden';
                     document.getElementById('titles-wrapper-content-container')!.style.opacity = '0';
                     document.getElementById('titles-wrapper-search-loading')!.style.display = 'inline-block';
+                    document.getElementById('titles-wrapper-search-loading')!.style.opacity = '1';
                     setInputText(_inputText);
+                    
+                    console.log('base' + baseScroll.current)
+                    console.log('toscroll' + toScroll.current)                    
+
+                    if (baseScroll.current === 0) {
+                        baseScroll.current = window.pageYOffset;
+                        toScroll.current = window.pageYOffset;
+                        window.scrollTo(0, 0);
+                    } else {
+                        console.log('input' + _inputText)
+                        if (_inputText === '') {
+                            console.log('iuerhugierg')
+                            setJumpNeeded(true);
+                            baseScroll.current = 0;
+                        } else { window.scrollTo(0, 0); }
+                    }
                 }
             }, 500)
         }
     }
 
+    /**
+     * Show or hide the searchBar depending on scrolling
+     * @param value 
+     */
+    const handleScroll = (value: number) => {
+        if (value > currentMaxScroll.current) {
+            currentMinScroll.current = value;
+            currentMaxScroll.current = value;
+            document.getElementById('search-bar-container')!.style.opacity = '0';
+            document.getElementById('title-manager-search-bar-input')!.setAttribute('disabled', 'true');
+        } else if (value < currentMinScroll.current) {
+            currentMinScroll.current = value;
+        } else {
+            currentMinScroll.current = value;
+            currentMaxScroll.current = value;
+        }
+
+        if (currentMaxScroll.current - currentMinScroll.current > 0) {
+            document.getElementById('search-bar-container')!.style.opacity = '1';
+            document.getElementById('title-manager-search-bar-input')!.removeAttribute('disabled');
+            currentMaxScroll.current = value;
+        }
+    }
+
+    window.addEventListener('scroll', function () { handleScroll(window.pageYOffset) }, true)
+
     return (
         <section className="titles-wrapper-container flex flex-col items-center w-full">
-            <SearchBar filterTitles={filterTitles}></SearchBar>
+            <div id="search-bar-container" className={`w-full with-opacity-transition`}>
+                <SearchBar filterTitles={filterTitles}></SearchBar>
+            </div>
             <span
                 id="titles-wrapper-search-loading"
-                className="loader"
+                className="loader with-opacity-transition"
                 style={{
                     minWidth: "80px",
                     minHeight: "80px",
