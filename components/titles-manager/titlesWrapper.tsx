@@ -122,7 +122,8 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                         document.getElementById('titles-wrapper-search-loading')!.style.opacity = '0';
                         if (jumpNeeded) {
                             // Reset scroll to the state previous typing
-                            window.scrollTo(0, toScroll.current);
+                            //TODO: Fix possible scrollTo induced layout shift
+                            //window.scrollTo(0, toScroll.current);
                             toScroll.current = 0;
                             if (currentSearchBarInputVisibilityTimeout.current) clearTimeout(currentSearchBarInputVisibilityTimeout.current);
                             currentSearchBarInputVisibilityTimeout.current = setTimeout(() => {
