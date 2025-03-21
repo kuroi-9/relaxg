@@ -1,5 +1,5 @@
-# relaxg
-A tool to help with manga upscaling
+# RelaxG 
+A mobile-first tool to help with manga upscaling
 
 ## Getting Started
 
