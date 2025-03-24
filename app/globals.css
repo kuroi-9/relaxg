@@ -92,7 +92,7 @@ body.modal-open {
 .primary-input:focus,
 .nav-link:active {
     outline: 6px solid #fcd34d;
-    transition: outline 0.05s ease-in;
+    transition: outline 0.25s ease-in;
 }
 
 .animate {
