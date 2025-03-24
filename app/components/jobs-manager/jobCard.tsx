@@ -3,7 +3,7 @@
 import "@/app/globals.css"
 import "@/app/(protected)/app/jobs-manager/jobsManager.css";
 import { ReactNode, useCallback, useRef, useState } from "react";
-import VolumeCard from "@/components/jobs-manager/volumeCard";
+import VolumeCard from "@/app/components/jobs-manager/volumeCard";
 import Emoji from "react-emoji-render";
 import { JobItem } from './socketManager';
 

@@ -1,5 +1,5 @@
 import { Modal } from "./modal";
-import OverlayTitleModal from "@/components/titles-manager/overlayTitleModal";
+import OverlayTitleModal from "@/app/components/titles-manager/overlayTitleModal";
 
 export default async function TitleModal(
     { params }: {

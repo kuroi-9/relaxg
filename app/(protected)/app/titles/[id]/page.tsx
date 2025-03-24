@@ -1,4 +1,4 @@
-import StandaloneTitleModal from "../../../../../components/titles-manager/standaloneTitleModal";
+import StandaloneTitleModal from "../../../../components/titles-manager/standaloneTitleModal";
 
 export const dynamicParams = false;
 

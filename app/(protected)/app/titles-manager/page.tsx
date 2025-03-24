@@ -1,6 +1,6 @@
 import { Key } from "react";
 import "@/app/globals.css"
-import TitlesWrapper from "@/components/titles-manager/titlesWrapper";
+import TitlesWrapper from "@/app/components/titles-manager/titlesWrapper";
 
 export interface TitleItem {
     id: Key | null | undefined;

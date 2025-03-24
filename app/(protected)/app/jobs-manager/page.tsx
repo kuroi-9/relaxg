@@ -1,4 +1,4 @@
-import SocketManager from "@/components/jobs-manager/socketManager";
+import SocketManager from "@/app/components/jobs-manager/socketManager";
 
 
 export default async function JobsPage() {
