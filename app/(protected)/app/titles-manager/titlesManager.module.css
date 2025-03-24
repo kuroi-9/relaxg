@@ -8,7 +8,7 @@
 
 .title_card_container:active {
     outline: 6px solid #fcd34d;
-    transition: outline 0.25s ease-in;
+    transition: outline 0.05s ease-in;
 }
 
 .title_card_name_container {
@@ -159,7 +159,7 @@
 
 .titles_list_item:active {
     outline: 6px solid #fcd34d;
-    transition: outline 0.25s ease-in;
+    transition: outline 0.05s ease-in;
 }
 
 .titles_list_footer {
