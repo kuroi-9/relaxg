@@ -20,7 +20,7 @@ export default function VolumeCard(props: {
     };
 
     useEffect(() => {
-        let totalWidth =
+        const totalWidth =
             document.getElementById(`volume-${props.volume.name}`)?.scrollWidth! -
             document.getElementById(`volume-${props.volume.name}`)?.clientWidth! -
             5;
