@@ -7,10 +7,10 @@ export default function SearchBar(props: {
     filterTitles: (inputText: string) => void;
 }) {
     return (
-        <section className={styles.search_bar_container}>
+        <section className={styles.searchBarContainer}>
             <input
                 id="title-manager-search-bar-input"
-                className={`${styles.search_bar_input} primary-input`}
+                className={`${styles.searchBarInput} primary-input`}
                 placeholder="Find your next reading..."
                 onChange={(event) => props.filterTitles(event.target.value)}
             ></input>

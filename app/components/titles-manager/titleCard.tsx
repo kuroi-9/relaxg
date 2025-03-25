@@ -16,9 +16,9 @@ export default function TitleCard(props: {
 }) {
     return (
         <div
-            className={`${styles.title_card_container} ${styles.titles_list_content} titles-list-content`}
+            className={`${styles.titleCardContainer} ${styles.titlesListContent} titles-list-content`}
         >
-            <div className={`${styles.title_card_image_container} animate`}>
+            <div className={`${styles.titleCardImageContainer} animate`}>
                 <Image
                     src={
                         `https://api${
@@ -35,13 +35,13 @@ export default function TitleCard(props: {
                 />
             </div>
             <div
-                className={`${styles.title_card_name_container} title-card bg-${
+                className={`${styles.titleCardNameContainer} title-card bg-${
                     props.title["post-treated"] ? "green" : "black"
                 }-600`}
             >
-                <div className={styles.title_card_name}>
+                <div className={styles.titleCardName}>
                     <h3>{props.title["title-name"]}</h3>
-                    <div className={styles.title_card_content}>
+                    <div className={styles.titleCardContent}>
                         <h4 className="card-publication-status">
                             {props.title["publication-status"]}
                         </h4>

@@ -1,7 +1,7 @@
 'use client'
 
 import "@/app/globals.css"
-import "@/app/(protected)/app/jobs-manager/jobsManager.css";
+import styles from "@/app/(protected)/app/jobs-manager/jobsManager.module.css";
 import { ReactNode, useCallback, useRef, useState } from "react";
 import VolumeCard from "@/app/components/jobs-manager/volumeCard";
 import Emoji from "react-emoji-render";
@@ -27,7 +27,7 @@ export default function JobCard(props: {
     // Init ReactNode variables values
     resumeElement.current = <button
         id={"resume-btn-" + props.job.id}
-        className="stoporresume-btn secondary-btn resume-btn flex justify-center items-center border-2 p-2 shrink-0"
+        className={`${styles.stopOrResumeBtn} secondary-btn resume-btn flex justify-center items-center border-2 p-2 shrink-0`}
         style={{
             width: '10%', minWidth: '130px', minHeight: '50px', maxHeight: '45px',
             color: "white",
@@ -38,7 +38,7 @@ export default function JobCard(props: {
         <Emoji text=":play_button:" /><p className="ml-2">Resume</p></button>;
     stopElement.current = <button
         id={"stop-btn-" + props.job.id}
-        className="stoporresume-btn secondary-btn stop-btn flex justify-center items-center border-2 p-2 shrink-0"
+        className={`${styles.stopOrResumeBtn} secondary-btn stop-btn flex justify-center items-center border-2 p-2 shrink-0`}
         style={{
             width: '10%', minWidth: '130px', minHeight: '50px', maxHeight: '45px',
             color: "white",
@@ -50,10 +50,10 @@ export default function JobCard(props: {
 
 
     const handleResume = useCallback(() => {
-        if (document.getElementsByClassName('stop-btn').length > 0
+        if (document.getElementsByClassName("stopOrResumeBtn").length > 0
             || document.getElementsByClassName('undefined-btn').length > 0
             || document.getElementsByClassName('resume-btn').length
-            == document.getElementsByClassName('stoporresume-btn').length - 1) {
+            == document.getElementsByClassName("stopOrResumeBtn").length - 1) {
             alert('YOU NEED TO STOP THE RUNNING JOB')
         } else {
             setIsLoading(true);
@@ -183,13 +183,13 @@ export default function JobCard(props: {
             <h1>del {isDeleted ? "del" : "nodel"}</h1> */}
             <div className="card flex flex-col flex-wrap justify-between w-full">
                 <div className="flex flex-row flex-wrap items-center w-full">
-                    <h1 id={"card-job-id-" + props.job.id} className="card-job-id-label flex rounded-md p-2 items-center justify-center" style={{ width: "4rem", minHeight: "50px", border: "1px solid gray" }}>{props.job.id}</h1>
+                    <h1 id={"card-job-id-" + props.job.id} className={`${styles.cardJobIdLabel} flex rounded-md p-2 items-center justify-center`} style={{ width: "4rem", minHeight: "50px", border: "1px solid gray" }}>{props.job.id}</h1>
                     <h1 id={"card-job-title-name-" + props.job.id} className="card-job-title-name-label underline p-2 ml-2">{props.job.title.name}</h1>
                 </div>
                 <div className="job-infos flex flex-row flex-wrap">
                     <div className="flex flex-row mt-2 flex-wrap">
                         {isLoading ? <button disabled
-                            className="stoporresume-btn secondary-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0 border-gray-700"
+                            className={`${styles.stopOrResumeBtn} stopOrResumeBtn secondary-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0 border-gray-700`}
                             style={{
                                 width: '10%', minWidth: '130px', minHeight: '50px', maxHeight: '45px',
                                 color: "white",
@@ -230,8 +230,8 @@ export default function JobCard(props: {
                     </div>
                 </div>
             </div>
-            <div className="job-volumes-card-container card mt-2 flex flex-row">
-                <ul id={"job-volumes-card" + props.job.id} className="job-volumes-card w-full rounded-md animate-faster" style={{border:`${props.job.title.volumes.length === 0 ? "0px" : "1px"} solid ${isRunning.current ? "var(--foreground)" : "gray"}`}}>
+            <div className={`${styles.jobVolumesCardContainer} card mt-2 flex flex-row`}>
+                <ul id={"job-volumes-card" + props.job.id} className={`${styles.jobVolumesCard} w-full rounded-md animate-faster`} style={{border:`${props.job.title.volumes.length === 0 ? "0px" : "1px"} solid ${isRunning.current ? "var(--foreground)" : "gray"}`}}>
                     {!isDeleted ?
                         props.job.title.volumes.filter((element) => element.name !== "launcher.lock" && element.name !== "last_pid").map(volume => (
                             <div key={volume.name}>

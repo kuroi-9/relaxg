@@ -328,21 +328,21 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
             <span
                 id="titles-wrapper-search-loading"
                 className={
-                    styles.titles_wrapper_search_loading +
+                    styles.titlesWrapperSearchLoading +
                     " loader with-opacity-transition"
                 }
             ></span>
             <section
                 id="titles-wrapper-content-container"
                 className={
-                    styles.titles_list_wrapper +
+                    styles.titlesListWrapper +
                     " animate with-opacity-transition"
                 }
             >
-                <ul className={`${styles.titles_list} titles-list`}>
+                <ul className={`${styles.titlesList} titles-list`}>
                     {filteredTitles.map((title: TitleItem) => (
                         <Link
-                            className={`${styles.titles_list_item} titles-list-item min-w-max`}
+                            className={`${styles.titlesListItem} titles-list-item min-w-max`}
                             key={title.id}
                             href={{
                                 pathname: `/app/titles/${title.id}`,

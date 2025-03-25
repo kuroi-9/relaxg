@@ -1,4 +1,4 @@
-.search_bar_container {
+.searchBarContainer {
     display: flex;
     justify-content: center;
     width: 100%;
@@ -6,7 +6,7 @@
     z-index: 50;
 }
 
-.search_bar_input {
+.searchBarInput {
     margin: 0.5rem;
     width: 83.33%;
 }

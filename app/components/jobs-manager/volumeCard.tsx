@@ -1,7 +1,7 @@
 'use client'
 import { VolumeItem } from "./socketManager";
 import "@/app/globals.css"
-import "@/app/(protected)/app/jobs-manager/jobsManager.css";
+import styles from "@/app/(protected)/app/jobs-manager/jobsManager.module.css";
 import { useState } from "react";
 
 export default function VolumeCard(props: {
@@ -30,7 +30,7 @@ export default function VolumeCard(props: {
                         style={{
                             width: "98%",
                         }}>
-                        <h6 id={`bruh-${props.volume.name}`} className={`volume-title-label p-2 whitespace-nowrap overflow-y-hidden`} onScroll={() => handleScroll(document.getElementById(`bruh-${props.volume.name}`)?.scrollLeft!)}
+                        <h6 id={`bruh-${props.volume.name}`} className={`${styles.volumeTitleLabel} p-2 whitespace-nowrap overflow-y-hidden`} onScroll={() => handleScroll(document.getElementById(`bruh-${props.volume.name}`)?.scrollLeft!)}
                             style={{ color: props.running ? "var(--foreground)" : "gray" }}>{props.volume.name}</h6>
                     </div>
                     <div className="min-h-full flex flex-col shrink-0" style={{ 
@@ -48,7 +48,7 @@ export default function VolumeCard(props: {
                     }}>
                         {props.volume.completed
                             ? ""
-                            : <h1 className="volume-computation-percentage rounded-md">{!props.volume.completed ? Math.max(0, Number(props.volume.percentage!.toPrecision(3))) + "%" : ""}</h1>}
+                            : <h1 className={styles.volumeComputationPercentage + " rounded-md"}>{!props.volume.completed ? Math.max(0, Number(props.volume.percentage!.toPrecision(3))) + "%" : ""}</h1>}
                     </div>
                 </div>
             </div>
