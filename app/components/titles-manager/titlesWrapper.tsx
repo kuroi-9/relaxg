@@ -287,11 +287,14 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
         if (value > currentMaxScroll.current) {
             currentMinScroll.current = value;
             currentMaxScroll.current = value;
-            document.getElementById("search-bar-container")!.style.opacity =
-                "0";
-            document
-                .getElementById("title-manager-search-bar-input")!
-                .setAttribute("disabled", "true");
+            const searchBarContainer = document.getElementById("search-bar-container");
+            const searchBarInput = document.getElementById("title-manager-search-bar-input");
+            if (searchBarContainer) {
+                searchBarContainer.style.opacity = "0";
+            }
+            if (searchBarInput) {
+                searchBarInput.setAttribute("disabled", "true");
+            }
         } else if (value < currentMinScroll.current) {
             currentMinScroll.current = value;
         } else {
@@ -300,11 +303,14 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
         }
 
         if (currentMaxScroll.current - currentMinScroll.current > 0) {
-            document.getElementById("search-bar-container")!.style.opacity =
-                "1";
-            document
-                .getElementById("title-manager-search-bar-input")!
-                .removeAttribute("disabled");
+            const searchBarContainer = document.getElementById("search-bar-container");
+            const searchBarInput = document.getElementById("title-manager-search-bar-input");
+            if (searchBarContainer) {
+                searchBarContainer.style.opacity = "1";
+            }
+            if (searchBarInput) {
+                searchBarInput.removeAttribute("disabled");
+            }
             currentMaxScroll.current = value;
         }
     };

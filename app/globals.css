@@ -25,37 +25,6 @@ body::-webkit-scrollbar {
     display: none;
 }
 
-.nav-links-container {
-    border-color: var(--foreground);
-    background-color: var(--background);
-}
-
-.nav-links-container::-webkit-scrollbar {
-    display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.nav-links-container {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.nav-link {
-    color: var(--background);
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-.nav-links-div::-webkit-scrollbar {
-    display: none;
-}
-
 body.modal-open {
     overflow: hidden;
 }

@@ -2,6 +2,7 @@
 
 import "@/app/globals.css"
 import styles from "@/app/(protected)/app/jobs-manager/jobsManager.module.css";
+import singleJobStyles from "@/app/(protected)/app/jobs-manager/singleJob.module.css";
 import { ReactNode, useCallback, useRef, useState } from "react";
 import VolumeCard from "@/app/components/jobs-manager/volumeCard";
 import Emoji from "react-emoji-render";
@@ -176,18 +177,13 @@ export default function JobCard(props: {
     return (
         <div
             id={"job-card-" + props.job.id}
-            className="job-card border-gray-700 m-2 p-2"
-            style={{ border: "solid gray 1px" }}>
-            {/* <h1>{stopOrResumeElement.current}</h1>
-            <h1>load {isLoading ? "load" : "noload"}</h1>
-            <h1>del {isDeleted ? "del" : "nodel"}</h1> */}
-            <div className="card flex flex-col flex-wrap justify-between w-full">
-                <div className="flex flex-row flex-wrap items-center w-full">
-                    <h1 id={"card-job-id-" + props.job.id} className={`${styles.cardJobIdLabel} flex rounded-md p-2 items-center justify-center`} style={{ width: "4rem", minHeight: "50px", border: "1px solid gray" }}>{props.job.id}</h1>
-                    <h1 id={"card-job-title-name-" + props.job.id} className="card-job-title-name-label underline p-2 ml-2">{props.job.title.name}</h1>
+            className={`${singleJobStyles.jobCard} border-gray-700`}>
+            <div className={singleJobStyles.jobCardContent}>
+                <div className={singleJobStyles.jobCardHeader}>
+                <h1 id={"card-job-id-" + props.job.id} className={`${styles.cardJobIdLabel} flex rounded-md p-2 items-center justify-center`} style={{ width: "4rem", minHeight: "50px", border: "1px solid gray" }}>{props.job.id}</h1>                    <h1 id={"card-job-title-name-" + props.job.id} className={singleJobStyles.jobCardTitle}>{props.job.title.name}</h1>
                 </div>
-                <div className="job-infos flex flex-row flex-wrap">
-                    <div className="flex flex-row mt-2 flex-wrap">
+                <div className={singleJobStyles.jobCardInfos}>
+                    <div className={singleJobStyles.jobCardControls}>
                         {isLoading ? <button disabled
                             className={`${styles.stopOrResumeBtn} stopOrResumeBtn secondary-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0 border-gray-700`}
                             style={{
@@ -201,7 +197,7 @@ export default function JobCard(props: {
                     </div>
                     <button disabled={isLoading || isDeleted || props.job.title.running === true}
                         id={"delete-btn-" + props.job.id}
-                        className="primary-btn flex flex-row justify-center items-center border-2 mt-2 p-2 ml-2 text-red-500"
+                        className={`${singleJobStyles.jobCardButtonDelete} primary-btn`}
                         style={{
                             borderColor: isLoading || isDeleted || props.job.title.running === true ? "darkred" : "red",
                             backgroundColor: "transparent",
@@ -212,26 +208,25 @@ export default function JobCard(props: {
                         onClick={() => handleDelete()}>Delete
                     </button>
                 </div>
-                <div className="border-4 mt-2 flex flex-row rounded-md w-full"
+                <div className={`${singleJobStyles.jobCardProgressBar} loader-bar`}
                     style={{
                         borderColor: (isRunning.current === true ? "#fcd34d" : "#374151"), height: "3rem",
                         display: (isRunning.current === true ? "block" : "none"),
                         minHeight: '50px',
                     }}>
-                    <div className="h-full flex flex-row justify-center items-center loader-bar" style={{
-                        backgroundColor: (isRunning.current === true ? "green" : "slategray"), borderRadius: "2px"
+                    <div className={singleJobStyles.jobCardProgressBarContent} style={{
+                        backgroundColor: (isRunning.current === true ? "green" : "slategray"),
                     }}>
-                        <p className="z-5 shrink-0 text-center">
+                        <p className={singleJobStyles.jobCardProgressText}>
                             {props.job.eta ? "Next volume ETA => " + (new Date(props.job.eta).getHours() < 10 ? "0" : "") + new Date(props.job.eta).getHours() + ":"
                                 + (new Date(props.job.eta).getMinutes() < 10 ? "0" : "") + new Date(props.job.eta).getMinutes()
-                                //: (globalPercentage.current > 0 ? "Waiting for ETA..." : "Fetching status...")
                                 : "Waiting for ETA..."}
                         </p>
                     </div>
                 </div>
             </div>
-            <div className={`${styles.jobVolumesCardContainer} card mt-2 flex flex-row`}>
-                <ul id={"job-volumes-card" + props.job.id} className={`${styles.jobVolumesCard} w-full rounded-md animate-faster`} style={{border:`${props.job.title.volumes.length === 0 ? "0px" : "1px"} solid ${isRunning.current ? "var(--foreground)" : "gray"}`}}>
+            <div className={`${styles.jobVolumesCardContainer} ${singleJobStyles.jobCardVolumesContainer}`}>
+                <ul id={"job-volumes-card" + props.job.id} className={`${styles.jobVolumesCard} ${singleJobStyles.jobCardVolumesList}`} style={{border:`${props.job.title.volumes.length === 0 ? "0px" : "1px"} solid ${isRunning.current ? "var(--foreground)" : "gray"}`}}>
                     {!isDeleted ?
                         props.job.title.volumes.filter((element) => element.name !== "launcher.lock" && element.name !== "last_pid").map(volume => (
                             <div key={volume.name}>
@@ -240,7 +235,6 @@ export default function JobCard(props: {
                             </div>
                         )) : ""
                     }
-
                 </ul>
             </div>
         </div>

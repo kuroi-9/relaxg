@@ -5,6 +5,7 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import '@/app/globals.css'
 import { useUser } from "@stackframe/stack";
+import styles from "./navBar.module.css";
 
 export default function NavBar() {
     const user = useUser({ or: 'redirect' });
@@ -17,15 +18,11 @@ export default function NavBar() {
     const pathname = usePathname();
 
     return (
-        <nav className="nav-links-container z-50 flex flex-row justify-between mb-8 overflow-x-scroll fixed w-full"
-            style={{
-                boxShadow: "0px 0px 30px 1px black",
-                borderBottom: "1px solid gray",
-            }}>
-            <div className="nav-links-div flex flex-row items-center overflow-x-scroll">
+        <nav className={styles.navLinksContainer}>
+            <div className={styles.navLinksDiv}>
                 {navLinks.map(link => (
                     <Link href={link.href} key={link.href}
-                        className={"nav-link p-4 shrink-0 m-4 rounded-md primary-btn"}
+                        className={`${styles.navLink} primary-btn`}
                         style={{
                             color: pathname == link.href ? "white" : "var(--foreground)",
                             borderColor: pathname == link.href ? "var(--foreground)" : "var(--background)",
@@ -34,13 +31,7 @@ export default function NavBar() {
                     >{link.label}</Link>
                 ))}
             </div>
-            <div
-                className="flex flex-col justify-center pl-4 pr-4"
-                style={{
-                    borderLeft: "1px solid gray",
-                    boxShadow: (window.innerWidth < 660) ? "0px 0px 30px 5px var(--background)" : "",
-                    
-                }}>
+            <div className={styles.navUserSection}>
                 <button
                     className="secondary-btn"
                     onClick={() => user?.signOut()}>Leave</button>
