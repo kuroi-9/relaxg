@@ -24,6 +24,10 @@ module.exports = {
             {
                 protocol: 'https',
                 hostname: `api${(process.env.MODE === 'developpment') ? '-dev' : ''}.relaxg.app`,
+            },
+            {
+                protocol: 'https',
+                hostname: `api-dev.relaxg.app`,
             }
         ],
     },

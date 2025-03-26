@@ -29,10 +29,10 @@
     padding: 0.5rem;
     display: grid;
     grid-auto-flow: column;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 0.5fr 3fr 0.75fr;
 }
 
-.titleActionsModalHeader>p {
+.titleActionsModalHeader > p {
     text-align: center;
     border-bottom: 2px solid var(--foreground);
     text-wrap: wrap;
@@ -41,13 +41,32 @@
 
 .titleActionsModalBody {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: row-reverse;
+    justify-content: space-between;
     align-items: center;
+    overflow-y: scroll;
+    padding-left: 15%;
+    padding-right: 15%;
+    -ms-overflow-style: none;
 }
 
-.titleActionsModalBody>p {
+.titleActionsModalBody::-webkit-scrollbar {
+    display: none;
+}
+
+
+.titleActionsModalBody > p {
     text-align: center;
+}
+
+.titleActionsModalBody > img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    border-radius: 0.375rem;
+    border: 1px solid var(--foreground);
 }
 
 .titleActionsModalFooter {
@@ -59,15 +78,33 @@
     flex-wrap: wrap;
 }
 
-.titleActionsModalFooter>button {
+.titleActionsModalFooter > button {
     min-width: 33%;
     min-height: 50px;
-    max-height: 50px; 
+    max-height: 50px;
 }
 
 @media screen and (max-width: 730px) {
+    .centered {
+        top: 55%;
+    }
+
+    .content {
+        height: 90%;
+        grid-template-rows: 0.15fr 3fr 0.75fr;
+    }
+    
     .titleActionsModalBody {
-        align-items: start;
+        justify-content: start;
+        display: flex;
+        flex-direction: column;
+        margin-top: 0.75rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .titleActionsModalBody > p {
+        display: none;
     }
 
     .titleActionsModalFooter {
@@ -76,12 +113,22 @@
         justify-content: end;
     }
 
-    .titleActionsModalFooter>button {
+    .titleActionsModalFooter > button {
         margin-bottom: 0.5rem;
         width: 100%;
     }
 
-    .titleActionsModalFooter>button:last-child {
+    .titleActionsModalFooter > button:last-child {
         margin-bottom: 0.1rem;
+    }
+
+    .titleActionsModalBody > img {
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
     }
 }
