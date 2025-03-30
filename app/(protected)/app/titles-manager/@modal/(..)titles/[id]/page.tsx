@@ -13,7 +13,7 @@ export default async function TitleModal(
             <OverlayTitleModal
                 id={titleId}
                 hostIp={process.env.VPS_IP ?? process.env.DOCKER_GATEWAY_HOST!}
-                dev={(process.env.MODE === 'developpment')}
+                dev={(process.env.NEXT_ENV_MODE === 'developpment')}
             />
         </Modal>)
 }

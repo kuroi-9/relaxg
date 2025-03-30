@@ -6,6 +6,7 @@ import styles from "@/app/(protected)/app/titles-manager/titleActionsModal.modul
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useUser } from "@stackframe/stack";
 
 export default function OverlayTitleModal(props: {
     id: string;
@@ -14,17 +15,25 @@ export default function OverlayTitleModal(props: {
 }) {
     const router = useRouter();
     const [title, setTitle] = useState<string>("Loading...");
+    const user = useUser({ or: "redirect" });
 
     useEffect(() => {
-        fetch(
-            `https://api${props.dev ? "-dev" : ""}.relaxg.app/titles/` +
-                props.id
-        ).then((res) => {
-            console.log(
-                res.json().then((value) => {
-                    setTitle(value["title_name"]);
-                })
-            );
+        user.getAuthJson().then((res) => {
+            fetch(
+                `https://api${props.dev ? "-dev" : ""}.relaxg.app/titles/` +
+                    props.id,
+                {
+                    headers: {
+                        "x-stack-access-token": res.accessToken ?? "",
+                    },
+                }
+            ).then((res) => {
+                console.log(
+                    res.json().then((value) => {
+                        setTitle(value["title_name"] ?? "Loading...");
+                    })
+                );
+            });
         });
     }, [props.hostIp, props.id, title]);
 
@@ -51,36 +60,39 @@ export default function OverlayTitleModal(props: {
         postBtn!.setAttribute("disabled", "disabled");
         postBtn!.appendChild(postLoadingElement);
 
-        fetch(`https://api${props.dev ? "-dev" : ""}.relaxg.app/jobs/`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                "title-id": `${props.id}`,
-                "last-pid": 777,
-                status: "Paused",
-            }),
-        }).then((response) =>
-            response.json().then((value) => {
-                if (value["status"] == "ok, running") {
-                    setTimeout(() => {
-                        document
-                            .querySelector("body")
-                            ?.classList.remove("modal-open");
-                        router.refresh();
-                        router.replace("/app/jobs-manager");
-                    }, 1000);
-                    postBtn!.removeChild(postLoadingElement);
-                    postBtn!.textContent = "Started, redirecting...";
-                } else {
-                    postBtn!.textContent = "Job duplicate ?";
-                    postBtn!.style.borderColor = "white";
-                    postBtn!.removeAttribute("disabled");
-                }
-            })
-        );
+        user.getAuthJson().then((res) => {
+            fetch(`https://api${props.dev ? "-dev" : ""}.relaxg.app/jobs/`, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "x-stack-access-token": res.accessToken ?? "",
+                },
+                body: JSON.stringify({
+                    "title-id": `${props.id}`,
+                    "last-pid": 777,
+                    status: "Paused",
+                }),
+            }).then((response) =>
+                response.json().then((value) => {
+                    if (value["status"] == "ok, running") {
+                        setTimeout(() => {
+                            document
+                                .querySelector("body")
+                                ?.classList.remove("modal-open");
+                            router.refresh();
+                            router.replace("/app/jobs-manager");
+                        }, 1000);
+                        postBtn!.removeChild(postLoadingElement);
+                        postBtn!.textContent = "Started, redirecting...";
+                    } else {
+                        postBtn!.textContent = "Job duplicate ?";
+                        postBtn!.style.borderColor = "white";
+                        postBtn!.removeAttribute("disabled");
+                    }
+                })
+            );
+        });
     };
 
     return (
