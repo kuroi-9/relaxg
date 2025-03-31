@@ -5,8 +5,8 @@ import "@/app/(protected)/app/titles-manager/titlesManager.module.css";
 import styles from "@/app/(protected)/app/titles-manager/titleActionsModal.module.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { useUser } from "@stackframe/stack";
+import SecureImage from "./secureImage";
 
 export default function OverlayTitleModal(props: {
     id: string;
@@ -35,7 +35,7 @@ export default function OverlayTitleModal(props: {
                 );
             });
         });
-    }, [props.hostIp, props.id, title]);
+    }, [props.hostIp, props.id]);
 
     /**
      * Handle the modal close button
@@ -109,18 +109,15 @@ export default function OverlayTitleModal(props: {
                     </div>
                     <div className={styles.titleActionsModalBody + " animate"}>
                         <p>Please choose an action below.</p>
-                        <Image
-                            src={
-                                `https://api.relaxg.app/images/` +
-                                title.replaceAll(" ", "_") +
-                                "_cover.jpg"
-                            }
-                            alt={`cover-${props.id}`}
-                            className="h-full mb-0 overflow-hidden"
-                            width={300}
-                            height={0}
-                            style={{ backgroundColor: "var(--background)" }}
-                        />
+                        {title !== "Loading..." ? (
+                            <SecureImage
+                                titleId={props.id}
+                                titleName={title}
+                                dev={props.dev}
+                            />
+                        ) : (
+                            <div className="loader"></div>
+                        )}
                     </div>
                     <div className={styles.titleActionsModalFooter}>
                         <button

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
 import { Key } from "react";
-import Image from "next/image";
 import "@/app/globals.css";
 import styles from "@/app/(protected)/app/titles-manager/titlesManager.module.css";
+import SecureImage from "./secureImage";
 
 export default function TitleCard(props: {
     title: {
@@ -19,19 +19,10 @@ export default function TitleCard(props: {
             className={`${styles.titleCardContainer} ${styles.titlesListContent} titles-list-content`}
         >
             <div className={`${styles.titleCardImageContainer} animate`}>
-                <Image
-                    src={
-                        `https://api${
-                            props.dev ? "-dev" : ""
-                        }.relaxg.app/images/` +
-                        props.title["title-name"].replaceAll(" ", "_") +
-                        "_cover.jpg"
-                    }
-                    alt={`cover-${props.title.id}`}
-                    className="h-full mb-0 overflow-hidden"
-                    width={300}
-                    height={0}
-                    style={{ backgroundColor: "var(--background)" }}
+                <SecureImage
+                    titleId={props.title.id}
+                    titleName={props.title["title-name"]}
+                    dev={props.dev}
                 />
             </div>
             <div

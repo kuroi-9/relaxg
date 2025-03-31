@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import imagesLoaded from "imagesloaded";
@@ -35,10 +35,12 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
         )!.style.opacity = "1";
         document.getElementById(
             "titles-wrapper-search-loading"
-        )!.style.display = "none";
-        document.getElementById(
-            "titles-wrapper-search-loading"
         )!.style.opacity = "0";
+        setTimeout(() => {
+            document.getElementById(
+                "titles-wrapper-search-loading"
+            )!.style.display = "none";
+        }, 500);
     }
 
     /**
@@ -131,6 +133,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
      */
     function waitForImages() {
         const allItems = document.querySelectorAll(".titles-list-item");
+        console.log(allItems);
         if (allItems) {
             for (let i = 0; i < allItems.length; i++) {
                 // We set the image as in a loading state
@@ -153,10 +156,12 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                         )!.style.opacity = "1";
                         document.getElementById(
                             "titles-wrapper-search-loading"
-                        )!.style.display = "none";
-                        document.getElementById(
-                            "titles-wrapper-search-loading"
                         )!.style.opacity = "0";
+                        setTimeout(() => {
+                            document.getElementById(
+                                "titles-wrapper-search-loading"
+                            )!.style.display = "none";
+                        }, 500);
                         if (jumpNeeded) {
                             // Reset scroll to the state previous typing
                             //TODO: Fix possible scrollTo induced layout shift
@@ -214,10 +219,12 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     )!.style.opacity = "0";
                     document.getElementById(
                         "titles-wrapper-search-loading"
-                    )!.style.display = "inline-block";
-                    document.getElementById(
-                        "titles-wrapper-search-loading"
                     )!.style.opacity = "1";
+                    setTimeout(() => {
+                        document.getElementById(
+                            "titles-wrapper-search-loading"
+                        )!.style.display = "flex";
+                    }, 500);
                     setInputText(_inputText);
 
                     console.log("base" + baseScroll.current);
@@ -251,10 +258,12 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     )!.style.opacity = "0";
                     document.getElementById(
                         "titles-wrapper-search-loading"
-                    )!.style.display = "inline-block";
-                    document.getElementById(
-                        "titles-wrapper-search-loading"
                     )!.style.opacity = "1";
+                    setTimeout(() => {
+                        document.getElementById(
+                            "titles-wrapper-search-loading"
+                        )!.style.display = "flex";
+                    }, 500);
                     setInputText(_inputText);
 
                     console.log("base" + baseScroll.current);
@@ -287,8 +296,12 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
         if (value > currentMaxScroll.current) {
             currentMinScroll.current = value;
             currentMaxScroll.current = value;
-            const searchBarContainer = document.getElementById("search-bar-container");
-            const searchBarInput = document.getElementById("title-manager-search-bar-input");
+            const searchBarContainer = document.getElementById(
+                "search-bar-container"
+            );
+            const searchBarInput = document.getElementById(
+                "title-manager-search-bar-input"
+            );
             if (searchBarContainer) {
                 searchBarContainer.style.opacity = "0";
             }
@@ -303,8 +316,12 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
         }
 
         if (currentMaxScroll.current - currentMinScroll.current > 0) {
-            const searchBarContainer = document.getElementById("search-bar-container");
-            const searchBarInput = document.getElementById("title-manager-search-bar-input");
+            const searchBarContainer = document.getElementById(
+                "search-bar-container"
+            );
+            const searchBarInput = document.getElementById(
+                "title-manager-search-bar-input"
+            );
             if (searchBarContainer) {
                 searchBarContainer.style.opacity = "1";
             }
@@ -331,13 +348,19 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
             >
                 <SearchBar filterTitles={filterTitles}></SearchBar>
             </div>
-            <span
+            <div
                 id="titles-wrapper-search-loading"
-                className={
-                    styles.titlesWrapperSearchLoading +
-                    " loader with-opacity-transition"
-                }
-            ></span>
+                className="w-full h-screen flex justify-center bg-black with-opacity-transition absolute"
+                style={{
+                    height: "100%",
+                    opacity: "1",
+                }}
+            >
+                <span
+                    className={styles.titlesWrapperSearchLoading + " loader "}
+                ></span>
+            </div>
+
             <section
                 id="titles-wrapper-content-container"
                 className={
