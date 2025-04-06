@@ -350,10 +350,11 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
             </div>
             <div
                 id="titles-wrapper-search-loading"
-                className="w-full h-screen flex justify-center bg-black with-opacity-transition absolute"
+                className="w-full h-screen flex justify-center with-opacity-transition absolute"
                 style={{
                     height: "100%",
                     opacity: "1",
+                    backgroundColor: "var(--background)",
                 }}
             >
                 <span
