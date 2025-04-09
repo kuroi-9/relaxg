@@ -8,9 +8,9 @@ services:
     restart: always
     command: pnpm dev
     volumes:
-      - .:/project
-    ports:
-      - "5173:5173"
+      - .:/project # Hot reload friendly ;
+      # use ./app:/project/app instead if you don't want any node_modules directory in host.
+      # It will kill hot reload if you do so.
     networks:
       - shared_network
 

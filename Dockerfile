@@ -8,11 +8,11 @@ RUN pnpm install
 FROM base AS dev
 WORKDIR /project
 COPY . ./
-COPY --from=base /project/node_modules /node_modules
+COPY --from=base /project/node_modules ./
 
 # Production environment
 FROM base AS build
 WORKDIR /project
 COPY . ./
-COPY --from=base /project/node_modules /node_modules
+COPY --from=base /project/node_modules ./
 RUN pnpm build
