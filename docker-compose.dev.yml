@@ -1,25 +1,16 @@
-version: "3.8"
 services:
-  frontend-dev:
-    container_name: frontend-dev
+  remixed-dev:
+    container_name: remixed-dev
     build:
       context: .
       target: dev
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     restart: always
-    command: npm run dev
-    env_file:
-      - .env
-    environment:
-      - NODE_ENV=development
+    command: pnpm dev
     volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/.next
+      - .:/project
     ports:
-      - "3001:3000"
-      - "9229:9229"
-      - "9230:9230"
+      - "5173:5173"
     networks:
       - shared_network
 

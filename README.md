@@ -1,17 +1,40 @@
-# RelaxG 
-A mobile-first tool to help with manga upscaling
+# Welcome to Remix!
 
-## Getting Started
+- 📖 [Remix docs](https://remix.run/docs)
 
-(optional, for development) Install project dependencies:
-```bash
-npm install
-```
-Create and start the Docker container :
-```bash
-docker compose -f docker-compose.yml up
+## Development
+
+Run the dev server:
+
+```shellscript
+npm run dev
 ```
 
-Setup and run the API along [(project here)](https://github.com/kuroi-9/relaxg_api_reworked)
+## Deployment
 
-Finally, open [http://localhost:3000](http://localhost:3000) with your browser.
+First, build your app for production:
+
+```sh
+npm run build
+```
+
+Then run the app in production mode:
+
+```sh
+npm start
+```
+
+Now you'll need to pick a host to deploy it to.
+
+### DIY
+
+If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
+
+Make sure to deploy the output of `npm run build`
+
+- `build/server`
+- `build/client`
+
+## Styling
+
+This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.

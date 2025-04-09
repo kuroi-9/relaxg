@@ -1,21 +1,14 @@
-version: "3.8"
 services:
-  frontend-prod:
-    container_name: frontend-prod
+  remixed-prod:
+    container_name: remixed-prod
     build:
       context: .
-      target: base
-      dockerfile: Dockerfile.prod
+      target: build
+      dockerfile: Dockerfile
     restart: always
-    command: npm run start
-    environment:
-      - NODE_ENV=production
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/.next
+    command: pnpm start
     ports:
-      - "3000:3000"
+      - "3003:3000"
     networks:
       - shared_network
 
