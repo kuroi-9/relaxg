@@ -16,7 +16,9 @@ export default function NavBar() {
         { href: "/about", label: "About" },
     ];
     const pathname = usePathname();
-    const [selected, setSelected] = React.useState(undefined);
+    const [selected, setSelected] = React.useState<string | undefined>(
+        undefined,
+    );
 
     // Prevent showing loader when a modal that changes url is open
     if (selected !== undefined && pathname.includes(selected)) {
