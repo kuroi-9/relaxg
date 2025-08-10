@@ -4,7 +4,7 @@ RUN apk add --no-cache libc6-compat git
 RUN git clone https://github.com/kuroi-9/relaxg.git /app
 WORKDIR /app
 RUN \
-  if [ -f package-lock.json ]; then npm ci; \
+  if [ -f pnpm-lock.yaml ]; then pnpm install; \
   else echo "Lockfile not found." && exit 1; \
   fi
 COPY .env .
