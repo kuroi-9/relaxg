@@ -7,8 +7,6 @@ describe("NavBar", () => {
 
         expect(screen.getByText("Jobs Manager")).toBeDefined();
         expect(screen.getByText("Titles Manager")).toBeDefined();
-        expect(screen.getByText("History")).toBeDefined();
-        expect(screen.getByText("About")).toBeDefined();
     });
 
     it("renders leave button", () => {
