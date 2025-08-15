@@ -12,8 +12,6 @@ export default function NavBar() {
     const navLinks = [
         { href: "/app/jobs-manager", label: "Jobs Manager" },
         { href: "/app/titles-manager", label: "Titles Manager" },
-        { href: "/app/history", label: "History" },
-        { href: "/about", label: "About" },
     ];
     const pathname = usePathname();
     const [selected, setSelected] = React.useState<string | undefined>(

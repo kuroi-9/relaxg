@@ -60,8 +60,7 @@ body.modal-open {
 .secondary-btn:active,
 .primary-input:focus,
 .nav-link:active {
-    outline: 6px solid #fcd34d;
-    transition: outline 0.05s ease-in;
+    outline: 5px solid #fcd34d;
 }
 
 .animate {

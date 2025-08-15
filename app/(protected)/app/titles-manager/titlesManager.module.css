@@ -3,12 +3,11 @@
     flex-direction: column;
     max-width: 300px;
     min-width: 300px;
-    border: 1px solid var(--foreground);       
+    border: 1px solid var(--foreground);
 }
 
 .titleCardContainer:active {
-    outline: 6px solid #fcd34d;
-    transition: outline 0.05s ease-in;
+    outline: 5px solid #fcd34d;
 }
 
 .titleCardNameContainer {
@@ -32,7 +31,7 @@
     align-items: center;
 }
 
-.titleCardName>h3 {
+.titleCardName > h3 {
     padding: 0.5rem;
     text-align: center;
 }
@@ -158,8 +157,7 @@
 } */
 
 .titlesListItem:active {
-    outline: 6px solid #fcd34d;
-    transition: outline 0.05s ease-in;
+    outline: 5px solid #fcd34d;
 }
 
 .titlesListFooter {
