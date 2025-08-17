@@ -200,7 +200,7 @@ export default function JobCard(props: {
                             "completed-btn-" + props.job.id,
                         );
 
-                        let currentBtn = resumeBtn ? resumeBtn : completeBtn;
+                        const currentBtn = resumeBtn ? resumeBtn : completeBtn;
 
                         currentBtn!.textContent = "Deleted";
                         currentBtn!.setAttribute("disabled", "true");
