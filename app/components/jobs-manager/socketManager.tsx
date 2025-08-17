@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
 import { Key, useEffect, useRef, useState } from "react";
 import JobCard from "./jobCard";
-import "@/app/globals.css"
+import "@/app/globals.css";
 
 export interface VolumeItem {
     name: Key;
@@ -14,7 +14,7 @@ export interface VolumeItem {
 }
 
 export interface TitleItem {
-    id: Key
+    id: Key;
     name: string;
     volumes: VolumeItem[] | [];
     running: boolean | undefined;
@@ -24,10 +24,17 @@ export interface JobItem {
     id: Key;
     title: TitleItem;
     eta: number | undefined;
+    completed: boolean | undefined;
 }
 
 export default function SocketManager(props: {
-    jobs: [{ id: Key | null | undefined; "title-name": string; "title-id": number }];
+    jobs: [
+        {
+            id: Key | null | undefined;
+            "title-name": string;
+            "title-id": number;
+        },
+    ];
     host: string;
     dev: boolean;
 }) {
@@ -39,22 +46,33 @@ export default function SocketManager(props: {
     const jobsVolumes = useRef<Map<Key, VolumeItem[] | undefined>>(new Map());
 
     // Component global init/update stage
-    if ((jobsState.length === 0 && props.jobs.length > 0) || jobsState.length !== props.jobs.length) {
+    if (
+        (jobsState.length === 0 && props.jobs.length > 0) ||
+        jobsState.length !== props.jobs.length
+    ) {
         // Init global jobs state
-        setJobsState(props.jobs.sort(function (a, b) {
-            return -a.id!.toString()
-                .localeCompare(b.id!.toString());
-        }).map((job: { id: Key | null | undefined; "title-name": string; "title-id": number }) => (
-            {
-                id: job["id"]!,
-                title: {
-                    id: job["title-id"],
-                    name: job["title-name"],
-                    volumes: [],
-                    running: undefined,
-                },
-                eta: undefined
-            }))
+        setJobsState(
+            props.jobs
+                .sort(function (a, b) {
+                    return -a.id!.toString().localeCompare(b.id!.toString());
+                })
+                .map(
+                    (job: {
+                        id: Key | null | undefined;
+                        "title-name": string;
+                        "title-id": number;
+                    }) => ({
+                        id: job["id"]!,
+                        title: {
+                            id: job["title-id"],
+                            name: job["title-name"],
+                            volumes: [],
+                            running: undefined,
+                        },
+                        eta: undefined,
+                        completed: undefined,
+                    }),
+                ),
         );
 
         // Init volumes hashmap with one entry for each title
@@ -66,8 +84,8 @@ export default function SocketManager(props: {
 
     /**
      * Updating the running status of a specific job
-     * @param titleName 
-     * @returns 
+     * @param titleName
+     * @returns
      */
     const isJobRunning = (titleName: string) => {
         for (const volume of jobsVolumes.current.get(titleName)!) {
@@ -75,44 +93,43 @@ export default function SocketManager(props: {
         }
 
         return false;
-    }
+    };
 
     /**
      * Meant to set the stop/resume button to a loading state, awaiting the server response
-     * @param titleName 
+     * @param titleName
      */
     const setJobRunningToUndefined = (titleName: string) => {
         setJobsState(() => {
             return jobsState.map((job) => {
                 if (job.title.name === titleName) {
-                    return (
-                        {
-                            ...job,
-                            title: {
-                                ...job.title,
-                                running: undefined
-                            }
-                        }
-                    )
+                    return {
+                        ...job,
+                        title: {
+                            ...job.title,
+                            running: undefined,
+                        },
+                    };
                 } else {
-                    return job
+                    return job;
                 }
-            })
-        })
+            });
+        });
 
-        jobsVolumes.current.set(titleName,
+        jobsVolumes.current.set(
+            titleName,
             jobsVolumes.current.get(titleName)!.map((item) => {
                 return {
                     ...item,
-                    running: false
-                }
-            }
-            ));
-    }
+                    running: false,
+                };
+            }),
+        );
+    };
 
     /**
      * Reset the volumes entry of a designated title in the jobsVolumes map
-     * @param titleName 
+     * @param titleName
      */
     const resetTitleVolumesEntry = (titleName: string) => {
         // Resetting the running value on all volumes
@@ -121,21 +138,19 @@ export default function SocketManager(props: {
         setJobsState(() => {
             return jobsState.map((job) => {
                 if (job.title.name === titleName) {
-                    return (
-                        {
-                            ...job,
-                            title: {
-                                ...job.title,
-                                volumes: []
-                            }
-                        }
-                    )
+                    return {
+                        ...job,
+                        title: {
+                            ...job.title,
+                            volumes: [],
+                        },
+                    };
                 } else {
-                    return job
+                    return job;
                 }
-            })
-        })
-    }
+            });
+        });
+    };
 
     /**
      * Refreshs the job lists, making deleted jobs disapear
@@ -145,39 +160,49 @@ export default function SocketManager(props: {
         // jobsVolumes.current.clear();
         // setJobsState(() => []);
         // websocket.current?.close();
-        window.location.reload()
-    }
+        window.location.reload();
+    };
 
     /**
      * Handle the core of the websocket connection trough API.
      * Handle the reconnection of the focus of the page is left.
-     * @param websocketInRecursion 
-     * @returns 
+     * @param websocketInRecursion
+     * @returns
      */
     const websocketConnect = (websocketInRecursion: WebSocket) => {
-        websocket.current = websocketInRecursion
+        websocket.current = websocketInRecursion;
         websocket.current.onclose = () => {
             console.log("SocketManager disconnected");
             if (window.location.pathname === "/app/jobs-manager") {
                 websocketInterval.current = setInterval(() => {
-                    if (websocketInRecursion && websocketInRecursion.readyState === 3) {
-                        console.dir("[WEBSOCKET STATUS] Reconnecting...", window.location);
-                        websocketInRecursion = new WebSocket(`wss://api${(props.dev) ? '-dev' : ''}.relaxg.app`);
+                    if (
+                        websocketInRecursion &&
+                        websocketInRecursion.readyState === 3
+                    ) {
+                        console.dir(
+                            "[WEBSOCKET STATUS] Reconnecting...",
+                            window.location,
+                        );
+                        websocketInRecursion = new WebSocket(
+                            `wss://api${props.dev ? "-dev" : ""}.relaxg.app`,
+                        );
                         websocketInRecursion.onopen = () => {
                             console.log("SocketManager connected");
-                            console.log("[WEBSOCKET STATUS] Clearing interval...")
+                            console.log(
+                                "[WEBSOCKET STATUS] Clearing interval...",
+                            );
                             clearInterval(websocketInterval.current);
                             websocketConnect(websocketInRecursion);
-                        }
+                        };
                     }
-                }, 3000)
+                }, 3000);
                 websocketIntervals.current.push(websocketInterval.current);
-                websockets.current.push(websocket.current!)
+                websockets.current.push(websocket.current!);
             } else {
                 console.log("Connection terminated.");
-                return
+                return;
             }
-        }
+        };
 
         websocket.current.onmessage = (event: MessageEvent) => {
             const eventData = JSON.parse(event.data);
@@ -190,72 +215,102 @@ export default function SocketManager(props: {
             const volumeIsRunning = Boolean(eventData[4] === "true");
             const volumeIsCompleted = Boolean(eventData[5] === "true");
             const volumeEtaTimestamp = Number(eventData[6]);
+            const seriesCompleted = Boolean(eventData[7] === "true");
+
             // Try getting current job
-            const existingDefinedJobItem = jobsState.find((element) => element.title.name === titleName);
+            const existingDefinedJobItem = jobsState.find(
+                (element) => element.title.name === titleName,
+            );
             if (!existingDefinedJobItem) {
                 return;
             }
 
             // Updating job volumes ref
-            let existingTitlesVolumesIndex: VolumeItem[] | undefined = jobsVolumes.current.get(titleName);
+            let existingTitlesVolumesIndex: VolumeItem[] | undefined =
+                jobsVolumes.current.get(titleName);
             if (existingTitlesVolumesIndex) {
-                const existingVolume: VolumeItem | undefined = jobsVolumes.current.get(titleName)!
-                    .find(element => element.name == currentVolumeName);
+                const existingVolume: VolumeItem | undefined =
+                    jobsVolumes.current
+                        .get(titleName)!
+                        .find((element) => element.name == currentVolumeName);
                 if (!existingVolume) {
                     // Updating temp index
-                    existingTitlesVolumesIndex.push(
-                        {
-                            name: currentVolumeName,
-                            treatedPagesCount: (volumeNbPagesTreated - 3),
-                            totalPagesCount: volumeNbTotalPages,
-                            percentage: (volumeNbPagesTreated - 3) * 100 / volumeNbTotalPages,
-                            running: volumeIsRunning,
-                            completed: volumeIsCompleted
-                        }
-                    );
+                    existingTitlesVolumesIndex.push({
+                        name: currentVolumeName,
+                        treatedPagesCount: volumeNbPagesTreated - 3,
+                        totalPagesCount: volumeNbTotalPages,
+                        percentage:
+                            ((volumeNbPagesTreated - 3) * 100) /
+                            volumeNbTotalPages,
+                        running: volumeIsRunning,
+                        completed: volumeIsCompleted,
+                    });
 
                     // Sorting temp index
                     existingTitlesVolumesIndex.sort(function (a, b) {
-                        return a.name.toString()
+                        return a.name
+                            .toString()
                             .localeCompare(b.name.toString());
                     });
 
                     if (jobsState === undefined) return;
                 } else {
                     // Updating temp volume and job objects if needed
-                    if ((((volumeNbPagesTreated - 3) * 100 / volumeNbTotalPages) <= 100 && ((volumeNbPagesTreated - 3) * 100 / volumeNbTotalPages) >= 0)
-                        && existingVolume.percentage !== (volumeNbPagesTreated - 3) * 100 / volumeNbTotalPages) {
-                        existingVolume.percentage = (volumeNbPagesTreated - 3) * 100 / volumeNbTotalPages;
+                    if (
+                        ((volumeNbPagesTreated - 3) * 100) /
+                            volumeNbTotalPages <=
+                            100 &&
+                        ((volumeNbPagesTreated - 3) * 100) /
+                            volumeNbTotalPages >=
+                            0 &&
+                        existingVolume.percentage !==
+                            ((volumeNbPagesTreated - 3) * 100) /
+                                volumeNbTotalPages
+                    ) {
+                        existingVolume.percentage =
+                            ((volumeNbPagesTreated - 3) * 100) /
+                            volumeNbTotalPages;
                         if (existingDefinedJobItem) {
-                            existingDefinedJobItem.eta = volumeEtaTimestamp * 1000;
-                            existingDefinedJobItem.title.running = isJobRunning(titleName);
+                            existingDefinedJobItem.eta =
+                                volumeEtaTimestamp * 1000;
+                            existingDefinedJobItem.title.running =
+                                isJobRunning(titleName);
+                            existingDefinedJobItem.completed = seriesCompleted;
                         }
                     }
                     existingVolume.running = volumeIsRunning;
                     existingVolume.completed = volumeIsCompleted;
 
                     // Updating temp index with the temp variable
-                    existingTitlesVolumesIndex = existingTitlesVolumesIndex.map((item) => {
-                        if (item.name === currentVolumeName) {
-                            return existingVolume
-                        } else {
-                            return item
-                        }
-                    })
+                    existingTitlesVolumesIndex = existingTitlesVolumesIndex.map(
+                        (item) => {
+                            if (item.name === currentVolumeName) {
+                                return existingVolume;
+                            } else {
+                                return item;
+                            }
+                        },
+                    );
 
                     // Sorting temp index
                     existingTitlesVolumesIndex.sort(function (a, b) {
-                        return a.name.toString()
+                        return a.name
+                            .toString()
                             .localeCompare(b.name.toString());
                     });
                 }
 
                 // Updating temp job variable with the temp volumes variable
                 if (existingDefinedJobItem) {
-                    existingDefinedJobItem!.title.volumes = existingTitlesVolumesIndex
-                    existingDefinedJobItem!.title.running = isJobRunning(titleName);
-                }
+                    existingDefinedJobItem!.title.volumes =
+                        existingTitlesVolumesIndex;
+                    existingDefinedJobItem!.title.running =
+                        isJobRunning(titleName);
 
+                    if (seriesCompleted) {
+                        existingDefinedJobItem!.completed = true;
+                    }
+                }
 
                 // Updating jobVolumes global variable
                 jobsVolumes.current.set(titleName, existingTitlesVolumesIndex);
@@ -264,46 +319,50 @@ export default function SocketManager(props: {
                 setJobsState(() => {
                     return jobsState.map((job) => {
                         if (job.title.name === titleName) {
-                            return existingDefinedJobItem!
+                            return existingDefinedJobItem!;
                         } else {
-                            return job
+                            return job;
                         }
-                    })
-                })
-            } 
-        }
+                    });
+                });
+            }
+        };
 
-        return
-    }
+        return;
+    };
 
     useEffect(() => {
         if (websocket.current === undefined) {
-            websocketConnect(new WebSocket(`wss://api${(props.dev) ? '-dev' : ''}.relaxg.app`));
+            websocketConnect(
+                new WebSocket(`wss://api${props.dev ? "-dev" : ""}.relaxg.app`),
+            );
         }
 
         return () => {
             clearInterval(websocketInterval.current);
             websocket.current?.close();
             if (websocketIntervals.current !== undefined) {
-                console.log("Component cleanup callback reached.")
+                console.log("Component cleanup callback reached.");
                 clearInterval(websocketInterval.current);
                 for (const interval of websocketIntervals.current) {
                     clearInterval(interval);
                 }
             }
             if (websockets.current !== undefined) {
-                console.log("Component cleanup callback reached.")
+                console.log("Component cleanup callback reached.");
                 clearInterval(websocketInterval.current);
                 for (const websocket of websockets.current) {
                     websocket.close();
                 }
             }
             return;
-        }
+        };
     }, [props.host, props.jobs]);
 
-    //TODO: Find a better way to do this 
+    //TODO: Find a better way to do this
     //window.scrollTo(0, 0);
+
+    console.log("Component cleanup callback reached.");
 
     return (
         <section className="flex flex-col items-center">
@@ -321,5 +380,5 @@ export default function SocketManager(props: {
                 ))}
             </ul>
         </section>
-    )
+    );
 }

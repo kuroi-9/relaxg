@@ -3,7 +3,7 @@
 import "@/app/globals.css";
 import styles from "@/app/(protected)/app/jobs-manager/jobsManager.module.css";
 import singleJobStyles from "@/app/(protected)/app/jobs-manager/singleJob.module.css";
-import { ReactNode, useCallback, useRef, useState } from "react";
+import { ReactNode, useCallback, useRef, useState, useEffect } from "react";
 import VolumeCard from "@/app/components/jobs-manager/volumeCard";
 import Emoji from "react-emoji-render";
 import { JobItem } from "./socketManager";
@@ -22,6 +22,7 @@ export default function JobCard(props: {
     const isRunning = useRef<boolean | undefined>();
     const resumeElement = useRef<ReactNode>();
     const stopElement = useRef<ReactNode>();
+    const completedElement = useRef<ReactNode>();
     const [isDeleted, setIsDeleted] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const user = useUser({ or: "redirect" });
@@ -32,10 +33,8 @@ export default function JobCard(props: {
     resumeElement.current = (
         <button
             id={"resume-btn-" + props.job.id}
-            className={`${styles.stopOrResumeBtn} secondary-btn resume-btn flex justify-center items-center border-2 p-2 shrink-0`}
+            className={`${styles.stopOrResumeBtn} secondary-btn w-full resume-btn flex justify-center items-center border-2 p-2 shrink-0`}
             style={{
-                width: "10%",
-                minWidth: "130px",
                 minHeight: "50px",
                 maxHeight: "45px",
                 color: "white",
@@ -51,10 +50,8 @@ export default function JobCard(props: {
     stopElement.current = (
         <button
             id={"stop-btn-" + props.job.id}
-            className={`${styles.stopOrResumeBtn} secondary-btn stop-btn flex justify-center items-center border-2 p-2 shrink-0`}
+            className={`${styles.stopOrResumeBtn} secondary-btn w-full stop-btn flex justify-center items-center border-2 p-2 shrink-0`}
             style={{
-                width: "10%",
-                minWidth: "130px",
                 minHeight: "50px",
                 maxHeight: "45px",
                 color: "white",
@@ -65,6 +62,28 @@ export default function JobCard(props: {
         >
             <Emoji text=":stop_sign:" />
             <p className="ml-2">Stop</p>
+        </button>
+    );
+    completedElement.current = (
+        <button
+            disabled={props.job.completed} // temp, see below TODO
+            id={"completed-btn-" + props.job.id}
+            className={`${styles.stopOrResumeBtn} secondary-btn w-full completed-btn flex justify-center items-center border-2 p-2 shrink-0`}
+            style={{
+                minHeight: "50px",
+                maxHeight: "45px",
+                color: "white",
+                borderColor: "gray",
+                backgroundColor: "var(--background)",
+                outline: "none",
+            }}
+            onClick={() => {
+                alert("Checking if new volumes are available");
+                // TODO: Delete completed.lock + handleresume()
+            }}
+        >
+            <Emoji text=":check_mark:" />
+            <p className="ml-2">Completed</p>
         </button>
     );
 
@@ -96,7 +115,7 @@ export default function JobCard(props: {
                             "title-id": `${props.job.title.id}`,
                             "job-id": `${props.job.id}`,
                         }),
-                    }
+                    },
                 ).then(() => {
                     console.log("Resuming job " + props.job.id + "...");
                     const resumeInterval = setInterval(() => {
@@ -116,7 +135,7 @@ export default function JobCard(props: {
     const handleStop = useCallback(() => {
         setIsLoading(true);
         stopOrResumeElement.current === undefined;
-        
+
         user.getAuthJson().then((res) => {
             fetch(
                 `https://api${props.dev ? "-dev" : ""}.relaxg.app/jobs/stop/`,
@@ -131,7 +150,7 @@ export default function JobCard(props: {
                         "title-id": `${props.job.title.id}`,
                         "job-id": `${props.job.id}`,
                     }),
-                }
+                },
             ).then(() => {
                 console.log("Stopping job " + props.job.id + "...");
                 const stopInterval = setInterval(() => {
@@ -154,7 +173,7 @@ export default function JobCard(props: {
         deleteLoadingElement.id = "delete-loading-" + props.job.id;
         deleteLoadingElement.className = "loader-red";
         deleteBtn!.appendChild(deleteLoadingElement);
-        
+
         user.getAuthJson().then((res) => {
             fetch(
                 `https://api${props.dev ? "-dev" : ""}.relaxg.app/jobs/delete/`,
@@ -169,44 +188,51 @@ export default function JobCard(props: {
                         "title-id": `${props.job.title.id}`,
                         "job-id": `${props.job.id}`,
                     }),
-                }
+                },
             ).then((response) => {
                 response.json().then((value) => {
                     if (value["status"] == "deleted") {
                         const resumeBtn = document.getElementById(
-                            "resume-btn-" + props.job.id
+                            "resume-btn-" + props.job.id,
                         );
-                        resumeBtn!.textContent = "Deleted";
-                        resumeBtn!.setAttribute("disabled", "true");
-                        resumeBtn!.classList.replace(
+
+                        const completeBtn = document.getElementById(
+                            "completed-btn-" + props.job.id,
+                        );
+
+                        let currentBtn = resumeBtn ? resumeBtn : completeBtn;
+
+                        currentBtn!.textContent = "Deleted";
+                        currentBtn!.setAttribute("disabled", "true");
+                        currentBtn!.classList.replace(
                             "primary-btn",
-                            "secondary-btn"
+                            "secondary-btn",
                         );
-                        resumeBtn!.style.color = "gray";
-                        resumeBtn!.style.borderColor = "gray";
-                        resumeBtn!.style.backgroundColor = "var(--background)";
+                        currentBtn!.style.color = "gray";
+                        currentBtn!.style.borderColor = "gray";
+                        currentBtn!.style.backgroundColor = "var(--background)";
                         setIsDeleted(true);
 
                         deleteBtn!.removeChild(deleteLoadingElement);
                         deleteBtn!.textContent = "Delete";
 
                         document.getElementById(
-                            "card-job-id-" + props.job.id
+                            "card-job-id-" + props.job.id,
                         )!.style.color = "#364050";
                         document.getElementById(
-                            "card-job-id-" + props.job.id
+                            "card-job-id-" + props.job.id,
                         )!.style.borderColor = "#364050";
                         document.getElementById(
-                            "card-job-title-name-" + props.job.id
+                            "card-job-title-name-" + props.job.id,
                         )!.style.color = "#364050";
                         document
                             .getElementById("job-card-" + props.job.id)
                             ?.classList.remove("border-gray-700");
                         document.getElementById(
-                            "job-card-" + props.job.id
+                            "job-card-" + props.job.id,
                         )!.style.borderColor = "var(--background)";
                         document.getElementById(
-                            "job-volumes-card" + props.job.id
+                            "job-volumes-card" + props.job.id,
                         )!.style.border = "none";
 
                         //props.refresh();
@@ -216,36 +242,60 @@ export default function JobCard(props: {
         });
     };
 
+    const handleComplete = useCallback(() => {
+        stopOrResumeElement.current = completedElement.current;
+        stopOrResumeElementStatus.current = "completed";
+        setIsLoading(false);
+    }, [props.job]);
+
     // Init the default control buttons values
     if (stopOrResumeElement.current === undefined) {
-        if (props.job.title.running) {
-            stopOrResumeElement.current = stopElement.current;
-            stopOrResumeElementStatus.current = "stop";
+        if (props.job.completed) {
+            stopOrResumeElement.current = completedElement.current;
+            stopOrResumeElementStatus.current = "completed";
             setIsLoading(false);
-        } else if (props.job.title.running !== undefined) {
-            stopOrResumeElement.current = resumeElement.current;
-            stopOrResumeElementStatus.current = "resume";
-            setIsLoading(false);
+        } else {
+            if (props.job.title.running) {
+                stopOrResumeElement.current = stopElement.current;
+                stopOrResumeElementStatus.current = "stop";
+                setIsLoading(false);
+            } else if (props.job.title.running !== undefined) {
+                stopOrResumeElement.current = resumeElement.current;
+                stopOrResumeElementStatus.current = "resume";
+                setIsLoading(false);
+            }
         }
-    } else if (
-        ((stopOrResumeElementStatus.current === "stop" &&
-            props.job.title.running === false) ||
-            (stopOrResumeElementStatus.current === "resume" &&
-                props.job.title.running === true)) &&
-        !isLoading
-    ) {
-        // To fix incoherence when the client has lost connection to websocket and then reconnects
-        stopOrResumeElement.current = undefined;
-        setIsLoading(true);
+    } else if (stopOrResumeElementStatus.current !== "completed") {
+        if (
+            ((stopOrResumeElementStatus.current === "stop" &&
+                props.job.title.running === false) ||
+                (stopOrResumeElementStatus.current === "resume" &&
+                    props.job.title.running === true)) &&
+            !isLoading
+        ) {
+            // To fix incoherence when the client has lost connection to websocket and then reconnects
+            stopOrResumeElement.current = undefined;
+            setIsLoading(true);
+        }
+
+        isRunning.current = props.job.title.running === true;
     }
 
-    isRunning.current = props.job.title.running === true;
+    useEffect(() => {
+        if (props.job.completed) {
+            setIsLoading(true);
+            handleComplete();
+        }
+    }, [props.job.completed]);
+
+    console.log(props.job);
 
     return (
         <div
             id={"job-card-" + props.job.id}
             className={`${singleJobStyles.jobCard} border-gray-700`}
         >
+            <h1>{props.job.completed}</h1>
             <div className={singleJobStyles.jobCardContent}>
                 <div className={singleJobStyles.jobCardHeader}>
                     <h1
@@ -267,19 +317,20 @@ export default function JobCard(props: {
                     </h1>
                 </div>
                 <div className={singleJobStyles.jobCardInfos}>
-                    <div className={singleJobStyles.jobCardControls}>
+                    <div
+                        className={`${singleJobStyles.jobCardControls} w-full md:w-36`}
+                    >
                         {isLoading ? (
                             <button
                                 disabled
-                                className={`${styles.stopOrResumeBtn} stopOrResumeBtn secondary-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0 border-gray-700`}
+                                className={`${styles.stopOrResumeBtn} stopOrResumeBtn w-full secondary-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0 border-gray-700`}
                                 style={{
-                                    width: "10%",
-                                    minWidth: "130px",
                                     minHeight: "50px",
                                     maxHeight: "45px",
                                     color: "white",
                                     borderColor: "var(--foreground)",
                                     backgroundColor: "#171717",
+                                    outline: "none",
                                 }}
                             >
                                 <div className="loader" />
@@ -295,7 +346,7 @@ export default function JobCard(props: {
                             props.job.title.running === true
                         }
                         id={"delete-btn-" + props.job.id}
-                        className={`${singleJobStyles.jobCardButtonDelete} primary-btn`}
+                        className={`${singleJobStyles.jobCardButtonDelete} w-full md:w-auto md:ml-2 primary-btn`}
                         style={{
                             borderColor:
                                 isLoading ||
@@ -304,7 +355,6 @@ export default function JobCard(props: {
                                     ? "darkred"
                                     : "red",
                             backgroundColor: "transparent",
-                            minWidth: "80px",
                             maxHeight: "50px",
                             color:
                                 isLoading ||
@@ -312,6 +362,12 @@ export default function JobCard(props: {
                                 props.job.title.running === true
                                     ? "darkred"
                                     : "red",
+                            outline:
+                                isLoading ||
+                                isDeleted ||
+                                props.job.title.running === true
+                                    ? "none"
+                                    : undefined,
                         }}
                         onClick={() => handleDelete()}
                     >
@@ -324,7 +380,12 @@ export default function JobCard(props: {
                         borderColor:
                             isRunning.current === true ? "#fcd34d" : "#374151",
                         height: "3rem",
-                        display: isRunning.current === true ? "block" : "none",
+                        display:
+                            isRunning.current === true &&
+                            (props.job.completed === false ||
+                                props.job.completed === undefined)
+                                ? "block"
+                                : "none",
                         minHeight: "50px",
                     }}
                 >
@@ -373,7 +434,7 @@ export default function JobCard(props: {
                               .filter(
                                   (element) =>
                                       element.name !== "launcher.lock" &&
-                                      element.name !== "last_pid"
+                                      element.name !== "last_pid",
                               )
                               .map((volume) => (
                                   <div key={volume.name}>

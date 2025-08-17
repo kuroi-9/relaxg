@@ -92,6 +92,14 @@
     flex-wrap: wrap;
 }
 
+@media (max-width: 768px) {
+    .jobCardInfos {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+    }
+}
+
 .jobCardControls {
     display: flex;
     flex-direction: row;
@@ -106,7 +114,6 @@
     align-items: center;
     border-width: 1px;
     margin-top: 0.5rem;
-    margin-left: 0.5rem;
     padding: 0.5rem;
     color: red;
     background-color: transparent;
