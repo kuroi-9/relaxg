@@ -4,11 +4,9 @@ import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
 import "@/app/globals.css";
-import { useUser } from "@stackframe/stack";
 import styles from "./navBar.module.css";
 
 export default function NavBar() {
-    const user = useUser({ or: "redirect" });
     const navLinks = [
         { href: "/app/jobs-manager", label: "Jobs Manager" },
         { href: "/app/titles-manager", label: "Titles Manager" },
