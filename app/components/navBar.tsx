@@ -61,7 +61,7 @@ export default function NavBar() {
                 <button
                     className="secondary-btn"
                     onClick={() => {
-                        window.location.replace("/");
+                        window.location.href = "/";
                     }}
                 >
                     Leave
