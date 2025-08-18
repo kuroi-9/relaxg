@@ -63,7 +63,6 @@ export default function NavBar() {
                 <button
                     className="secondary-btn"
                     onClick={() => {
-                        user?.signOut();
                         window.location.replace("/");
                     }}
                 >
