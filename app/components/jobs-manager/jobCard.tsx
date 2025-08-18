@@ -5,7 +5,6 @@ import styles from "@/app/(protected)/app/jobs-manager/jobsManager.module.css";
 import singleJobStyles from "@/app/(protected)/app/jobs-manager/singleJob.module.css";
 import { ReactNode, useCallback, useRef, useState, useEffect } from "react";
 import VolumeCard from "@/app/components/jobs-manager/volumeCard";
-import Emoji from "react-emoji-render";
 import { JobItem } from "./socketManager";
 import { useUser } from "@stackframe/stack";
 
