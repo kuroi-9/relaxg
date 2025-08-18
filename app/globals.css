@@ -109,17 +109,6 @@ body.modal-open {
     animation: spin 2s linear infinite;
 }
 
-.loader-red {
-    border: 2px solid #f3f3f3;
-    /* Light grey */
-    border-top: 2px solid #db3455;
-    /* Blue */
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    animation: spin 2s linear infinite;
-}
-
 @keyframes spin {
     0% {
         transform: rotate(0deg);

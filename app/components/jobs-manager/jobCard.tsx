@@ -218,7 +218,7 @@ export default function JobCard(props: {
         deleteBtn!.textContent = "";
         const deleteLoadingElement = document.createElement("div");
         deleteLoadingElement.id = "delete-loading-" + props.job.id;
-        deleteLoadingElement.className = "loader-red";
+        deleteLoadingElement.className = "loader";
         deleteBtn!.appendChild(deleteLoadingElement);
 
         user.getAuthJson().then((res) => {
@@ -402,6 +402,7 @@ export default function JobCard(props: {
                                     ? "darkred"
                                     : "red",
                             backgroundColor: "transparent",
+                            minWidth: "100px",
                             maxHeight: "50px",
                             color:
                                 isLoading ||
