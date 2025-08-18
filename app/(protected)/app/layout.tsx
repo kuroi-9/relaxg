@@ -6,7 +6,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     return (
         <StackProvider app={stackServerApp}>
             <StackTheme>
-                <NavBar />
+                <NavBar redirectUrlLeave={process.env.REDIRECT_URL_LEAVE} />
                 <div className="pt-28">{props.children}</div>
             </StackTheme>
         </StackProvider>

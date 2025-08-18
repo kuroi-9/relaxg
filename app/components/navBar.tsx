@@ -6,7 +6,9 @@ import { usePathname } from "next/navigation";
 import "@/app/globals.css";
 import styles from "./navBar.module.css";
 
-export default function NavBar() {
+export default function NavBar(props: {
+    redirectUrlLeave: string | undefined;
+}) {
     const navLinks = [
         { href: "/app/jobs-manager", label: "Jobs Manager" },
         { href: "/app/titles-manager", label: "Titles Manager" },
@@ -61,7 +63,7 @@ export default function NavBar() {
                 <button
                     className="secondary-btn"
                     onClick={() => {
-                        window.location.href = "/";
+                        window.location.replace(props.redirectUrlLeave ?? "/");
                     }}
                 >
                     Leave
