@@ -78,12 +78,38 @@
     flex-wrap: wrap;
     align-items: center;
     width: 100%;
+    column-gap: 0.5rem;
+}
+
+@media (max-width: 999px) {
+    @media (max-width: 550px) {
+        .jobCardTitle {
+            text-align: center;
+        }
+    }
+    .jobCardHeader {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-areas: "left right";
+        align-items: center;
+        max-height: 50px;
+        overflow-y: scroll;
+        column-gap: 0.5rem;
+    }
+
+    .jobCardHeader > *:first-child {
+        grid-area: left;
+    }
+
+    .jobCardHeader > *:last-child {
+        grid-area: right;
+    }
 }
 
 .jobCardTitle {
+    max-height: 50px;
     text-decoration: underline;
-    padding: 0.5rem;
-    margin-left: 0.5rem;
+    overflow-y: scroll;
 }
 
 .jobCardInfos {

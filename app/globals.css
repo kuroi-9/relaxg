@@ -101,7 +101,7 @@ body.modal-open {
 .loader {
     border: 2px solid #f3f3f3;
     /* Light grey */
-    border-top: 2px solid #3498db;
+    border-top: 2px solid transparent;
     /* Blue */
     border-radius: 50%;
     width: 20px;
