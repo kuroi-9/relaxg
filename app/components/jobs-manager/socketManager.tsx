@@ -11,6 +11,7 @@ export interface VolumeItem {
     percentage: number | undefined;
     running: boolean;
     completed: boolean;
+    downloadLink: string | undefined;
 }
 
 export interface TitleItem {
@@ -216,6 +217,7 @@ export default function SocketManager(props: {
             const volumeIsCompleted = Boolean(eventData[5] === "true");
             const volumeEtaTimestamp = Number(eventData[6]);
             const seriesCompleted = Boolean(eventData[7] === "true");
+            const volumeDownloadLink = eventData[8];
 
             // Try getting current job
             const existingDefinedJobItem = jobsState.find(
@@ -244,6 +246,7 @@ export default function SocketManager(props: {
                             volumeNbTotalPages,
                         running: volumeIsRunning,
                         completed: volumeIsCompleted,
+                        downloadLink: volumeDownloadLink,
                     });
 
                     // Sorting temp index
@@ -270,6 +273,7 @@ export default function SocketManager(props: {
                         existingVolume.percentage =
                             ((volumeNbPagesTreated - 3) * 100) /
                             volumeNbTotalPages;
+                        existingVolume.downloadLink = volumeDownloadLink;
                         if (existingDefinedJobItem) {
                             existingDefinedJobItem.eta =
                                 volumeEtaTimestamp * 1000;
@@ -280,6 +284,7 @@ export default function SocketManager(props: {
                     }
                     existingVolume.running = volumeIsRunning;
                     existingVolume.completed = volumeIsCompleted;
+                    existingVolume.downloadLink = volumeDownloadLink;
 
                     // Updating temp index with the temp variable
                     existingTitlesVolumesIndex = existingTitlesVolumesIndex.map(

@@ -62,7 +62,10 @@ export default function NavBar() {
             <div className={styles.navUserSection}>
                 <button
                     className="secondary-btn"
-                    onClick={() => user?.signOut()}
+                    onClick={() => {
+                        user?.signOut();
+                        window.location.replace("/");
+                    }}
                 >
                     Leave
                 </button>
