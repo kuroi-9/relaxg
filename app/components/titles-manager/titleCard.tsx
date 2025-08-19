@@ -16,9 +16,9 @@ export default function TitleCard(props: {
 }) {
     return (
         <div
-            className={`${styles.titleCardContainer} ${styles.titlesListContent} titles-list-content`}
+            className={`${styles["title-card-container"]} ${styles["titles-list-content"]} titles-list-content`}
         >
-            <div className={`${styles.titleCardImageContainer} animate`}>
+            <div className={`${styles["title-card-image-container"]} animate`}>
                 <SecureImage
                     titleId={props.title.id}
                     titleName={props.title["title-name"]}
@@ -26,13 +26,13 @@ export default function TitleCard(props: {
                 />
             </div>
             <div
-                className={`${styles.titleCardNameContainer} title-card bg-${
+                className={`${styles["title-card-name-container"]} title-card bg-${
                     props.title["post-treated"] ? "green" : "black"
                 }-600`}
             >
-                <div className={styles.titleCardName}>
+                <div className={styles["title-card-name"]}>
                     <h3>{props.title["title-name"]}</h3>
-                    <div className={styles.titleCardContent}>
+                    <div className={styles["title-card-content"]}>
                         <h4 className="card-publication-status">
                             {props.title["publication-status"]}
                         </h4>

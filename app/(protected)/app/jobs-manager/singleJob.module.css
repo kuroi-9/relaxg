@@ -1,11 +1,11 @@
-.volumeCardContainer {
+.volume-card-container {
     display: flex;
     flex-direction: column;
     width: 100%;
     animation: fast 0.3s ease-in-out;
 }
 
-.volumeCardContent {
+.volume-card-content {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -13,14 +13,14 @@
     min-height: 50px;
 }
 
-.volumeCardLeftSection {
+.volume-card-left-section {
     display: flex;
     flex-direction: row;
     width: 75%;
     justify-content: space-between;
 }
 
-.volumeCardBorder {
+.volume-card-border {
     min-height: 100%;
     display: flex;
     flex-direction: column;
@@ -28,29 +28,29 @@
     width: 2%;
 }
 
-.volumeCardTitleContainer {
+.volume-card-title-container {
     display: flex;
     align-items: center;
     width: 96%;
 }
 
-.volumeCardTitle {
+.volume-card-title {
     padding: 0.5rem;
     white-space: nowrap;
     overflow-y: hidden;
 }
 
-.volumeCardRightSection {
+.volume-card-right-section {
     display: flex;
     flex-direction: column;
     width: 25%;
     flex-shrink: 0;
 }
 
-.volumeCardPercentageContainer {
+.volume-card-percentage-container {
     display: flex;
     margin: 0.5rem;
-    border-radius: 0.375rem;
+    border-radius: 0;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -58,36 +58,35 @@
 }
 
 /* JobCard styles */
-.jobCard {
+.job-card {
     margin: 0.5rem;
     padding: 0.5rem;
     border: solid gray 1px;
 }
 
-.jobCardContent {
+.job-card-content {
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+    flex-flow: column wrap;
     justify-content: space-between;
     width: 100%;
 }
 
-.jobCardHeader {
+.job-card-header {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
     align-items: center;
     width: 100%;
     column-gap: 0.5rem;
 }
 
-@media (max-width: 999px) {
-    @media (max-width: 550px) {
-        .jobCardTitle {
+@media (width <= 999px) {
+    @media (width <= 550px) {
+        .job-card-title {
             text-align: center;
         }
     }
-    .jobCardHeader {
+
+    .job-card-header {
         display: grid;
         grid-template-columns: auto 1fr;
         grid-template-areas: "left right";
@@ -97,43 +96,41 @@
         column-gap: 0.5rem;
     }
 
-    .jobCardHeader > *:first-child {
+    .job-card-header > *:first-child {
         grid-area: left;
     }
 
-    .jobCardHeader > *:last-child {
+    .job-card-header > *:last-child {
         grid-area: right;
     }
 }
 
-.jobCardTitle {
+.job-card-title {
     max-height: 50px;
     text-decoration: underline;
     overflow-y: scroll;
 }
 
-.jobCardInfos {
+.job-card-infos {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
 }
 
-@media (max-width: 768px) {
-    .jobCardInfos {
+@media (width <= 768px) {
+    .job-card-infos {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 0.5rem;
     }
 }
 
-.jobCardControls {
+.job-card-controls {
     display: flex;
-    flex-direction: row;
+    flex-flow: row wrap;
     margin-top: 0.5rem;
-    flex-wrap: wrap;
 }
 
-.jobCardButtonDelete {
+.job-card-button-delete {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -145,40 +142,40 @@
     background-color: transparent;
 }
 
-.jobCardProgressBar {
+.job-card-progress-bar {
     border-width: 4px;
     margin-top: 0.5rem;
     display: flex;
     flex-direction: row;
-    border-radius: 0.375rem;
+    border-radius: 0;
     width: 100%;
 }
 
-.jobCardProgressBarContent {
+.job-card-progress-bar-content {
     height: 100%;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border-radius: 2px;
+    border-radius: 0;
 }
 
-.jobCardProgressText {
+.job-card-progress-text {
     z-index: 5;
     flex-shrink: 0;
     text-align: center;
 }
 
-.jobCardVolumesContainer {
+.job-card-volumes-container {
     display: flex;
     flex-direction: row;
     margin-top: 0.5rem;
-    border-radius: 0.375rem;
+    border-radius: 0;
 }
 
-.jobCardVolumesList {
+.job-card-volumes-list {
     width: 100%;
-    border-radius: 0.375rem;
+    border-radius: 0;
     animation: fast 0.3s ease-in-out;
 }
 
@@ -187,6 +184,7 @@
         opacity: 0;
         transform: translateY(1px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);

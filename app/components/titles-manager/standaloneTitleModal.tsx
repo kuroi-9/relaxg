@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import "@/app/globals.css";
 import "@/app/(protected)/app/titles-manager/titlesManager.module.css";
@@ -14,20 +14,21 @@ export default function StandaloneTitleModal(props: { id: string }) {
 
     return (
         <section>
-            <div className={styles.darkBackground} />
+            <div className={styles["dark-background"]} />
             <div className={styles.centered}>
                 <div className={styles.content}>
                     <div
                         className={
-                            styles.titleActionsModalHeader + " animate-fast"
+                            styles["title-actions-modal-header"] +
+                            " animate-fast"
                         }
                     >
                         <p>{props.id}</p>
                     </div>
-                    <div className={styles.titleActionsModalBody}>
+                    <div className={styles["title-actions-modal-body"]}>
                         <p>Please choose an action below.</p>
                     </div>
-                    <div className={styles.titleActionsModalFooter}>
+                    <div className={styles["title-actions-modal-footer"]}>
                         <button
                             id={"post-button-" + props.id}
                             className={"secondary-btn"}

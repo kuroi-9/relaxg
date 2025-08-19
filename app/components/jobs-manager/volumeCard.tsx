@@ -21,14 +21,16 @@ export default function VolumeCard(props: {
 
     useEffect(() => {
         const totalWidth =
-            document.getElementById(`volume-${props.volume.name}`)?.scrollWidth! -
-            document.getElementById(`volume-${props.volume.name}`)?.clientWidth! -
+            document.getElementById(`volume-${props.volume.name}`)
+                ?.scrollWidth! -
+            document.getElementById(`volume-${props.volume.name}`)
+                ?.clientWidth! -
             5;
 
         // If the total width is not a number, it means the element is not in the DOM (yet)
         if (!Number.isNaN(totalWidth)) {
             const leftBorder = document.getElementById(
-                `volume-${props.volume.name}-left-border`
+                `volume-${props.volume.name}-left-border`,
             );
             if (leftBorder && scroll !== 0) {
                 leftBorder.style.borderRight = `dashed 1px ${
@@ -38,7 +40,7 @@ export default function VolumeCard(props: {
                 leftBorder.style.borderRight = "hidden";
             }
             const rightBorder = document.getElementById(
-                `volume-${props.volume.name}-right-border`
+                `volume-${props.volume.name}-right-border`,
             );
             if (rightBorder && scroll < totalWidth) {
                 rightBorder.style.borderLeft = `dashed 1px ${
@@ -51,25 +53,29 @@ export default function VolumeCard(props: {
     }, [scroll, props.running]);
 
     return (
-        <section className={singleJobStyles.volumeCardContainer}>
-            <div className={singleJobStyles.volumeCardContent}>
-                <div className={singleJobStyles.volumeCardLeftSection}>
+        <section className={singleJobStyles["volume-card-container"]}>
+            <div className={singleJobStyles["volume-card-content"]}>
+                <div className={singleJobStyles["volume-card-left-section"]}>
                     <div
                         id={`volume-${props.volume.name}-left-border`}
-                        className={singleJobStyles.volumeCardBorder}
+                        className={singleJobStyles["volume-card-border"]}
                         style={{
                             borderRight: "hidden",
                         }}
                     ></div>
-                    <div className={singleJobStyles.volumeCardTitleContainer}>
+                    <div
+                        className={
+                            singleJobStyles["volume-card-title-container"]
+                        }
+                    >
                         <h6
                             id={`volume-${props.volume.name}`}
-                            className={`${styles.volumeTitleLabel} ${singleJobStyles.volumeCardTitle}`}
+                            className={`${styles["volume-title-label"]} ${singleJobStyles["volume-card-title"]}`}
                             onScroll={() =>
                                 handleScroll(
                                     document.getElementById(
-                                        `volume-${props.volume.name}`
-                                    )?.scrollLeft!
+                                        `volume-${props.volume.name}`,
+                                    )?.scrollLeft!,
                                 )
                             }
                             style={{
@@ -83,14 +89,14 @@ export default function VolumeCard(props: {
                     </div>
                     <div
                         id={`volume-${props.volume.name}-right-border`}
-                        className={singleJobStyles.volumeCardBorder}
+                        className={singleJobStyles["volume-card-border"]}
                         style={{
                             borderLeft: "hidden",
                         }}
                     ></div>
                 </div>
                 <div
-                    className={singleJobStyles.volumeCardRightSection}
+                    className={singleJobStyles["volume-card-right-section"]}
                     style={{
                         borderLeft: `1px solid ${
                             props.running ? "var(--foreground)" : "gray"
@@ -98,7 +104,9 @@ export default function VolumeCard(props: {
                     }}
                 >
                     <div
-                        className={singleJobStyles.volumeCardPercentageContainer}
+                        className={
+                            singleJobStyles["volume-card-percentage-container"]
+                        }
                         style={{
                             width: props.volume.completed ? "auto" : "auto",
                             height: "100%",
@@ -114,8 +122,7 @@ export default function VolumeCard(props: {
                         ) : (
                             <h1
                                 className={
-                                    styles.volumeComputationPercentage +
-                                    " rounded-md"
+                                    styles["volume-computation-percentage"]
                                 }
                             >
                                 {!props.volume.completed
@@ -123,9 +130,9 @@ export default function VolumeCard(props: {
                                           0,
                                           Number(
                                               props.volume.percentage!.toPrecision(
-                                                  3
-                                              )
-                                          )
+                                                  3,
+                                              ),
+                                          ),
                                       ) + "%"
                                     : ""}
                             </h1>

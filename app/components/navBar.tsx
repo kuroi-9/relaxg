@@ -24,13 +24,13 @@ export default function NavBar(props: {
     }
 
     return (
-        <nav className={styles.navLinksContainer}>
-            <div className={styles.navLinksDiv}>
+        <nav className={styles["nav-links-container"]}>
+            <div className={styles["nav-links-div"]}>
                 {navLinks.map((link) => (
                     <Link
                         href={link.href}
                         key={link.label}
-                        className={`${styles.navLink} primary-btn
+                        className={`${styles["nav-link"]} primary-btn
                             ${
                                 selected === link.href &&
                                 !pathname.includes(link.href)
@@ -59,7 +59,7 @@ export default function NavBar(props: {
                     </Link>
                 ))}
             </div>
-            <div className={styles.navUserSection}>
+            <div className={styles["nav-user-section"]}>
                 <button
                     className="secondary-btn"
                     onClick={() => {

@@ -26,12 +26,12 @@ export default function OverlayTitleModal(props: {
                     headers: {
                         "x-stack-access-token": res.accessToken ?? "",
                     },
-                }
+                },
             ).then((res) => {
                 console.log(
                     res.json().then((value) => {
                         setTitle(value["title_name"] ?? "Loading...");
-                    })
+                    }),
                 );
             });
         });
@@ -53,7 +53,7 @@ export default function OverlayTitleModal(props: {
         postBtn!.textContent = "";
         const postLoadingElement = document.createElement("div");
         postLoadingElement.id = "post-loading-" + props.id;
-        postLoadingElement.className = "loader";
+        postLoadingElement.className = "loader-foreground";
 
         // Change the button to a loading state
         postBtn!.style.borderColor = "#364050";
@@ -90,24 +90,29 @@ export default function OverlayTitleModal(props: {
                         postBtn!.style.borderColor = "white";
                         postBtn!.removeAttribute("disabled");
                     }
-                })
+                }),
             );
         });
     };
 
     return (
         <section>
-            <div className={styles.darkBackground} />
+            <div className={styles["dark-background"]} />
             <div className={styles.centered}>
                 <div className={styles.content}>
                     <div
                         className={
-                            styles.titleActionsModalHeader + " animate-fast"
+                            styles["title-actions-modal-header"] +
+                            " animate-fast"
                         }
                     >
                         <p>{title}</p>
                     </div>
-                    <div className={styles.titleActionsModalBody + " animate"}>
+                    <div
+                        className={
+                            styles["title-actions-modal-body"] + " animate"
+                        }
+                    >
                         <p>Please choose an action below.</p>
                         {title !== "Loading..." ? (
                             <SecureImage
@@ -116,10 +121,10 @@ export default function OverlayTitleModal(props: {
                                 dev={props.dev}
                             />
                         ) : (
-                            <div className="loader"></div>
+                            <div className="loader-foreground"></div>
                         )}
                     </div>
-                    <div className={styles.titleActionsModalFooter}>
+                    <div className={styles["title-actions-modal-footer"]}>
                         <button
                             id={"post-button-" + props.id}
                             className={"secondary-btn"}

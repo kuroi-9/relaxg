@@ -1,5 +1,5 @@
-.darkBackground {
-    background-color: rgba(0, 0, 0, 0.6);
+.dark-background {
+    background-color: rgb(0 0 0 / 60%);
     width: 170%;
     height: 200%;
     z-index: 0;
@@ -24,7 +24,7 @@
     background: var(--background);
     color: var(--foreground);
     z-index: 10;
-    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+    box-shadow: 0 5px 20px 0 rgb(0 0 0 / 4%);
     border: 1px solid gray;
     padding: 0.5rem;
     display: grid;
@@ -32,14 +32,14 @@
     grid-template-rows: 0.5fr 3fr 0.75fr;
 }
 
-.titleActionsModalHeader > p {
+.title-actions-modal-header > p {
     text-align: center;
     border-bottom: 2px solid var(--foreground);
     text-wrap: wrap;
     overflow-wrap: break-word;
 }
 
-.titleActionsModalBody {
+.title-actions-modal-body {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
@@ -50,41 +50,39 @@
     -ms-overflow-style: none;
 }
 
-.titleActionsModalBody::-webkit-scrollbar {
+.title-actions-modal-body::-webkit-scrollbar {
     display: none;
 }
 
-
-.titleActionsModalBody > p {
+.title-actions-modal-body > p {
     text-align: center;
 }
 
-.titleActionsModalBody > img {
+.title-actions-modal-body > img {
     display: block;
     max-width: 100%;
     max-height: 100%;
     width: auto;
     height: auto;
-    border-radius: 0.375rem;
+    border-radius: 0;
     border: 1px solid var(--foreground);
 }
 
-.titleActionsModalFooter {
+.title-actions-modal-footer {
     display: flex;
-    flex-direction: row;
+    flex-flow: row wrap;
     justify-content: space-between;
     align-items: end;
     flex-shrink: 0;
-    flex-wrap: wrap;
 }
 
-.titleActionsModalFooter > button {
+.title-actions-modal-footer > button {
     min-width: 33%;
     min-height: 50px;
     max-height: 50px;
 }
 
-@media screen and (max-width: 730px) {
+@media screen and (width <= 730px) {
     .centered {
         top: 55%;
     }
@@ -93,8 +91,8 @@
         height: 90%;
         grid-template-rows: 0.15fr 3fr 0.75fr;
     }
-    
-    .titleActionsModalBody {
+
+    .title-actions-modal-body {
         justify-content: start;
         display: flex;
         flex-direction: column;
@@ -103,26 +101,26 @@
         padding-right: 1rem;
     }
 
-    .titleActionsModalBody > p {
+    .title-actions-modal-body > p {
         display: none;
     }
 
-    .titleActionsModalFooter {
+    .title-actions-modal-footer {
         flex-direction: column;
         align-items: baseline;
         justify-content: end;
     }
 
-    .titleActionsModalFooter > button {
+    .title-actions-modal-footer > button {
         margin-bottom: 0.5rem;
         width: 100%;
     }
 
-    .titleActionsModalFooter > button:last-child {
+    .title-actions-modal-footer > button:last-child {
         margin-bottom: 0.1rem;
     }
 
-    .titleActionsModalBody > img {
+    .title-actions-modal-body > img {
         margin-top: 0.5rem;
         margin-bottom: 1rem;
         display: block;

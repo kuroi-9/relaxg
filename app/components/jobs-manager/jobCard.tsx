@@ -80,7 +80,7 @@ export default function JobCard(props: {
     resumeElement.current = (
         <button
             id={"resume-btn-" + props.job.id}
-            className={`${styles.stopOrResumeBtn} secondary-btn w-full resume-btn flex justify-center items-center border-2 p-2 shrink-0`}
+            className={`${styles["stop-or-resume-btn"]} secondary-btn w-full resume-btn flex justify-center items-center border-2 p-2 shrink-0`}
             style={{
                 minHeight: "50px",
                 maxHeight: "45px",
@@ -91,13 +91,15 @@ export default function JobCard(props: {
             onClick={() => handleResume()}
         >
             <PlayButtonIcon />
-            <p className="ml-2 mr-1">Resume</p>
+            <p className="ml-2" style={{ marginRight: "7%" }}>
+                Resume
+            </p>
         </button>
     );
     stopElement.current = (
         <button
             id={"stop-btn-" + props.job.id}
-            className={`${styles.stopOrResumeBtn} secondary-btn w-full stop-btn flex justify-center items-center border-2 p-2 shrink-0`}
+            className={`${styles["stop-or-resume-btn"]} secondary-btn w-full stop-btn flex justify-center items-center border-2 p-2 shrink-0`}
             style={{
                 minHeight: "50px",
                 maxHeight: "45px",
@@ -108,18 +110,20 @@ export default function JobCard(props: {
             onClick={() => handleStop()}
         >
             <StopSignIcon />
-            <p className="ml-2 mr-1">Stop</p>
+            <p className="ml-2" style={{ marginRight: "7%" }}>
+                Stop
+            </p>
         </button>
     );
     completedElement.current = (
         <button
             disabled={props.job.completed} // temp, see below TODO
             id={"completed-btn-" + props.job.id}
-            className={`${styles.stopOrResumeBtn} secondary-btn w-full completed-btn flex justify-center items-center border-2 p-2 shrink-0`}
+            className={`${styles["stop-or-resume-btn"]} secondary-btn w-full completed-btn flex justify-center items-center border-2 p-2 shrink-0`}
             style={{
                 minHeight: "50px",
                 maxHeight: "45px",
-                color: "white",
+                color: "var(--foreground)",
                 borderColor: "gray",
                 backgroundColor: "var(--background)",
                 outline: "none",
@@ -130,16 +134,18 @@ export default function JobCard(props: {
             }}
         >
             <CheckMarkIcon />
-            <p className="ml-2 mr-1">Completed</p>
+            <p className="ml-2" style={{ marginRight: "7%" }}>
+                Completed
+            </p>
         </button>
     );
 
     const handleResume = useCallback(() => {
         if (
-            document.getElementsByClassName("stopOrResumeBtn").length > 0 ||
+            document.getElementsByClassName("stop-or-resume-btn").length > 0 ||
             document.getElementsByClassName("undefined-btn").length > 0 ||
             document.getElementsByClassName("resume-btn").length ==
-                document.getElementsByClassName("stopOrResumeBtn").length - 1
+                document.getElementsByClassName("stop-or-resume-btn").length - 1
         ) {
             alert("YOU NEED TO STOP THE RUNNING JOB");
         } else {
@@ -218,7 +224,7 @@ export default function JobCard(props: {
         deleteBtn!.textContent = "";
         const deleteLoadingElement = document.createElement("div");
         deleteLoadingElement.id = "delete-loading-" + props.job.id;
-        deleteLoadingElement.className = "loader";
+        deleteLoadingElement.className = "loader-red";
         deleteBtn!.appendChild(deleteLoadingElement);
 
         user.getAuthJson().then((res) => {
@@ -340,14 +346,14 @@ export default function JobCard(props: {
     return (
         <div
             id={"job-card-" + props.job.id}
-            className={`${singleJobStyles.jobCard} border-gray-700`}
+            className={`${singleJobStyles["job-card"]} border-gray-700`}
         >
             <h1>{props.job.completed}</h1>
-            <div className={singleJobStyles.jobCardContent}>
-                <div className={singleJobStyles.jobCardHeader}>
+            <div className={singleJobStyles["job-card-content"]}>
+                <div className={singleJobStyles["job-card-header"]}>
                     <h1
                         id={"card-job-id-" + props.job.id}
-                        className={`${styles.cardJobIdLabel} flex rounded-md p-2 items-center justify-center`}
+                        className={`${styles["card-job-id-label"]} flex p-2 items-center justify-center`}
                         style={{
                             width: "4rem",
                             minHeight: "50px",
@@ -358,19 +364,19 @@ export default function JobCard(props: {
                     </h1>{" "}
                     <h1
                         id={"card-job-title-name-" + props.job.id}
-                        className={singleJobStyles.jobCardTitle}
+                        className={singleJobStyles["job-card-title"]}
                     >
                         {props.job.title.name}
                     </h1>
                 </div>
-                <div className={singleJobStyles.jobCardInfos}>
+                <div className={singleJobStyles["job-card-infos"]}>
                     <div
-                        className={`${singleJobStyles.jobCardControls} w-full md:w-36`}
+                        className={`${singleJobStyles["job-card-controls"]} w-full md:w-36`}
                     >
                         {isLoading ? (
                             <button
                                 disabled
-                                className={`${styles.stopOrResumeBtn} stopOrResumeBtn w-full secondary-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0 border-gray-700`}
+                                className={`${styles["stop-or-resume-btn"]} stop-or-resume-btn w-full secondary-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0 border-gray-700`}
                                 style={{
                                     minHeight: "50px",
                                     maxHeight: "45px",
@@ -380,7 +386,7 @@ export default function JobCard(props: {
                                     outline: "none",
                                 }}
                             >
-                                <div className="loader" />
+                                <div className="loader-background" />
                             </button>
                         ) : (
                             stopOrResumeElement.current
@@ -393,7 +399,7 @@ export default function JobCard(props: {
                             props.job.title.running === true
                         }
                         id={"delete-btn-" + props.job.id}
-                        className={`${singleJobStyles.jobCardButtonDelete} w-full md:w-auto md:ml-2 primary-btn`}
+                        className={`${singleJobStyles["job-card-button-delete"]} w-full md:w-auto md:ml-2 primary-btn`}
                         style={{
                             borderColor:
                                 isLoading ||
@@ -423,7 +429,7 @@ export default function JobCard(props: {
                     </button>
                 </div>
                 <div
-                    className={`${singleJobStyles.jobCardProgressBar} loader-bar`}
+                    className={`${singleJobStyles["job-card-progress-bar"]} loader-bar`}
                     style={{
                         borderColor:
                             isRunning.current === true ? "#fcd34d" : "#374151",
@@ -438,7 +444,9 @@ export default function JobCard(props: {
                     }}
                 >
                     <div
-                        className={singleJobStyles.jobCardProgressBarContent}
+                        className={
+                            singleJobStyles["job-card-progress-bar-content"]
+                        }
                         style={{
                             backgroundColor:
                                 isRunning.current === true
@@ -446,7 +454,11 @@ export default function JobCard(props: {
                                     : "slategray",
                         }}
                     >
-                        <p className={singleJobStyles.jobCardProgressText}>
+                        <p
+                            className={
+                                singleJobStyles["job-card-progress-text"]
+                            }
+                        >
                             {props.job.eta
                                 ? "Next volume ETA => " +
                                   (new Date(props.job.eta).getHours() < 10
@@ -464,11 +476,11 @@ export default function JobCard(props: {
                 </div>
             </div>
             <div
-                className={`${styles.jobVolumesCardContainer} ${singleJobStyles.jobCardVolumesContainer}`}
+                className={`${styles["job-volumes-card-container"]} ${singleJobStyles["job-card-volumes-container"]}`}
             >
                 <ul
                     id={"job-volumes-card" + props.job.id}
-                    className={`${styles.jobVolumesCard} ${singleJobStyles.jobCardVolumesList}`}
+                    className={`${styles["job-volumes-card"]} ${singleJobStyles["job-card-volumes-list"]}`}
                     style={{
                         border: `${
                             props.job.title.volumes.length === 0 ? "0px" : "1px"
