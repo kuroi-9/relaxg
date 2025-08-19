@@ -125,6 +125,19 @@ body.modal-open {
     animation: spin 2s linear infinite;
 }
 
+.loader-white {
+    border: 2px solid white;
+
+    /* Light grey */
+    border-top: 2px solid transparent;
+
+    /* Blue */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 2s linear infinite;
+}
+
 .loader-red {
     border: 2px solid red;
 

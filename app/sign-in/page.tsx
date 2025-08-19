@@ -39,7 +39,7 @@ export default function CredentialSignIn() {
     return (
         <section className="grid grid-rows-1fr items-center justify-center min-h-screen">
             <form
-                className="grid grid-rows-[2rem_1fr_3rem_3rem_4rem] justify-items-center min-w-52 p-3 gap-8"
+                className="grid grid-rows-[2rem_1fr_3rem_3rem] justify-items-center min-w-52 p-3 gap-8"
                 onSubmit={(e) => {
                     e.preventDefault();
                     onSubmit();
@@ -72,50 +72,65 @@ export default function CredentialSignIn() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <input
-                    className="primary-input w-full"
-                    type="password"
-                    placeholder="Mot de passe"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                {isLoading ? (
-                    <button
-                        disabled
-                        className={
-                            "w-full primary-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0"
-                        }
-                        style={{
-                            minHeight: "48px",
-                            maxHeight: "48px",
-                            paddingLeft: "1rem",
-                            paddingRight: "1rem",
-                            paddingTop: "0px",
-                            paddingBottom: "0px",
-                            borderRadius: "0",
-                            outline: "none",
-                        }}
-                    >
-                        <div className="loader-background" />
-                    </button>
-                ) : (
-                    <button
-                        id="sign-in-submit-btn"
-                        className="primary-btn w-full"
-                        type="submit"
-                        style={{
-                            minHeight: "48px",
-                            maxHeight: "48px",
-                            paddingLeft: "1rem",
-                            paddingRight: "1rem",
-                            paddingTop: "0px",
-                            paddingBottom: "0px",
-                            borderRadius: "0",
-                        }}
-                    >
-                        Se connecter
-                    </button>
-                )}
+                <div
+                    className="grid grid-rows-[3rem_auto_3rem] w-full"
+                    style={{ rowGap: "1rem" }}
+                >
+                    <input
+                        className="primary-input w-full"
+                        type="password"
+                        placeholder="Mot de passe"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <div className="flex justify-center">
+                        <hr
+                            className="border-2 w-28 animate rounded-full"
+                            style={{ borderColor: "var(--foreground)" }}
+                        />
+                    </div>
+                    {isLoading ? (
+                        <button
+                            disabled
+                            className={
+                                "w-full primary-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0"
+                            }
+                            style={{
+                                minHeight: "48px",
+                                maxHeight: "48px",
+                                paddingLeft: "1rem",
+                                paddingRight: "1rem",
+                                paddingTop: "0px",
+                                paddingBottom: "0px",
+                                borderRadius: "0",
+                                outline: "none",
+                                color: "white",
+                                backgroundColor: "#171717",
+                            }}
+                        >
+                            <div className="loader-white" />
+                        </button>
+                    ) : (
+                        <button
+                            id="sign-in-submit-btn"
+                            className="primary-btn w-full"
+                            type="submit"
+                            style={{
+                                minHeight: "48px",
+                                maxHeight: "48px",
+                                paddingLeft: "1rem",
+                                paddingRight: "1rem",
+                                paddingTop: "0px",
+                                paddingBottom: "0px",
+                                borderRadius: "0",
+                                color: "white",
+                                backgroundColor: "#171717",
+                            }}
+                        >
+                            Se connecter
+                        </button>
+                    )}
+                </div>
             </form>
         </section>
     );

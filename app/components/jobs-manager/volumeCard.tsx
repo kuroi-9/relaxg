@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import styles from "@/app/(protected)/app/jobs-manager/jobsManager.module.css";
 import singleJobStyles from "@/app/(protected)/app/jobs-manager/singleJob.module.css";
 import { useEffect, useState } from "react";
+import { CheckMarkIcon } from "./jobCard";
 
 export default function VolumeCard(props: {
     volume: VolumeItem;
@@ -110,15 +111,11 @@ export default function VolumeCard(props: {
                         style={{
                             width: props.volume.completed ? "auto" : "auto",
                             height: "100%",
-                            backgroundColor: props.volume.completed
-                                ? props.running
-                                    ? "green"
-                                    : "slategray"
-                                : "transparent",
+                            backgroundColor: "transparent",
                         }}
                     >
                         {props.volume.completed ? (
-                            ""
+                            <CheckMarkIcon />
                         ) : (
                             <h1
                                 className={

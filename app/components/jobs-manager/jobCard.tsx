@@ -38,7 +38,7 @@ function StopSignIcon() {
     );
 }
 
-function CheckMarkIcon() {
+export function CheckMarkIcon() {
     return (
         <svg
             width="24"
@@ -386,7 +386,7 @@ export default function JobCard(props: {
                                     outline: "none",
                                 }}
                             >
-                                <div className="loader-background" />
+                                <div className="loader-white" />
                             </button>
                         ) : (
                             stopOrResumeElement.current
