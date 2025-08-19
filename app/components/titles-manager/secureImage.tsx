@@ -31,11 +31,11 @@ export default function SecureImage(props: {
                         headers: {
                             "x-stack-access-token": token ?? "",
                         },
-                    }
+                    },
                 );
 
                 if (!response.ok) {
-                    throw new Error("Failed to fetch secure image");
+                    throw "Failed to fetch secure image";
                 }
 
                 const blob = await response.blob();
@@ -45,7 +45,7 @@ export default function SecureImage(props: {
                 // Clean up the object URL when the component unmounts
                 return () => URL.revokeObjectURL(imageUrl);
             } catch (error) {
-                console.error("Error loading secure image:", error);
+                console.warn("Error loading secure image:", error);
                 setIsLoading(false);
             }
         };

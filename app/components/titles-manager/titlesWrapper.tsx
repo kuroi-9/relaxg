@@ -28,17 +28,17 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
 
     if (filteredTitles.length === 0) {
         document.getElementById(
-            "titles-wrapper-content-container"
+            "titles-wrapper-content-container",
         )!.style.visibility = "visible";
         document.getElementById(
-            "titles-wrapper-content-container"
+            "titles-wrapper-content-container",
         )!.style.opacity = "1";
         document.getElementById(
-            "titles-wrapper-search-loading"
+            "titles-wrapper-search-loading",
         )!.style.opacity = "0";
         setTimeout(() => {
             document.getElementById(
-                "titles-wrapper-search-loading"
+                "titles-wrapper-search-loading",
             )!.style.display = "none";
         }, 500);
     }
@@ -61,15 +61,15 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
             const rowGap = parseInt(
                     window
                         .getComputedStyle(grid)
-                        .getPropertyValue("grid-row-gap")
+                        .getPropertyValue("grid-row-gap"),
                 ),
                 rowHeight = parseInt(
                     window
                         .getComputedStyle(grid)
-                        .getPropertyValue("grid-auto-rows")
+                        .getPropertyValue("grid-auto-rows"),
                 ),
                 gridImagesAsContent = item.querySelector(
-                    "img.titles-list-content"
+                    "img.titles-list-content",
                 );
 
             /*
@@ -86,7 +86,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     .querySelector(".titles-list-content")
                     .getBoundingClientRect().height +
                     rowGap) /
-                    (rowHeight + rowGap)
+                    (rowHeight + rowGap),
             );
 
             /* Set the spanning as calculated above (S) */
@@ -145,21 +145,21 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     // Once all the images have been removed from the array, we show the titles section to the user
                     imagesInLoadingState.current.splice(
                         imagesInLoadingState.current?.indexOf(i),
-                        1
+                        1,
                     );
                     if (imagesInLoadingState.current.length === 0) {
                         document.getElementById(
-                            "titles-wrapper-content-container"
+                            "titles-wrapper-content-container",
                         )!.style.visibility = "visible";
                         document.getElementById(
-                            "titles-wrapper-content-container"
+                            "titles-wrapper-content-container",
                         )!.style.opacity = "1";
                         document.getElementById(
-                            "titles-wrapper-search-loading"
+                            "titles-wrapper-search-loading",
                         )!.style.opacity = "0";
                         setTimeout(() => {
                             document.getElementById(
-                                "titles-wrapper-search-loading"
+                                "titles-wrapper-search-loading",
                             )!.style.display = "none";
                         }, 500);
                         if (jumpNeeded) {
@@ -169,16 +169,16 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                             toScroll.current = 0;
                             if (currentSearchBarInputVisibilityTimeout.current)
                                 clearTimeout(
-                                    currentSearchBarInputVisibilityTimeout.current
+                                    currentSearchBarInputVisibilityTimeout.current,
                                 );
                             currentSearchBarInputVisibilityTimeout.current =
                                 setTimeout(() => {
                                     document.getElementById(
-                                        "search-bar-container"
+                                        "search-bar-container",
                                     )!.style.opacity = "1";
                                     document
                                         .getElementById(
-                                            "title-manager-search-bar-input"
+                                            "title-manager-search-bar-input",
                                         )!
                                         .removeAttribute("disabled");
                                 }, 1200);
@@ -212,17 +212,17 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                 if (inputText !== _inputText) {
                     //TODO: Remove the animate attr in titleCards so it reset the animation, and it can be triggered each time there's an update
                     document.getElementById(
-                        "titles-wrapper-content-container"
+                        "titles-wrapper-content-container",
                     )!.style.visibility = "hidden";
                     document.getElementById(
-                        "titles-wrapper-content-container"
+                        "titles-wrapper-content-container",
                     )!.style.opacity = "0";
                     document.getElementById(
-                        "titles-wrapper-search-loading"
+                        "titles-wrapper-search-loading",
                     )!.style.opacity = "1";
                     setTimeout(() => {
                         document.getElementById(
-                            "titles-wrapper-search-loading"
+                            "titles-wrapper-search-loading",
                         )!.style.display = "flex";
                     }, 500);
                     setInputText(_inputText);
@@ -251,17 +251,17 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                 if (inputText !== _inputText) {
                     //TODO: Remove the animate attr in titleCards so it reset the animation, and it can be triggered each time there's an update
                     document.getElementById(
-                        "titles-wrapper-content-container"
+                        "titles-wrapper-content-container",
                     )!.style.visibility = "hidden";
                     document.getElementById(
-                        "titles-wrapper-content-container"
+                        "titles-wrapper-content-container",
                     )!.style.opacity = "0";
                     document.getElementById(
-                        "titles-wrapper-search-loading"
+                        "titles-wrapper-search-loading",
                     )!.style.opacity = "1";
                     setTimeout(() => {
                         document.getElementById(
-                            "titles-wrapper-search-loading"
+                            "titles-wrapper-search-loading",
                         )!.style.display = "flex";
                     }, 500);
                     setInputText(_inputText);
@@ -297,10 +297,10 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
             currentMinScroll.current = value;
             currentMaxScroll.current = value;
             const searchBarContainer = document.getElementById(
-                "search-bar-container"
+                "search-bar-container",
             );
             const searchBarInput = document.getElementById(
-                "title-manager-search-bar-input"
+                "title-manager-search-bar-input",
             );
             if (searchBarContainer) {
                 searchBarContainer.style.opacity = "0";
@@ -317,10 +317,10 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
 
         if (currentMaxScroll.current - currentMinScroll.current > 0) {
             const searchBarContainer = document.getElementById(
-                "search-bar-container"
+                "search-bar-container",
             );
             const searchBarInput = document.getElementById(
-                "title-manager-search-bar-input"
+                "title-manager-search-bar-input",
             );
             if (searchBarContainer) {
                 searchBarContainer.style.opacity = "1";
@@ -332,13 +332,15 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
         }
     };
 
-    window.addEventListener(
-        "scroll",
-        function () {
-            handleScroll(window.pageYOffset);
-        },
-        true
-    );
+    useEffect(() => {
+        window.addEventListener(
+            "scroll",
+            function () {
+                handleScroll(window.pageYOffset);
+            },
+            true,
+        );
+    }, []);
 
     return (
         <section className="titles-wrapper-container flex flex-col items-center w-full">
@@ -358,21 +360,24 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                 }}
             >
                 <span
-                    className={styles.titlesWrapperSearchLoading + " loader "}
+                    className={
+                        styles["titles-wrapper-search-loading"] +
+                        " loader-foreground "
+                    }
                 ></span>
             </div>
 
             <section
                 id="titles-wrapper-content-container"
                 className={
-                    styles.titlesListWrapper +
+                    styles["titles-list-wrapper"] +
                     " animate with-opacity-transition"
                 }
             >
-                <ul className={`${styles.titlesList} titles-list`}>
+                <ul className={`${styles["titles-list"]} titles-list`}>
                     {filteredTitles.map((title: TitleItem) => (
                         <Link
-                            className={`${styles.titlesListItem} titles-list-item min-w-max`}
+                            className={`${styles["titles-list-item"]} titles-list-item min-w-max`}
                             key={title.id}
                             href={{
                                 pathname: `/app/titles/${title.id}`,
