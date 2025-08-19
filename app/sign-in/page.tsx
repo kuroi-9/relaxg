@@ -2,8 +2,8 @@
 
 import { useStackApp } from "@stackframe/stack";
 import { useState } from "react";
-import Emoji from "react-emoji-render";
 import "@/app/sign-in/sign-in.css";
+import { LockerIcon } from "@/app/icons/global";
 
 export default function CredentialSignIn() {
     const [email, setEmail] = useState("");
@@ -37,7 +37,7 @@ export default function CredentialSignIn() {
     };
 
     return (
-        <section className="grid grid-rows-1fr items-center justify-center min-h-screen">
+        <section className="grid grid-rows-1fr items-center justify-center min-h-screen mb-32">
             <form
                 className="grid grid-rows-[2rem_1fr_3rem_3rem] justify-items-center min-w-52 p-3 gap-8"
                 onSubmit={(e) => {
@@ -49,7 +49,7 @@ export default function CredentialSignIn() {
                     <h1 className="text-center text-3xl mr-2">
                         Accès anticipé{" "}
                     </h1>
-                    <Emoji text=":locked:" />
+                    <LockerIcon />
                 </span>
                 <span>
                     <p className="text-center">
@@ -85,7 +85,7 @@ export default function CredentialSignIn() {
                     />
                     <div className="flex justify-center">
                         <hr
-                            className="border-2 w-28 animate rounded-full"
+                            className="border-2 w-28 rounded-full"
                             style={{ borderColor: "var(--foreground)" }}
                         />
                     </div>

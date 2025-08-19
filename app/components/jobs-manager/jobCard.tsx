@@ -7,54 +7,7 @@ import { ReactNode, useCallback, useRef, useState, useEffect } from "react";
 import VolumeCard from "@/app/components/jobs-manager/volumeCard";
 import { JobItem } from "./socketManager";
 import { useUser } from "@stackframe/stack";
-
-function PlayButtonIcon() {
-    return (
-        <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="hover:text-neutral-800 dark:hover:text-neutral-100"
-        >
-            <path d="M8 5V19L19 12L8 5Z" fill="#FF9800" />
-        </svg>
-    );
-}
-
-function StopSignIcon() {
-    return (
-        <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="hover:text-neutral-800 dark:hover:text-neutral-100"
-        >
-            <rect x="6" y="6" width="12" height="12" fill="#F44336" />
-        </svg>
-    );
-}
-
-export function CheckMarkIcon() {
-    return (
-        <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="hover:text-neutral-800 dark:hover:text-neutral-100"
-        >
-            <path
-                d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"
-                fill="#4CAF50"
-            />
-        </svg>
-    );
-}
+import { PlayButtonIcon, StopSignIcon } from "@/app/icons/global";
 
 export default function JobCard(props: {
     job: JobItem;
@@ -133,10 +86,7 @@ export default function JobCard(props: {
                 // TODO: Delete completed.lock + handleresume()
             }}
         >
-            <CheckMarkIcon />
-            <p className="ml-2" style={{ marginRight: "7%" }}>
-                Completed
-            </p>
+            <p className="m-2">Completed</p>
         </button>
     );
 

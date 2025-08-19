@@ -4,7 +4,7 @@ import "@/app/globals.css";
 import styles from "@/app/(protected)/app/jobs-manager/jobsManager.module.css";
 import singleJobStyles from "@/app/(protected)/app/jobs-manager/singleJob.module.css";
 import { useEffect, useState } from "react";
-import { CheckMarkIcon } from "./jobCard";
+import { CheckMarkIcon } from "@/app/icons/global";
 
 export default function VolumeCard(props: {
     volume: VolumeItem;
