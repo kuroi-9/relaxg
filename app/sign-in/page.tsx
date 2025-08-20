@@ -53,8 +53,8 @@ export default function CredentialSignIn() {
                 </span>
                 <span>
                     <p className="text-center">
-                        Si vous disposez d'identifiants de démonstration, vous
-                        pouvez vous connecter ici.
+                        Si vous disposez d&apos;identifiants de démonstration,
+                        vous pouvez vous connecter ici.
                     </p>
                     <br />
                     <p className="text-center max-w-2xl">
