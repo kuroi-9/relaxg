@@ -1,5 +1,5 @@
 import { Key } from "react";
-import "@/app/globals.css"
+import "@/app/globals.css";
 import TitlesWrapper from "@/app/components/titles-manager/titlesWrapper";
 import { stackServerApp } from "@/stack";
 
@@ -7,16 +7,16 @@ export interface TitleItem {
     id: Key | null | undefined;
     "title-name": string;
     "publication-status": string;
-    "post-treated": boolean
+    "post-treated": boolean;
 }
 
 export default async function Page() {
     const user = await stackServerApp.getUser();
     // Fetching using ISR, so the static page will be regenerated each 60 seconds here
     const titleData = await fetch(
-        `https://api${(process.env.NEXT_ENV_MODE === 'developpment')
-            ? '-dev'
-            : ''}.relaxg.app/titles/`,
+        `https://api${
+            process.env.NEXT_ENV_MODE === "developpment" ? "-dev" : ""
+        }.relaxg.app/titles/?page=1&limit=2`,
         {
             next: { revalidate: 60 },
             method: "GET",
@@ -28,10 +28,8 @@ export default async function Page() {
                         ?.getAuthJson()
                         .then((res) => res.accessToken)) ?? "",
             },
-        }
-    ).then((res) =>
-            res.json()
-        )
+        },
+    ).then((res) => res.json());
     const titles: TitleItem[] = [];
 
     if (titleData.error) {
@@ -45,7 +43,7 @@ export default async function Page() {
             titles.push(title);
         }
         titles.sort(function (a, b) {
-            return a['title-name'].localeCompare(b['title-name']);
+            return a["title-name"].localeCompare(b["title-name"]);
         });
     }
 
