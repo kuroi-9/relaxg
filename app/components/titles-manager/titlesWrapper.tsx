@@ -237,7 +237,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     } else {
                         console.log("input" + _inputText);
                         if (_inputText === "") {
-                            console.log("iuerhugierg");
+                            console.log("Scroll to implement");
                             setJumpNeeded(true);
                             baseScroll.current = 0;
                         } else {
@@ -276,7 +276,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     } else {
                         console.log("input" + _inputText);
                         if (_inputText === "") {
-                            console.log("iuerhugierg");
+                            console.log("Scroll to implement");
                             setJumpNeeded(true);
                             baseScroll.current = 0;
                         } else {
@@ -303,7 +303,8 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                 "title-manager-search-bar-input",
             );
             if (searchBarContainer) {
-                searchBarContainer.style.opacity = "0";
+                //searchBarContainer.style.opacity = "0";
+                searchBarContainer.style.display = "none";
             }
             if (searchBarInput) {
                 searchBarInput.setAttribute("disabled", "true");
@@ -323,7 +324,8 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                 "title-manager-search-bar-input",
             );
             if (searchBarContainer) {
-                searchBarContainer.style.opacity = "1";
+                //searchBarContainer.style.opacity = "1";
+                searchBarContainer.style.display = "block";
             }
             if (searchBarInput) {
                 searchBarInput.removeAttribute("disabled");
