@@ -37,7 +37,7 @@ export default function CredentialSignIn() {
     };
 
     return (
-        <section className="grid grid-rows-1fr items-center justify-center min-h-screen mb-32">
+        <section className="grid grid-rows-1fr items-center justify-center mt-10 md:mt-32 mb-32">
             <form
                 className="grid grid-rows-[2rem_1fr_3rem_3rem] justify-items-center min-w-52 p-3 gap-8"
                 onSubmit={(e) => {
@@ -53,13 +53,13 @@ export default function CredentialSignIn() {
                 </span>
                 <span>
                     <p className="text-center">
-                        Munissez-vous des identifiants qui vous ont été transmis
-                        dans la lettre de motivation.
-                        <br /> Ce compte n&apos;a pas été fait sur mesure.
+                        Si vous disposez d'identifiants de démonstration, vous
+                        pouvez vous connecter ici.
                     </p>
                     <br />
-                    <p className="text-center">
-                        Tout job que vous lancez pourra être interrompu, le
+                    <p className="text-center max-w-2xl">
+                        Dans le cadre du beta-test et de la température
+                        estivale, tout job démarré peut être interrompu, le
                         processus étant extrêment couteux en ressources.
                     </p>
                     {error ? <hr className="m-5" /> : ""}
