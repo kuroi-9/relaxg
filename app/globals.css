@@ -217,6 +217,34 @@ body.modal-open {
     animation: load 1.3s linear infinite;
 }
 
+.loader-bar-fast-red {
+    position: relative;
+    min-height: 8px;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    color: white;
+}
+
+.loader-bar-fast-red::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    min-height: 8px;
+    background-color: rgb(11 11 11 / 50%);
+}
+
+.loader-bar-fast-red::after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 130px;
+    min-height: 8px;
+    background-color: red;
+    animation: load 1.3s linear infinite;
+}
+
 @keyframes load {
     0% {
         left: -50%;

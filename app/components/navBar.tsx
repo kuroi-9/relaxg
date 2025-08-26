@@ -5,10 +5,12 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import "@/app/globals.css";
 import styles from "./navBar.module.css";
+import { useRouter } from "next/navigation";
 
 export default function NavBar(props: {
     redirectUrlLeave: string | undefined;
 }) {
+    const router = useRouter();
     const navLinks = [
         { href: "/app/jobs-manager", label: "Jobs Manager" },
         { href: "/app/titles-manager", label: "Titles Manager" },
@@ -18,6 +20,10 @@ export default function NavBar(props: {
         undefined,
     );
 
+    // Redirect if the leave btn has been clicked
+    if (selected === (props.redirectUrlLeave ?? "/")) {
+        router.push(props.redirectUrlLeave ?? "/");
+    }
     // Prevent showing loader when a modal that changes url is open
     if (selected !== undefined && pathname.includes(selected)) {
         setSelected(undefined);
@@ -61,12 +67,20 @@ export default function NavBar(props: {
             </div>
             <div className={styles["nav-user-section"]}>
                 <button
-                    className="secondary-btn"
+                    className={`secondary-btn overflow-hidden ${
+                        selected === (props.redirectUrlLeave ?? "/") &&
+                        !pathname.includes(props.redirectUrlLeave ?? "/")
+                            ? "loader-bar-fast-red animate-faster"
+                            : ""
+                    }`}
                     onClick={() => {
-                        window.location.replace(props.redirectUrlLeave ?? "/");
+                        setSelected(props.redirectUrlLeave ?? "/");
                     }}
+                    style={{ minWidth: "5rem" }}
                 >
-                    Leave
+                    {selected === (props.redirectUrlLeave ?? "/")
+                        ? "<3"
+                        : "Leave"}
                 </button>
             </div>
         </nav>

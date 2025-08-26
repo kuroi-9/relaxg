@@ -5,6 +5,7 @@ import { useState, useRef } from "react";
 import "@/app/sign-in/sign-in.css";
 import { LockerIcon } from "@/app/icons/global";
 import { CheckMarkIconWhite } from "@/app/icons/global";
+import { useRouter } from "next/navigation";
 
 export default function CredentialSignIn() {
     const [email, setEmail] = useState("");
@@ -12,7 +13,10 @@ export default function CredentialSignIn() {
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const app = useStackApp();
-    const authenticated = useRef(false);
+    // We prefer to use a ref because it is not necessary to re-render
+    // The success checkmark is already rendered in a conditionnal
+    const isAuthenticated = useRef(false);
+    const router = useRouter();
 
     const onSubmit = async () => {
         setIsLoading(true);
@@ -22,7 +26,11 @@ export default function CredentialSignIn() {
             return;
         }
         // this will redirect to app.urls.afterSignIn if successful, you can customize it in the StackServerApp constructor
-        const result = await app.signInWithCredential({ email, password });
+        const result = await app.signInWithCredential({
+            email: email,
+            password: password,
+            noRedirect: true,
+        });
         // It is better to handle each error code separately, but we will just show the error code directly for simplicity here
         if (result.status === "error") {
             setIsLoading(false);
@@ -36,7 +44,11 @@ export default function CredentialSignIn() {
             setIsLoading(false);
             console.log("Error occurred during sign-in");
         } else {
-            authenticated.current = true;
+            setIsLoading(false);
+            // Display a checkmark after successful sign-in
+            isAuthenticated.current = true;
+            // redirecting to app.urls.afterSignIn
+            router.replace(app.urls.afterSignIn);
         }
     };
 
@@ -69,17 +81,17 @@ export default function CredentialSignIn() {
                     {error ? <hr className="m-5" /> : ""}
                     <p className="text-red-500 text-center">{error}</p>
                 </span>
-                <input
-                    className="primary-input w-full"
-                    type="email"
-                    placeholder="email@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
                 <div
-                    className="grid grid-rows-[3rem_auto_3rem] w-full"
+                    className="grid grid-rows-[3rem_3rem_auto_3rem] w-full"
                     style={{ rowGap: "1rem" }}
                 >
+                    <input
+                        className="primary-input w-full"
+                        type="email"
+                        placeholder="email@example.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
                     <input
                         className="primary-input w-full"
                         type="password"
@@ -114,7 +126,7 @@ export default function CredentialSignIn() {
                         >
                             <div className="loader-white" />
                         </button>
-                    ) : authenticated.current ? (
+                    ) : isAuthenticated.current ? (
                         <button
                             disabled
                             className={
