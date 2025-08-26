@@ -1,9 +1,10 @@
 "use client";
 
 import { useStackApp } from "@stackframe/stack";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "@/app/sign-in/sign-in.css";
 import { LockerIcon } from "@/app/icons/global";
+import { CheckMarkIconWhite } from "@/app/icons/global";
 
 export default function CredentialSignIn() {
     const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ export default function CredentialSignIn() {
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const app = useStackApp();
+    const authenticated = useRef(false);
 
     const onSubmit = async () => {
         setIsLoading(true);
@@ -33,6 +35,8 @@ export default function CredentialSignIn() {
             });
             setIsLoading(false);
             console.log("Error occurred during sign-in");
+        } else {
+            authenticated.current = true;
         }
     };
 
@@ -109,6 +113,27 @@ export default function CredentialSignIn() {
                             }}
                         >
                             <div className="loader-white" />
+                        </button>
+                    ) : authenticated.current ? (
+                        <button
+                            disabled
+                            className={
+                                "w-full primary-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0"
+                            }
+                            style={{
+                                minHeight: "48px",
+                                maxHeight: "48px",
+                                paddingLeft: "1rem",
+                                paddingRight: "1rem",
+                                paddingTop: "0px",
+                                paddingBottom: "0px",
+                                borderRadius: "0",
+                                outline: "none",
+                                color: "white",
+                                backgroundColor: "#171717",
+                            }}
+                        >
+                            <CheckMarkIconWhite />
                         </button>
                     ) : (
                         <button
