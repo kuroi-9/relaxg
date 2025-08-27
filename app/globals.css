@@ -85,11 +85,28 @@ body.modal-open {
     animation-fill-mode: backwards;
 }
 
+.animate-no-transform {
+    animation-duration: 0.5s;
+    animation-name: animate-fade-no-transform;
+    animation-delay: 0s;
+    animation-fill-mode: backwards;
+}
+
 .with-opacity-transition {
     transition: opacity 0.3s ease-in-out;
 }
 
 @keyframes animate-fade {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes animate-fade-no-transform {
     0% {
         opacity: 0;
     }

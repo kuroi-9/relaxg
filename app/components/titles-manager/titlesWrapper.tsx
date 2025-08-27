@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import imagesLoaded from "imagesloaded";
 import Link from "next/link";
 import TitleCard from "./titleCard";
-import { TitleItem } from "@/app/(protected)/app/titles-manager/page";
+import { TitleItem } from "@/app/(protected)/app/titles-manager/pageContent";
 import SearchBar from "./searchBar";
 import styles from "@/app/(protected)/app/titles-manager/titlesManager.module.css";
 
@@ -148,20 +148,26 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                         1,
                     );
                     if (imagesInLoadingState.current.length === 0) {
-                        document.getElementById(
-                            "titles-wrapper-content-container",
-                        )!.style.visibility = "visible";
-                        document.getElementById(
-                            "titles-wrapper-content-container",
-                        )!.style.opacity = "1";
-                        document.getElementById(
-                            "titles-wrapper-search-loading",
-                        )!.style.opacity = "0";
-                        setTimeout(() => {
+                        const titlesWrapperContentContainer =
+                            document.getElementById(
+                                "titles-wrapper-content-container",
+                            );
+                        if (titlesWrapperContentContainer) {
+                            titlesWrapperContentContainer.style.visibility =
+                                "visible";
+                            titlesWrapperContentContainer.style.opacity = "1";
+                        }
+                        const titlesWrapperSearchLoading =
                             document.getElementById(
                                 "titles-wrapper-search-loading",
-                            )!.style.display = "none";
-                        }, 500);
+                            );
+                        if (titlesWrapperSearchLoading) {
+                            titlesWrapperSearchLoading.style.opacity = "0";
+                            setTimeout(() => {
+                                titlesWrapperSearchLoading.style.display =
+                                    "none";
+                            }, 500);
+                        }
                         if (jumpNeeded) {
                             // Reset scroll to the state previous typing
                             //TODO: Fix possible scrollTo induced layout shift

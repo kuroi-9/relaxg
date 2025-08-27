@@ -14,7 +14,7 @@ export default function OverlayTitleModal(props: {
     dev: boolean;
 }) {
     const router = useRouter();
-    const [title, setTitle] = useState<string>("Loading...");
+    const [title, setTitle] = useState<string | undefined>(undefined);
     const user = useUser({ or: "redirect" });
 
     useEffect(() => {
@@ -30,7 +30,7 @@ export default function OverlayTitleModal(props: {
             ).then((res) => {
                 console.log(
                     res.json().then((value) => {
-                        setTitle(value["title_name"] ?? "Loading...");
+                        setTitle(value["title_name"] ?? undefined);
                     }),
                 );
             });
@@ -100,28 +100,23 @@ export default function OverlayTitleModal(props: {
             <div className={styles["dark-background"]} />
             <div className={styles.centered}>
                 <div className={styles.content}>
-                    <div
-                        className={
-                            styles["title-actions-modal-header"] +
-                            " animate-fast"
-                        }
-                    >
-                        <p>{title}</p>
+                    <div className={styles["title-actions-modal-header"]}>
+                        {title ?? (
+                            <div className="animate-pulse bg-gray-700 h-6 w-full animate-no-transform" />
+                        )}
                     </div>
-                    <div
-                        className={
-                            styles["title-actions-modal-body"] + " animate"
-                        }
-                    >
+                    <div className={styles["title-actions-modal-body"]}>
                         <p>Please choose an action below.</p>
-                        {title !== "Loading..." ? (
-                            <SecureImage
-                                titleId={props.id}
-                                titleName={title}
-                                dev={props.dev}
-                            />
+                        {title !== undefined ? (
+                            <div className="animate-no-transform">
+                                <SecureImage
+                                    titleId={props.id}
+                                    titleName={title}
+                                    dev={props.dev}
+                                />
+                            </div>
                         ) : (
-                            <div className="loader-foreground"></div>
+                            <div className="animate-pulse bg-gray-700 w-1/2 h-full"></div>
                         )}
                     </div>
                     <div className={styles["title-actions-modal-footer"]}>
