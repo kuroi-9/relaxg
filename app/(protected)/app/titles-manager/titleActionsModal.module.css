@@ -68,6 +68,13 @@
     border: 1px solid var(--foreground);
 }
 
+.title-actions-modal-body > div {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 0;
+}
+
 .title-actions-modal-footer {
     display: flex;
     flex-flow: row wrap;
@@ -128,5 +135,13 @@
         max-height: 100%;
         width: auto;
         height: auto;
+    }
+
+    .title-actions-modal-body > div {
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
     }
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import "@/app/globals.css";
 import Image from "next/image";
 import { Key, useEffect, useState } from "react";
 import { useUser } from "@stackframe/stack";
@@ -60,7 +61,7 @@ export default function SecureImage(props: {
             <Image
                 src={`https://api${props.dev ? "-dev" : ""}.relaxg.app/images/`}
                 alt="Loading"
-                className="h-full mb-0 overflow-hidden"
+                className="h-full mb-0 overflow-hidden animate-no-transform"
                 width={300}
                 height={0}
                 style={{ backgroundColor: "var(--background)" }}
@@ -72,7 +73,7 @@ export default function SecureImage(props: {
         <Image
             src={secureImageSrc ?? "https://api-dev.relaxg.app/images/error/"}
             alt={`cover-${props.titleId}`}
-            className="h-full mb-0 overflow-hidden"
+            className="h-full mb-0 overflow-hidden animate-no-transform"
             width={300}
             height={0}
             style={{ backgroundColor: "var(--background)" }}
