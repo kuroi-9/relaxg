@@ -1,4 +1,4 @@
-import SocketManager from "@/app/components/jobs-manager/socketManager";
+import SocketContainer from "@/app/components/jobs-manager/sockerContainer";
 import { stackServerApp } from "@/stack";
 
 export default async function JobsPageContent() {
@@ -29,7 +29,7 @@ export default async function JobsPageContent() {
     } else {
         return (
             <>
-                <SocketManager
+                <SocketContainer
                     jobs={jobs}
                     host={
                         process.env.VPS_IP ?? process.env.DOCKER_GATEWAY_HOST!

@@ -15,7 +15,6 @@ export function Modal({ children }: { children: React.ReactNode }) {
             dialogRef.current?.showModal();
             document.querySelector("body")?.classList.add("modal-open");
         }
-        console.log("efw");
     }, []);
 
     function onDismiss() {

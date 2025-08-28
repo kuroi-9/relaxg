@@ -42,7 +42,10 @@ export default function CredentialSignIn() {
                 }
             });
             setIsLoading(false);
-            console.log("Error occurred during sign-in");
+            console.error(
+                "[CredentialSignIn] Error occurred during sign-in... Sorry...",
+                result.error,
+            );
         } else {
             setIsLoading(false);
             // Display a checkmark after successful sign-in

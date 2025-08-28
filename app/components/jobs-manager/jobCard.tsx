@@ -13,7 +13,6 @@ export default function JobCard(props: {
     job: JobItem;
     host: string;
     setJobRunningToUndefined: (titleName: string) => void;
-    resetTitleVolumesEntry: (titleName: string) => void;
     dev: boolean;
     refresh: () => void;
 }) {
@@ -23,11 +22,10 @@ export default function JobCard(props: {
     const resumeElement = useRef<ReactNode>();
     const stopElement = useRef<ReactNode>();
     const completedElement = useRef<ReactNode>();
-    const [isDeleted, setIsDeleted] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const user = useUser({ or: "redirect" });
     const accessToken = undefined;
-    console.log("Jobcard rebuilding...", accessToken);
+    console.log("[Jobcard] Rebuilding...");
 
     // Init ReactNode variables values
     resumeElement.current = (
@@ -120,7 +118,9 @@ export default function JobCard(props: {
                         }),
                     },
                 ).then(() => {
-                    console.log("Resuming job " + props.job.id + "...");
+                    console.log(
+                        "[Jobcard] Resuming job " + props.job.id + "...",
+                    );
                     const resumeInterval = setInterval(() => {
                         console.log(props.job.title.running);
                         if (isRunning.current) {
@@ -155,7 +155,7 @@ export default function JobCard(props: {
                     }),
                 },
             ).then(() => {
-                console.log("Stopping job " + props.job.id + "...");
+                console.log("[Jobcard] Stopping job " + props.job.id + "...");
                 const stopInterval = setInterval(() => {
                     if (!isRunning.current) {
                         setIsLoading(false);
@@ -195,50 +195,7 @@ export default function JobCard(props: {
             ).then((response) => {
                 response.json().then((value) => {
                     if (value["status"] == "deleted") {
-                        const resumeBtn = document.getElementById(
-                            "resume-btn-" + props.job.id,
-                        );
-
-                        const completeBtn = document.getElementById(
-                            "completed-btn-" + props.job.id,
-                        );
-
-                        const currentBtn = resumeBtn ? resumeBtn : completeBtn;
-
-                        currentBtn!.textContent = "Deleted";
-                        currentBtn!.setAttribute("disabled", "true");
-                        currentBtn!.classList.replace(
-                            "primary-btn",
-                            "secondary-btn",
-                        );
-                        currentBtn!.style.color = "gray";
-                        currentBtn!.style.borderColor = "gray";
-                        currentBtn!.style.backgroundColor = "var(--background)";
-                        setIsDeleted(true);
-
-                        deleteBtn!.removeChild(deleteLoadingElement);
-                        deleteBtn!.textContent = "Delete";
-
-                        document.getElementById(
-                            "card-job-id-" + props.job.id,
-                        )!.style.color = "#364050";
-                        document.getElementById(
-                            "card-job-id-" + props.job.id,
-                        )!.style.borderColor = "#364050";
-                        document.getElementById(
-                            "card-job-title-name-" + props.job.id,
-                        )!.style.color = "#364050";
-                        document
-                            .getElementById("job-card-" + props.job.id)
-                            ?.classList.remove("border-gray-700");
-                        document.getElementById(
-                            "job-card-" + props.job.id,
-                        )!.style.borderColor = "var(--background)";
-                        document.getElementById(
-                            "job-volumes-card" + props.job.id,
-                        )!.style.border = "none";
-
-                        //props.refresh();
+                        props.refresh();
                     }
                 });
             });
@@ -291,8 +248,6 @@ export default function JobCard(props: {
         }
     }, [props.job.completed]);
 
-    console.log(props.job);
-
     return (
         <div
             id={"job-card-" + props.job.id}
@@ -343,33 +298,23 @@ export default function JobCard(props: {
                         )}
                     </div>
                     <button
-                        disabled={
-                            isLoading ||
-                            isDeleted ||
-                            props.job.title.running === true
-                        }
+                        disabled={isLoading || props.job.title.running === true}
                         id={"delete-btn-" + props.job.id}
                         className={`${singleJobStyles["job-card-button-delete"]} w-full md:w-auto md:ml-2 primary-btn`}
                         style={{
                             borderColor:
-                                isLoading ||
-                                isDeleted ||
-                                props.job.title.running === true
+                                isLoading || props.job.title.running === true
                                     ? "darkred"
                                     : "red",
                             backgroundColor: "transparent",
                             minWidth: "100px",
                             maxHeight: "50px",
                             color:
-                                isLoading ||
-                                isDeleted ||
-                                props.job.title.running === true
+                                isLoading || props.job.title.running === true
                                     ? "darkred"
                                     : "red",
                             outline:
-                                isLoading ||
-                                isDeleted ||
-                                props.job.title.running === true
+                                isLoading || props.job.title.running === true
                                     ? "none"
                                     : undefined,
                         }}
@@ -439,29 +384,27 @@ export default function JobCard(props: {
                         }`,
                     }}
                 >
-                    {!isDeleted
-                        ? props.job.title.volumes
-                              .filter(
-                                  (element) =>
-                                      element.name !== "launcher.lock" &&
-                                      element.name !== "last_pid",
-                              )
-                              .map((volume) => (
-                                  <div key={volume.name}>
-                                      <VolumeCard
-                                          volume={volume}
-                                          running={isRunning.current}
-                                      />
-                                      <hr
-                                          style={{
-                                              borderColor: isRunning.current
-                                                  ? "var(--foreground)"
-                                                  : "gray",
-                                          }}
-                                      />
-                                  </div>
-                              ))
-                        : ""}
+                    {props.job.title.volumes
+                        .filter(
+                            (element) =>
+                                element.name !== "launcher.lock" &&
+                                element.name !== "last_pid",
+                        )
+                        .map((volume) => (
+                            <div key={volume.name}>
+                                <VolumeCard
+                                    volume={volume}
+                                    running={isRunning.current}
+                                />
+                                <hr
+                                    style={{
+                                        borderColor: isRunning.current
+                                            ? "var(--foreground)"
+                                            : "gray",
+                                    }}
+                                />
+                            </div>
+                        ))}
                 </ul>
             </div>
         </div>

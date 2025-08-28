@@ -133,7 +133,6 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
      */
     function waitForImages() {
         const allItems = document.querySelectorAll(".titles-list-item");
-        console.log(allItems);
         if (allItems) {
             for (let i = 0; i < allItems.length; i++) {
                 // We set the image as in a loading state
@@ -233,17 +232,17 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     }, 500);
                     setInputText(_inputText);
 
-                    console.log("base" + baseScroll.current);
-                    console.log("toscroll" + toScroll.current);
+                    // console.log("base" + baseScroll.current);
+                    // console.log("toscroll" + toScroll.current);
 
                     if (baseScroll.current === 0) {
                         baseScroll.current = window.pageYOffset;
                         toScroll.current = window.pageYOffset;
                         window.scrollTo(0, 0);
                     } else {
-                        console.log("input" + _inputText);
+                        //console.log("input" + _inputText);
                         if (_inputText === "") {
-                            console.log("Scroll to implement");
+                            //console.log("Scroll to implement");
                             setJumpNeeded(true);
                             baseScroll.current = 0;
                         } else {
@@ -272,17 +271,17 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     }, 500);
                     setInputText(_inputText);
 
-                    console.log("base" + baseScroll.current);
-                    console.log("toscroll" + toScroll.current);
+                    // console.log("base" + baseScroll.current);
+                    // console.log("toscroll" + toScroll.current);
 
                     if (baseScroll.current === 0) {
                         baseScroll.current = window.pageYOffset;
                         toScroll.current = window.pageYOffset;
                         window.scrollTo(0, 0);
                     } else {
-                        console.log("input" + _inputText);
+                        //console.log("input" + _inputText);
                         if (_inputText === "") {
-                            console.log("Scroll to implement");
+                            //console.log("Scroll to implement");
                             setJumpNeeded(true);
                             baseScroll.current = 0;
                         } else {

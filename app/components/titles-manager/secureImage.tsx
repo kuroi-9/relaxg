@@ -46,7 +46,7 @@ export default function SecureImage(props: {
                 // Clean up the object URL when the component unmounts
                 return () => URL.revokeObjectURL(imageUrl);
             } catch (error) {
-                console.warn("Error loading secure image:", error);
+                console.warn(`Error loading secure image ${props.titleId}`);
                 setIsLoading(false);
             }
         };

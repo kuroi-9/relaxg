@@ -38,6 +38,7 @@ export default function SocketManager(props: {
     ];
     host: string;
     dev: boolean;
+    refresh: () => Promise<void>;
 }) {
     const websocket = useRef<WebSocket>(undefined);
     const websockets = useRef<WebSocket[]>([]);
@@ -129,39 +130,10 @@ export default function SocketManager(props: {
     };
 
     /**
-     * Reset the volumes entry of a designated title in the jobsVolumes map
-     * @param titleName
-     */
-    const resetTitleVolumesEntry = (titleName: string) => {
-        // Resetting the running value on all volumes
-        jobsVolumes.current.set(titleName, []);
-
-        setJobsState(() => {
-            return jobsState.map((job) => {
-                if (job.title.name === titleName) {
-                    return {
-                        ...job,
-                        title: {
-                            ...job.title,
-                            volumes: [],
-                        },
-                    };
-                } else {
-                    return job;
-                }
-            });
-        });
-    };
-
-    /**
      * Refreshs the job lists, making deleted jobs disapear
      */
     const handleRefresh = () => {
-        // router.refresh();
-        // jobsVolumes.current.clear();
-        // setJobsState(() => []);
-        // websocket.current?.close();
-        window.location.reload();
+        props.refresh();
     };
 
     /**
@@ -176,21 +148,18 @@ export default function SocketManager(props: {
             console.log("SocketManager disconnected");
             if (window.location.pathname === "/app/jobs-manager") {
                 websocketInterval.current = setInterval(() => {
-                    if (
-                        websocketInRecursion &&
-                        websocketInRecursion.readyState === 3
-                    ) {
+                    if (websocket.current?.readyState === 3) {
                         console.dir(
-                            "[WEBSOCKET STATUS] Reconnecting...",
+                            "[SocketManager][WEBSOCKET STATUS] Reconnecting...",
                             window.location,
                         );
                         websocketInRecursion = new WebSocket(
                             `wss://api${props.dev ? "-dev" : ""}.relaxg.app`,
                         );
                         websocketInRecursion.onopen = () => {
-                            console.log("SocketManager connected");
+                            console.log("[SocketManager] Websocket connected");
                             console.log(
-                                "[WEBSOCKET STATUS] Clearing interval...",
+                                "[SocketManager][WEBSOCKET STATUS] Clearing interval...",
                             );
                             clearInterval(websocketInterval.current);
                             websocketConnect(websocketInRecursion);
@@ -200,7 +169,7 @@ export default function SocketManager(props: {
                 websocketIntervals.current.push(websocketInterval.current);
                 websockets.current.push(websocket.current!);
             } else {
-                console.log("Connection terminated.");
+                console.log("[SocketManager] Websocket connection terminated.");
                 return;
             }
         };
@@ -347,27 +316,24 @@ export default function SocketManager(props: {
             clearInterval(websocketInterval.current);
             websocket.current?.close();
             if (websocketIntervals.current !== undefined) {
-                console.log("Component cleanup callback reached.");
-                clearInterval(websocketInterval.current);
                 for (const interval of websocketIntervals.current) {
                     clearInterval(interval);
                 }
             }
             if (websockets.current !== undefined) {
-                console.log("Component cleanup callback reached.");
-                clearInterval(websocketInterval.current);
                 for (const websocket of websockets.current) {
                     websocket.close();
                 }
             }
+            websocket.current = undefined;
+            setJobsState([]);
+            jobsVolumes.current.clear();
             return;
         };
     }, [props.host, props.jobs]);
 
     //TODO: Find a better way to do this
     //window.scrollTo(0, 0);
-
-    console.log("Component cleanup callback reached.");
 
     return (
         <section className="flex flex-col items-center">
@@ -378,7 +344,6 @@ export default function SocketManager(props: {
                         job={job}
                         host={props.host}
                         setJobRunningToUndefined={setJobRunningToUndefined}
-                        resetTitleVolumesEntry={resetTitleVolumesEntry}
                         dev={props.dev}
                         refresh={handleRefresh}
                     ></JobCard>

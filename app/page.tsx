@@ -11,6 +11,6 @@ export default function Home() {
         user.signOut();
     }
 
-    console.log("Redirecting...");
+    console.log("[Root] Redirecting...");
     redirect("/sign-in");
 }

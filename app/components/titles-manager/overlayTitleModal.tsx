@@ -28,11 +28,9 @@ export default function OverlayTitleModal(props: {
                     },
                 },
             ).then((res) => {
-                console.log(
-                    res.json().then((value) => {
-                        setTitle(value["title_name"] ?? undefined);
-                    }),
-                );
+                res.json().then((value) => {
+                    setTitle(value["title_name"] ?? undefined);
+                });
             });
         });
     }, [props.hostIp, props.id]);
