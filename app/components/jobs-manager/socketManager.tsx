@@ -164,6 +164,8 @@ export default function SocketManager(props: {
                             clearInterval(websocketInterval.current);
                             websocketConnect(websocketInRecursion);
                         };
+                    } else {
+                        clearInterval(websocketInterval.current);
                     }
                 }, 3000);
                 websocketIntervals.current.push(websocketInterval.current);
@@ -326,8 +328,6 @@ export default function SocketManager(props: {
                 }
             }
             websocket.current = undefined;
-            setJobsState([]);
-            jobsVolumes.current.clear();
             return;
         };
     }, [props.host, props.jobs]);
