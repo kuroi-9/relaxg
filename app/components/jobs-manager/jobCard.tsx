@@ -24,7 +24,6 @@ export default function JobCard(props: {
     const completedElement = useRef<ReactNode>();
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const user = useUser({ or: "redirect" });
-    const accessToken = undefined;
     console.log("[Jobcard] Rebuilding...");
 
     // Init ReactNode variables values
