@@ -1,6 +1,8 @@
 # RelaxG 
-A mobile-first tool to help with manga upscaling
+A mobile-first tool to help with manga upscaling.
+
 Self-hosted solution that take care of your local DRM-less books, improving their visual quality without the hassle of typing a command 200 times.
+
 The hosted demonstration does not allow any downloading at the moment, as sharing protected media over the internet is prohibed. The output files are only produced locally.
 
 ## Getting Started (development)
