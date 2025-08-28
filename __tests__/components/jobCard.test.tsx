@@ -89,7 +89,6 @@ describe("JobCard", () => {
                 job={mockJob}
                 host="test-host"
                 setJobRunningToUndefined={mockSetJobRunningToUndefined}
-                resetTitleVolumesEntry={mockResetTitleVolumesEntry}
                 dev={false}
                 refresh={mockRefresh}
             />,
@@ -104,7 +103,6 @@ describe("JobCard", () => {
                 job={mockJob}
                 host="test-host"
                 setJobRunningToUndefined={mockSetJobRunningToUndefined}
-                resetTitleVolumesEntry={mockResetTitleVolumesEntry}
                 dev={false}
                 refresh={mockRefresh}
             />,
@@ -141,7 +139,6 @@ describe("JobCard", () => {
                 job={jobWithEta}
                 host="test-host"
                 setJobRunningToUndefined={mockSetJobRunningToUndefined}
-                resetTitleVolumesEntry={mockResetTitleVolumesEntry}
                 dev={false}
                 refresh={mockRefresh}
             />,
@@ -169,7 +166,6 @@ describe("JobCard", () => {
                 job={mockJob}
                 host="test-host"
                 setJobRunningToUndefined={mockSetJobRunningToUndefined}
-                resetTitleVolumesEntry={mockResetTitleVolumesEntry}
                 dev={false}
                 refresh={mockRefresh}
             />,
@@ -209,7 +205,6 @@ describe("JobCard", () => {
                 job={stoppedJob}
                 host="test-host"
                 setJobRunningToUndefined={mockSetJobRunningToUndefined}
-                resetTitleVolumesEntry={mockResetTitleVolumesEntry}
                 dev={false}
                 refresh={mockRefresh}
             />,
@@ -239,7 +234,6 @@ describe("JobCard", () => {
                 job={mockJob}
                 host="test-host"
                 setJobRunningToUndefined={mockSetJobRunningToUndefined}
-                resetTitleVolumesEntry={mockResetTitleVolumesEntry}
                 dev={false}
                 refresh={mockRefresh}
             />,
@@ -254,10 +248,6 @@ describe("JobCard", () => {
         // Test the refresh function directly
         mockRefresh();
         expect(mockRefresh).toHaveBeenCalled();
-
-        // Test that resetTitleVolumesEntry works
-        mockResetTitleVolumesEntry("Test Title");
-        expect(mockResetTitleVolumesEntry).toHaveBeenCalledWith("Test Title");
     });
 
     it("displays completed status correctly for finished jobs", async () => {
@@ -278,7 +268,6 @@ describe("JobCard", () => {
                 job={completedJob}
                 host="test-host"
                 setJobRunningToUndefined={mockSetJobRunningToUndefined}
-                resetTitleVolumesEntry={mockResetTitleVolumesEntry}
                 dev={false}
                 refresh={mockRefresh}
             />,
@@ -300,7 +289,6 @@ describe("JobCard", () => {
                 job={mockJob}
                 host="test-host"
                 setJobRunningToUndefined={mockSetJobRunningToUndefined}
-                resetTitleVolumesEntry={mockResetTitleVolumesEntry}
                 dev={false}
                 refresh={mockRefresh}
             />,
