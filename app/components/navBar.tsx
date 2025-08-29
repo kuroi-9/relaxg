@@ -22,7 +22,7 @@ export default function NavBar(props: {
 
     // Redirect if the leave btn has been clicked
     if (selected === (props.redirectUrlLeave ?? "/")) {
-        router.replace(props.redirectUrlLeave ?? "/");
+        router.push(props.redirectUrlLeave ?? "/");
     }
     // Prevent showing loader when a modal that changes url is open
     if (selected !== undefined && pathname.includes(selected)) {
