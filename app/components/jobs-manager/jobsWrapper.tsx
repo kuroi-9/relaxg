@@ -138,12 +138,18 @@ export default function JobsWrapper(props: {
         const loadingElement = document.getElementById(
             "jobs-wrapper-search-loading",
         );
-        if (loadingElement) {
+        const contentContainer = document.getElementById(
+            "jobs-wrapper-content-container",
+        );
+        if (loadingElement && contentContainer) {
             loadingElement!.style.zIndex = "50";
             loadingElement!.style.opacity = "1";
         }
 
         setTimeout(() => {
+            if (contentContainer) {
+                contentContainer.style.visibility = "hidden";
+            }
             props.refresh();
         }, 500);
     };
@@ -191,6 +197,9 @@ export default function JobsWrapper(props: {
 
         websocket.current.onmessage = (event: MessageEvent) => {
             const eventData = JSON.parse(event.data);
+            const contentContainer = document.getElementById(
+                "jobs-wrapper-content-container",
+            );
             const loadingElement = document.getElementById(
                 "jobs-wrapper-search-loading",
             );
@@ -198,6 +207,9 @@ export default function JobsWrapper(props: {
             console.log("[SocketManager][WEBSOCKET STATUS] Ready");
 
             setTimeout(() => {
+                if (contentContainer) {
+                    contentContainer.style.visibility = "visible";
+                }
                 if (loadingElement) {
                     loadingElement!.style.opacity = "0";
                     setTimeout(() => {
@@ -374,23 +386,26 @@ export default function JobsWrapper(props: {
                     {websocketReady ? "Ready" : "Not Ready"}
                 </span>
             </h1>
-            <ul className="w-full">
-                <div
-                    id="jobs-wrapper-search-loading"
-                    className="w-full h-screen flex justify-center with-opacity-transition absolute z-50"
-                    style={{
-                        height: "100%",
-                        opacity: "1",
-                        backgroundColor: "var(--background)",
-                    }}
-                >
-                    <span
-                        className={
-                            styles["jobs-wrapper-search-loading"] +
-                            " big-loader-foreground "
-                        }
-                    ></span>
-                </div>
+            <div
+                id="jobs-wrapper-search-loading"
+                className="w-full h-screen flex justify-center with-opacity-transition fixed z-50 "
+                style={{
+                    opacity: "1",
+                    backgroundColor: "var(--background)",
+                }}
+            >
+                <span
+                    className={
+                        styles["jobs-wrapper-search-loading"] +
+                        " big-loader-foreground "
+                    }
+                ></span>
+            </div>
+            <ul
+                id="jobs-wrapper-content-container"
+                className="w-full"
+                style={{ visibility: "hidden" }}
+            >
                 {jobsState.map((job) => (
                     <JobCard
                         key={job.id}
