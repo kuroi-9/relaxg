@@ -3,6 +3,7 @@
 import { Key, useEffect, useRef, useState } from "react";
 import JobCard from "./jobCard";
 import "@/app/globals.css";
+import styles from "@/app/(protected)/app/jobs-manager/jobsManager.module.css";
 
 export interface VolumeItem {
     name: Key;
@@ -46,6 +47,7 @@ export default function JobsWrapper(props: {
     const websocketIntervals = useRef<NodeJS.Timeout[]>([]);
     const [jobsState, setJobsState] = useState<JobItem[] | []>([]);
     const jobsVolumes = useRef<Map<Key, VolumeItem[] | undefined>>(new Map());
+    const [websocketReady, setWebsocketReady] = useState<boolean>(false);
 
     // Component global init/update stage
     if (
@@ -133,7 +135,17 @@ export default function JobsWrapper(props: {
      * Refreshs the job lists, making deleted jobs disapear
      */
     const handleRefresh = () => {
-        props.refresh();
+        const loadingElement = document.getElementById(
+            "jobs-wrapper-search-loading",
+        );
+        if (loadingElement) {
+            loadingElement!.style.zIndex = "50";
+            loadingElement!.style.opacity = "1";
+        }
+
+        setTimeout(() => {
+            props.refresh();
+        }, 500);
     };
 
     /**
@@ -145,7 +157,8 @@ export default function JobsWrapper(props: {
     const websocketConnect = (websocketInRecursion: WebSocket) => {
         websocket.current = websocketInRecursion;
         websocket.current.onclose = () => {
-            console.log("SocketManager disconnected");
+            setWebsocketReady(false);
+            console.log("[SocketManager][WEBSOCKET STATUS] Disconnected");
             if (window.location.pathname === "/app/jobs-manager") {
                 websocketInterval.current = setInterval(() => {
                     if (websocket.current?.readyState === 3) {
@@ -178,6 +191,20 @@ export default function JobsWrapper(props: {
 
         websocket.current.onmessage = (event: MessageEvent) => {
             const eventData = JSON.parse(event.data);
+            const loadingElement = document.getElementById(
+                "jobs-wrapper-search-loading",
+            );
+            setWebsocketReady(true);
+            console.log("[SocketManager][WEBSOCKET STATUS] Ready");
+
+            setTimeout(() => {
+                if (loadingElement) {
+                    loadingElement!.style.opacity = "0";
+                    setTimeout(() => {
+                        loadingElement!.style.zIndex = "-1";
+                    }, 500);
+                }
+            }, 1000);
 
             // Extracting data
             const titleName = eventData[0];
@@ -337,7 +364,33 @@ export default function JobsWrapper(props: {
 
     return (
         <section className="flex flex-col items-center">
+            <h1 className="hidden text-lg font-semibold mb-4">
+                WebSocket status @{" "}
+                <span
+                    className={
+                        websocketReady ? "text-green-500" : "text-red-500"
+                    }
+                >
+                    {websocketReady ? "Ready" : "Not Ready"}
+                </span>
+            </h1>
             <ul className="w-full">
+                <div
+                    id="jobs-wrapper-search-loading"
+                    className="w-full h-screen flex justify-center with-opacity-transition absolute z-50"
+                    style={{
+                        height: "100%",
+                        opacity: "1",
+                        backgroundColor: "var(--background)",
+                    }}
+                >
+                    <span
+                        className={
+                            styles["jobs-wrapper-search-loading"] +
+                            " big-loader-foreground "
+                        }
+                    ></span>
+                </div>
                 {jobsState.map((job) => (
                     <JobCard
                         key={job.id}
@@ -346,7 +399,7 @@ export default function JobsWrapper(props: {
                         setJobRunningToUndefined={setJobRunningToUndefined}
                         dev={props.dev}
                         refresh={handleRefresh}
-                    ></JobCard>
+                    />
                 ))}
             </ul>
         </section>

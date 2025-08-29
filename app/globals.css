@@ -116,6 +116,19 @@ body.modal-open {
     }
 }
 
+.big-loader-foreground {
+    border: 5px solid var(--foreground);
+
+    /* Light grey */
+    border-top: 5px solid transparent;
+
+    /* Blue */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+}
+
 .loader-foreground {
     border: 2px solid var(--foreground);
 

@@ -35,3 +35,11 @@
     padding-right: 4px;
     border-radius: 0.375rem;
 }
+
+.jobs-wrapper-search-loading {
+    min-width: 80px !important;
+    min-height: 80px !important;
+    margin: 10%;
+    margin-top: 10rem;
+    position: fixed;
+}

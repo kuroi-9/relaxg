@@ -102,8 +102,8 @@ export default function OverlayTitleModal(props: {
                         <p
                             className={
                                 title === undefined
-                                    ? `animate-pulse bg-gray-700 h-6 w-full animate-no-transform`
-                                    : ""
+                                    ? `animate-pulse bg-gray-700 h-6 w-full`
+                                    : " animate-no-transform"
                             }
                         >
                             {title}
@@ -118,7 +118,7 @@ export default function OverlayTitleModal(props: {
                                 dev={props.dev}
                             />
                         ) : (
-                            <div className="animate-pulse bg-gray-700 w-full md:w-1/2 h-full"></div>
+                            <div className="animate-pulse bg-gray-700 w-full md:w-1/3 h-full"></div>
                         )}
                     </div>
                     <div className={styles["title-actions-modal-footer"]}>

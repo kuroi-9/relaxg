@@ -22,7 +22,7 @@ export default function NavBar(props: {
 
     // Redirect if the leave btn has been clicked
     if (selected === (props.redirectUrlLeave ?? "/")) {
-        router.push(props.redirectUrlLeave ?? "/");
+        router.replace(props.redirectUrlLeave ?? "/");
     }
     // Prevent showing loader when a modal that changes url is open
     if (selected !== undefined && pathname.includes(selected)) {
@@ -36,6 +36,7 @@ export default function NavBar(props: {
                     <Link
                         href={link.href}
                         key={link.label}
+                        prefetch={true}
                         className={`${styles["nav-link"]} primary-btn
                             ${
                                 selected === link.href &&
@@ -78,9 +79,11 @@ export default function NavBar(props: {
                     }}
                     style={{ minWidth: "5rem" }}
                 >
-                    {selected === (props.redirectUrlLeave ?? "/")
-                        ? "<3"
-                        : "Leave"}
+                    {selected === (props.redirectUrlLeave ?? "/") ? (
+                        <p style={{ color: "var(--foreground)" }}>:)</p>
+                    ) : (
+                        "Leave"
+                    )}
                 </button>
             </div>
         </nav>

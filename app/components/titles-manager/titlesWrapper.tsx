@@ -27,20 +27,23 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
     const [jumpNeeded, setJumpNeeded] = useState<boolean>(false);
 
     if (filteredTitles.length === 0) {
-        document.getElementById(
+        const contentContainer = document.getElementById(
             "titles-wrapper-content-container",
-        )!.style.visibility = "visible";
-        document.getElementById(
-            "titles-wrapper-content-container",
-        )!.style.opacity = "1";
-        document.getElementById(
-            "titles-wrapper-search-loading",
-        )!.style.opacity = "0";
-        setTimeout(() => {
-            document.getElementById(
-                "titles-wrapper-search-loading",
-            )!.style.display = "none";
-        }, 500);
+        );
+        if (contentContainer) {
+            contentContainer.style.visibility = "visible";
+            setTimeout(() => {
+                const searchLoading = document.getElementById(
+                    "titles-wrapper-search-loading",
+                );
+                if (searchLoading) {
+                    searchLoading.style.opacity = "0";
+                    setTimeout(() => {
+                        searchLoading.style.zIndex = "-1";
+                    }, 500);
+                }
+            }, 500);
+        }
     }
 
     /**
@@ -119,6 +122,8 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
             for (let i = 0; i > allItems.length; i++) {
                 resizeTitlesList(allItems[i]);
             }
+        } else {
+            console.error("Error: bruh");
         }
     }
 
@@ -147,24 +152,19 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                         1,
                     );
                     if (imagesInLoadingState.current.length === 0) {
-                        const titlesWrapperContentContainer =
-                            document.getElementById(
-                                "titles-wrapper-content-container",
-                            );
-                        if (titlesWrapperContentContainer) {
-                            titlesWrapperContentContainer.style.visibility =
-                                "visible";
-                            titlesWrapperContentContainer.style.opacity = "1";
-                        }
-                        const titlesWrapperSearchLoading =
-                            document.getElementById(
-                                "titles-wrapper-search-loading",
-                            );
-                        if (titlesWrapperSearchLoading) {
-                            titlesWrapperSearchLoading.style.opacity = "0";
+                        const contentContainer = document.getElementById(
+                            "titles-wrapper-content-container",
+                        );
+                        const searchLoading = document.getElementById(
+                            "titles-wrapper-search-loading",
+                        );
+                        if (contentContainer && searchLoading) {
+                            contentContainer.style.visibility = "visible";
                             setTimeout(() => {
-                                titlesWrapperSearchLoading.style.display =
-                                    "none";
+                                searchLoading.style.opacity = "0";
+                                setTimeout(() => {
+                                    searchLoading.style.zIndex = "-1";
+                                }, 500);
                             }, 500);
                         }
                         if (jumpNeeded) {
@@ -192,6 +192,8 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     }
                 });
             }
+        } else {
+            console.error("Error: houston problem...");
         }
     }
 
@@ -216,20 +218,17 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
             currentTimeout.current = setTimeout(() => {
                 if (inputText !== _inputText) {
                     //TODO: Remove the animate attr in titleCards so it reset the animation, and it can be triggered each time there's an update
-                    document.getElementById(
+                    const contentContainer = document.getElementById(
                         "titles-wrapper-content-container",
-                    )!.style.visibility = "hidden";
-                    document.getElementById(
-                        "titles-wrapper-content-container",
-                    )!.style.opacity = "0";
-                    document.getElementById(
+                    );
+                    const searchLoading = document.getElementById(
                         "titles-wrapper-search-loading",
-                    )!.style.opacity = "1";
-                    setTimeout(() => {
-                        document.getElementById(
-                            "titles-wrapper-search-loading",
-                        )!.style.display = "flex";
-                    }, 500);
+                    );
+                    if (contentContainer && searchLoading) {
+                        contentContainer.style.visibility = "hidden";
+                        searchLoading.style.zIndex = "50";
+                        searchLoading.style.opacity = "1";
+                    }
                     setInputText(_inputText);
 
                     // console.log("base" + baseScroll.current);
@@ -255,20 +254,17 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
             currentTimeout.current = setTimeout(() => {
                 if (inputText !== _inputText) {
                     //TODO: Remove the animate attr in titleCards so it reset the animation, and it can be triggered each time there's an update
-                    document.getElementById(
+                    const contentContainer = document.getElementById(
                         "titles-wrapper-content-container",
-                    )!.style.visibility = "hidden";
-                    document.getElementById(
-                        "titles-wrapper-content-container",
-                    )!.style.opacity = "0";
-                    document.getElementById(
+                    );
+                    const searchLoading = document.getElementById(
                         "titles-wrapper-search-loading",
-                    )!.style.opacity = "1";
-                    setTimeout(() => {
-                        document.getElementById(
-                            "titles-wrapper-search-loading",
-                        )!.style.display = "flex";
-                    }, 500);
+                    );
+                    if (contentContainer && searchLoading) {
+                        contentContainer.style.visibility = "hidden";
+                        searchLoading.style.zIndex = "50";
+                        searchLoading.style.opacity = "1";
+                    }
                     setInputText(_inputText);
 
                     // console.log("base" + baseScroll.current);
@@ -329,8 +325,8 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                 "title-manager-search-bar-input",
             );
             if (searchBarContainer) {
-                //searchBarContainer.style.opacity = "1";
                 searchBarContainer.style.display = "block";
+                //searchBarContainer.style.opacity = "1";
             }
             if (searchBarInput) {
                 searchBarInput.removeAttribute("disabled");
@@ -359,9 +355,10 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
             </div>
             <div
                 id="titles-wrapper-search-loading"
-                className="w-full h-screen flex justify-center with-opacity-transition absolute"
+                className="w-full h-screen flex justify-center with-opacity-transition absolute z-50"
                 style={{
                     height: "100%",
+                    marginTop: "6rem",
                     opacity: "1",
                     backgroundColor: "var(--background)",
                 }}
@@ -369,7 +366,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                 <span
                     className={
                         styles["titles-wrapper-search-loading"] +
-                        " loader-foreground "
+                        " big-loader-foreground "
                     }
                 ></span>
             </div>
