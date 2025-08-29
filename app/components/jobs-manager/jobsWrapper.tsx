@@ -144,12 +144,10 @@ export default function JobsWrapper(props: {
         if (loadingElement && contentContainer) {
             loadingElement!.style.zIndex = "50";
             loadingElement!.style.opacity = "1";
+            contentContainer.style.opacity = "0";
         }
 
         setTimeout(() => {
-            if (contentContainer) {
-                contentContainer.style.visibility = "hidden";
-            }
             props.refresh();
         }, 500);
     };
@@ -209,6 +207,7 @@ export default function JobsWrapper(props: {
             setTimeout(() => {
                 if (contentContainer) {
                     contentContainer.style.visibility = "visible";
+                    contentContainer.style.opacity = "1";
                 }
                 if (loadingElement) {
                     loadingElement!.style.opacity = "0";
