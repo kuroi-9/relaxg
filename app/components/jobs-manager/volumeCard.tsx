@@ -1,5 +1,5 @@
 "use client";
-import { VolumeItem } from "./socketManager";
+import { VolumeItem } from "./jobsWrapper";
 import "@/app/globals.css";
 import styles from "@/app/(protected)/app/jobs-manager/jobsManager.module.css";
 import singleJobStyles from "@/app/(protected)/app/jobs-manager/singleJob.module.css";

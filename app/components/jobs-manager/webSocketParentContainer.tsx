@@ -1,11 +1,11 @@
 "use client";
 
 import { Key } from "react";
-import SocketManager from "./socketManager";
+import JobsWrapper from "./jobsWrapper";
 import { useState, useEffect } from "react";
 import { useUser } from "@stackframe/stack";
 
-function SocketContainer(props: {
+function WebSocketParentContainer(props: {
     jobs: [
         {
             id: Key | null | undefined;
@@ -52,7 +52,7 @@ function SocketContainer(props: {
 
     return (
         <div>
-            <SocketManager
+            <JobsWrapper
                 jobs={jobs}
                 host={props.host}
                 dev={props.dev}
@@ -62,4 +62,4 @@ function SocketContainer(props: {
     );
 }
 
-export default SocketContainer;
+export default WebSocketParentContainer;

@@ -1,4 +1,4 @@
-import SocketContainer from "@/app/components/jobs-manager/sockerContainer";
+import WebSocketParentContainer from "@/app/components/jobs-manager/webSocketParentContainer";
 import { stackServerApp } from "@/stack";
 
 export default async function JobsPageContent() {
@@ -29,7 +29,7 @@ export default async function JobsPageContent() {
     } else {
         return (
             <>
-                <SocketContainer
+                <WebSocketParentContainer
                     jobs={jobs}
                     host={
                         process.env.VPS_IP ?? process.env.DOCKER_GATEWAY_HOST!

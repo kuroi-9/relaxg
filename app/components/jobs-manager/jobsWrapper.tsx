@@ -28,7 +28,7 @@ export interface JobItem {
     completed: boolean | undefined;
 }
 
-export default function SocketManager(props: {
+export default function JobsWrapper(props: {
     jobs: [
         {
             id: Key | null | undefined;
