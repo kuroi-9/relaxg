@@ -37,9 +37,10 @@ export default function JobsWrapper(props: {
             "title-id": number;
         },
     ];
+    jobsEta: Map<string, number | undefined> | undefined;
     host: string;
     dev: boolean;
-    refresh: () => Promise<void>;
+    refresh: (jobsEta: Map<string, number | undefined>) => Promise<void>;
 }) {
     const websocket = useRef<WebSocket>(undefined);
     const websockets = useRef<WebSocket[]>([]);
@@ -50,6 +51,8 @@ export default function JobsWrapper(props: {
     const [websocketReady, setWebsocketReady] = useState<boolean>(false);
     const [initialFetchCompleted, setInitialFetchCompleted] =
         useState<boolean>(false);
+
+    console.log(props.jobsEta);
 
     // Component global init/update stage
     if (
@@ -75,7 +78,7 @@ export default function JobsWrapper(props: {
                             volumes: [],
                             running: undefined,
                         },
-                        eta: undefined,
+                        eta: props.jobsEta?.get(job["title-name"]) ?? undefined,
                         completed: undefined,
                     }),
                 ),
@@ -150,7 +153,12 @@ export default function JobsWrapper(props: {
         }
 
         setTimeout(() => {
-            props.refresh();
+            const jobsEta: Map<string, number | undefined> = new Map();
+            for (const job of jobsState) {
+                jobsEta.set(job.title.name, job.eta);
+            }
+
+            props.refresh(jobsEta);
         }, 500);
     };
 

@@ -19,37 +19,39 @@ function WebSocketParentContainer(props: {
 }) {
     const user = useUser();
     const [jobs, setJobs] = useState(props.jobs);
+    const [jobsEta, setJobsEta] = useState<
+        Map<string, number | undefined> | undefined
+    >(undefined);
 
-    const handleRefresh = async (): Promise<void> => {
-        setJobs(
-            await fetch(
-                `https://api${
-                    process.env.NEXT_ENV_MODE === "developpment" ? "-dev" : ""
-                }.relaxg.app/jobs/`,
-                {
-                    method: "GET",
-                    cache: "no-store",
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                        "x-stack-access-token":
-                            (await user
-                                ?.getAuthJson()
-                                .then((res) => res.accessToken)) ?? "",
-                    },
+    const handleRefresh = async (
+        jobsEta: Map<string, number | undefined> | undefined,
+    ): Promise<void> => {
+        let newJobs = await fetch(
+            `https://api${
+                process.env.NEXT_ENV_MODE === "developpment" ? "-dev" : ""
+            }.relaxg.app/jobs/`,
+            {
+                method: "GET",
+                cache: "no-store",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "x-stack-access-token":
+                        (await user
+                            ?.getAuthJson()
+                            .then((res) => res.accessToken)) ?? "",
                 },
-            )
-                .then((res) => res.json())
-                .finally(() => {
-                    console.log(
-                        "[SocketContainer][Job refresh] Jobs fetch completed",
-                    );
-                }),
-        );
+            },
+        ).then((res) => res.json());
+
+        setJobs(newJobs);
+        setJobsEta(jobsEta);
+        console.dir("[SocketContainer][Job refresh] Jobs fetch completed");
+        console.log("[SocketContainer][Job refresh] ", newJobs, jobsEta);
     };
 
     useEffect(() => {
-        handleRefresh();
+        handleRefresh(undefined);
         console.log("[SocketContainer] Jobs initial revalidation completed");
     }, []);
 
@@ -61,6 +63,7 @@ function WebSocketParentContainer(props: {
         <div>
             <JobsWrapper
                 jobs={jobs}
+                jobsEta={jobsEta}
                 host={props.host}
                 dev={props.dev}
                 refresh={handleRefresh}
