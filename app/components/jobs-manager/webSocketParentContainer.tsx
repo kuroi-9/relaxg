@@ -49,6 +49,10 @@ function WebSocketParentContainer(props: {
     };
 
     useEffect(() => {
+        handleRefresh();
+    }, []);
+
+    useEffect(() => {
         console.dir("[SocketContainer] Current jobs list", jobs);
     }, [jobs]);
 

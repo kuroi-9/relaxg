@@ -161,7 +161,7 @@ export default function JobsWrapper(props: {
     const websocketConnect = (websocketInRecursion: WebSocket) => {
         websocket.current = websocketInRecursion;
         websocket.current.onopen = () => {
-        	const contentContainer = document.getElementById(
+            const contentContainer = document.getElementById(
                 "jobs-wrapper-content-container",
             );
             const loadingElement = document.getElementById(
@@ -181,9 +181,9 @@ export default function JobsWrapper(props: {
                         loadingElement!.style.zIndex = "-1";
                     }, 500);
                 }
-            }, 1000);
-        }
-        
+            }, 2000);
+        };
+
         websocket.current.onclose = () => {
             setWebsocketReady(false);
             console.log("[SocketManager][WEBSOCKET STATUS] Disconnected");
@@ -219,7 +219,7 @@ export default function JobsWrapper(props: {
 
         websocket.current.onmessage = (event: MessageEvent) => {
             const eventData = JSON.parse(event.data);
-            
+
             // Extracting data
             const titleName = eventData[0];
             const currentVolumeName = eventData[1];
