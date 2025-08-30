@@ -26,7 +26,7 @@ function WebSocketParentContainer(props: {
     const handleRefresh = async (
         jobsEta: Map<string, number | undefined> | undefined,
     ): Promise<void> => {
-        let newJobs = await fetch(
+        const newJobs = await fetch(
             `https://api${
                 process.env.NEXT_ENV_MODE === "developpment" ? "-dev" : ""
             }.relaxg.app/jobs/`,
