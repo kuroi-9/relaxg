@@ -97,19 +97,22 @@ export default function OverlayTitleModal(props: {
             }).then((response) =>
                 response.json().then(async (value) => {
                     if (value["status"] == "ok, running") {
-                        const result: string = await handleStop(props.id);
-                        console.dir("[Job add result] ", result);
-                        if (result === "stopped") {
-                            setTimeout(() => {
-                                document
-                                    .querySelector("body")
-                                    ?.classList.remove("modal-open");
-                                router.refresh();
-                                router.replace("/app/jobs-manager");
-                            }, 1000);
-                            postBtn!.removeChild(postLoadingElement);
-                            postBtn!.textContent = "Job created ! Redirecting...";
-                        }
+                        setTimeout(async () => {
+                            const result: string = await handleStop(props.id);
+                            console.dir("[Job add result] ", result);
+                            if (result === "stopped") {
+                                setTimeout(async () => {
+                                    document
+                                        .querySelector("body")
+                                        ?.classList.remove("modal-open");
+                                    router.refresh();
+                                    router.replace("/app/jobs-manager");
+                                }, 1000);
+                                postBtn!.removeChild(postLoadingElement);
+                                postBtn!.textContent =
+                                    "Job created ! redirecting...";
+                            }
+                        }, 10000);
                     } else {
                         postBtn!.textContent = "Job duplicate ?";
                         postBtn!.style.borderColor = "white";
