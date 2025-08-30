@@ -1,6 +1,6 @@
 import { render, screen, act } from "@testing-library/react";
 import VolumeCard from "@/app/components/jobs-manager/volumeCard";
-import { VolumeItem } from "@/app/components/jobs-manager/socketManager";
+import { VolumeItem } from "@/app/components/jobs-manager/jobsWrapper";
 import "@testing-library/jest-dom";
 
 // Mock the DOM elements and methods used in volumeCard

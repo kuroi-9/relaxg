@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import JobCard from "@/app/components/jobs-manager/jobCard";
-import { JobItem } from "@/app/components/jobs-manager/socketManager";
+import { JobItem } from "@/app/components/jobs-manager/jobsWrapper";
 import "@testing-library/jest-dom";
 
 // Mock fetch
