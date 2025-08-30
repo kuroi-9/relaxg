@@ -216,14 +216,10 @@ export default function JobsWrapper(props: {
                         websocketInRecursion = new WebSocket(
                             `wss://api${props.dev ? "-dev" : ""}.relaxg.app`,
                         );
-                        websocketInRecursion.onopen = () => {
-                            console.log("[SocketManager] Websocket connected");
-                            console.log(
-                                "[SocketManager][WEBSOCKET STATUS] Clearing interval...",
-                            );
-                            clearInterval(websocketInterval.current);
-                            websocketConnect(websocketInRecursion);
-                        };
+
+                        setWebsocketReady(true);
+                        clearInterval(websocketInterval.current);
+                        websocketConnect(websocketInRecursion);
                     } else {
                         clearInterval(websocketInterval.current);
                     }
@@ -397,14 +393,16 @@ export default function JobsWrapper(props: {
 
     return (
         <section className="flex flex-col items-center">
-            <h1 className="hidden text-lg font-semibold mb-4">
+            <h1 className="text-lg font-semibold mb-4">
                 WebSocket status @{" "}
                 <span
                     className={
                         websocketReady ? "text-green-500" : "text-red-500"
                     }
                 >
-                    {websocketReady ? "Ready" : "Not Ready"}
+                    {websocketReady
+                        ? ` Ready ${websocketIntervals.current.length}, ${websockets.current.length}`
+                        : "Not Ready"}
                 </span>
             </h1>
             <div
