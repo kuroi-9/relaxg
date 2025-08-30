@@ -87,7 +87,7 @@ export default function OverlayTitleModal(props: {
                                 }, 1000);
                                 postBtn!.removeChild(postLoadingElement);
                                 postBtn!.textContent =
-                                    "Job created ! redirecting...";
+                                    "Job created ! Redirecting...";
                             }
                         }, 1000);
                     } else {

@@ -22,6 +22,7 @@ export default function JobCard(props: {
     const resumeElement = useRef<ReactNode>();
     const stopElement = useRef<ReactNode>();
     const completedElement = useRef<ReactNode>();
+    const startElement = useRef<ReactNode>();
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const user = useUser({ or: "redirect" });
     console.log("[Jobcard] Rebuilding...");
@@ -86,6 +87,25 @@ export default function JobCard(props: {
             <p className="m-2">Completed</p>
         </button>
     );
+    startElement.current = (
+        <button
+            id={"start-btn-" + props.job.id}
+            className={`${styles["stop-or-resume-btn"]} secondary-btn w-full start-btn flex justify-center items-center border-2 p-2 shrink-0`}
+            style={{
+                minHeight: "50px",
+                maxHeight: "45px",
+                color: "white",
+                borderColor: "var(--foreground)",
+                backgroundColor: "#171717",
+            }}
+            onClick={() => handleResume()}
+        >
+            <PlayButtonIcon />
+            <p className="ml-2" style={{ marginRight: "7%" }}>
+                Start
+            </p>
+        </button>
+    );
 
     const handleResume = useCallback(() => {
         if (
@@ -94,7 +114,7 @@ export default function JobCard(props: {
             document.getElementsByClassName("resume-btn").length ==
                 document.getElementsByClassName("stop-or-resume-btn").length - 1
         ) {
-            alert("YOU NEED TO STOP THE RUNNING JOB");
+            alert("Simultaneous jobs are not permitted");
         } else {
             setIsLoading(true);
             stopOrResumeElement.current === undefined;
@@ -208,36 +228,48 @@ export default function JobCard(props: {
     }, [props.job]);
 
     // Init the default control buttons values
-    if (stopOrResumeElement.current === undefined) {
-        if (props.job.completed) {
-            stopOrResumeElement.current = completedElement.current;
-            stopOrResumeElementStatus.current = "completed";
-            setIsLoading(false);
-        } else {
-            if (props.job.title.running) {
-                stopOrResumeElement.current = stopElement.current;
-                stopOrResumeElementStatus.current = "stop";
-                setIsLoading(false);
-            } else if (props.job.title.running !== undefined) {
-                stopOrResumeElement.current = resumeElement.current;
-                stopOrResumeElementStatus.current = "resume";
-                setIsLoading(false);
-            }
-        }
-    } else if (stopOrResumeElementStatus.current !== "completed") {
-        if (
-            ((stopOrResumeElementStatus.current === "stop" &&
-                props.job.title.running === false) ||
-                (stopOrResumeElementStatus.current === "resume" &&
-                    props.job.title.running === true)) &&
-            !isLoading
-        ) {
-            // To fix incoherence when the client has lost connection to websocket and then reconnects
-            stopOrResumeElement.current = undefined;
-            setIsLoading(true);
-        }
 
-        isRunning.current = props.job.title.running === true;
+    if (
+        stopOrResumeElement.current === undefined &&
+        props.job.title.volumes.length === 1 &&
+        (props.job.title.volumes[0].name === "last_pid" ||
+            props.job.title.volumes[0].name === "*")
+    ) {
+        stopOrResumeElement.current = startElement.current;
+        stopOrResumeElementStatus.current = "start";
+        setIsLoading(false);
+    } else {
+        if (stopOrResumeElement.current === undefined) {
+            if (props.job.completed) {
+                stopOrResumeElement.current = completedElement.current;
+                stopOrResumeElementStatus.current = "completed";
+                setIsLoading(false);
+            } else {
+                if (props.job.title.running) {
+                    stopOrResumeElement.current = stopElement.current;
+                    stopOrResumeElementStatus.current = "stop";
+                    setIsLoading(false);
+                } else if (props.job.title.running !== undefined) {
+                    stopOrResumeElement.current = resumeElement.current;
+                    stopOrResumeElementStatus.current = "resume";
+                    setIsLoading(false);
+                }
+            }
+        } else if (stopOrResumeElementStatus.current !== "completed") {
+            if (
+                ((stopOrResumeElementStatus.current === "stop" &&
+                    props.job.title.running === false) ||
+                    (stopOrResumeElementStatus.current === "resume" &&
+                        props.job.title.running === true)) &&
+                !isLoading
+            ) {
+                // To fix incoherence when the client has lost connection to websocket and then reconnects
+                stopOrResumeElement.current = undefined;
+                setIsLoading(true);
+            }
+
+            isRunning.current = props.job.title.running === true;
+        }
     }
 
     useEffect(() => {
