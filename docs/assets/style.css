@@ -788,7 +788,11 @@
     .tsd-filter-input {
         display: flex;
         width: fit-content;
+        width: fit-content;
         align-items: center;
+        user-select: none;
+        user-select: none;
+        user-select: none;
         user-select: none;
         cursor: pointer;
     }
@@ -1093,6 +1097,9 @@
     .tsd-accordion-summary,
     .tsd-accordion-summary a {
         user-select: none;
+        user-select: none;
+        user-select: none;
+        user-select: none;
         cursor: pointer;
     }
 
@@ -1127,6 +1134,9 @@
     }
 
     .tsd-no-select {
+        user-select: none;
+        user-select: none;
+        user-select: none;
         user-select: none;
     }
 
