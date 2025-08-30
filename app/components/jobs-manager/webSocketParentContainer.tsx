@@ -50,6 +50,7 @@ function WebSocketParentContainer(props: {
 
     useEffect(() => {
         handleRefresh();
+        console.log("[SocketContainer] Jobs initial revalidation completed");
     }, []);
 
     useEffect(() => {

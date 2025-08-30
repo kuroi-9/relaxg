@@ -48,6 +48,8 @@ export default function JobsWrapper(props: {
     const [jobsState, setJobsState] = useState<JobItem[] | []>([]);
     const jobsVolumes = useRef<Map<Key, VolumeItem[] | undefined>>(new Map());
     const [websocketReady, setWebsocketReady] = useState<boolean>(false);
+    const [initialFetchCompleted, setInitialFetchCompleted] =
+        useState<boolean>(false);
 
     // Component global init/update stage
     if (
@@ -168,20 +170,29 @@ export default function JobsWrapper(props: {
                 "jobs-wrapper-search-loading",
             );
             setWebsocketReady(true);
-            console.log("[SocketManager][WEBSOCKET STATUS] Ready");
+            console.log(
+                "[SocketManager][WEBSOCKET STATUS] Ready, initial fetch completed : ",
+                initialFetchCompleted,
+            );
 
-            setTimeout(() => {
-                if (contentContainer) {
-                    contentContainer.style.visibility = "visible";
-                    contentContainer.style.opacity = "1";
-                }
-                if (loadingElement) {
-                    loadingElement!.style.opacity = "0";
-                    setTimeout(() => {
-                        loadingElement!.style.zIndex = "-1";
-                    }, 500);
-                }
-            }, 2000);
+            setTimeout(
+                () => {
+                    if (contentContainer) {
+                        contentContainer.style.visibility = "visible";
+                        contentContainer.style.opacity = "1";
+                    }
+                    if (loadingElement) {
+                        loadingElement!.style.opacity = "0";
+                        setTimeout(() => {
+                            loadingElement!.style.zIndex = "-1";
+                        }, 500);
+                    }
+                    if (!initialFetchCompleted) {
+                        setInitialFetchCompleted(true);
+                    }
+                },
+                initialFetchCompleted ? 1000 : 2000,
+            );
         };
 
         websocket.current.onclose = () => {
