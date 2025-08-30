@@ -393,7 +393,7 @@ export default function JobsWrapper(props: {
 
     return (
         <section className="flex flex-col items-center">
-            <h1 className="text-lg font-semibold mb-4">
+            <h1 className="hidden text-lg font-semibold mb-4">
                 WebSocket status @{" "}
                 <span
                     className={
