@@ -1,3 +1,5 @@
+export const fetchCache = "only-no-store";
+
 import WebSocketParentContainer from "@/app/components/jobs-manager/webSocketParentContainer";
 import { stackServerApp } from "@/stack";
 
@@ -9,6 +11,7 @@ export default async function JobsPageContent() {
         }.relaxg.app/jobs/`,
         {
             method: "GET",
+            cache: "no-store",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",

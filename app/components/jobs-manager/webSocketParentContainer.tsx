@@ -1,4 +1,5 @@
 "use client";
+export const fetchCache = "only-no-store";
 
 import { Key } from "react";
 import JobsWrapper from "./jobsWrapper";
@@ -27,6 +28,7 @@ function WebSocketParentContainer(props: {
                 }.relaxg.app/jobs/`,
                 {
                     method: "GET",
+                    cache: "no-store",
                     headers: {
                         Accept: "application/json",
                         "Content-Type": "application/json",

@@ -160,6 +160,30 @@ export default function JobsWrapper(props: {
      */
     const websocketConnect = (websocketInRecursion: WebSocket) => {
         websocket.current = websocketInRecursion;
+        websocket.current.onopen = () => {
+        	const contentContainer = document.getElementById(
+                "jobs-wrapper-content-container",
+            );
+            const loadingElement = document.getElementById(
+                "jobs-wrapper-search-loading",
+            );
+            setWebsocketReady(true);
+            console.log("[SocketManager][WEBSOCKET STATUS] Ready");
+
+            setTimeout(() => {
+                if (contentContainer) {
+                    contentContainer.style.visibility = "visible";
+                    contentContainer.style.opacity = "1";
+                }
+                if (loadingElement) {
+                    loadingElement!.style.opacity = "0";
+                    setTimeout(() => {
+                        loadingElement!.style.zIndex = "-1";
+                    }, 500);
+                }
+            }, 1000);
+        }
+        
         websocket.current.onclose = () => {
             setWebsocketReady(false);
             console.log("[SocketManager][WEBSOCKET STATUS] Disconnected");
@@ -195,28 +219,7 @@ export default function JobsWrapper(props: {
 
         websocket.current.onmessage = (event: MessageEvent) => {
             const eventData = JSON.parse(event.data);
-            const contentContainer = document.getElementById(
-                "jobs-wrapper-content-container",
-            );
-            const loadingElement = document.getElementById(
-                "jobs-wrapper-search-loading",
-            );
-            setWebsocketReady(true);
-            console.log("[SocketManager][WEBSOCKET STATUS] Ready");
-
-            setTimeout(() => {
-                if (contentContainer) {
-                    contentContainer.style.visibility = "visible";
-                    contentContainer.style.opacity = "1";
-                }
-                if (loadingElement) {
-                    loadingElement!.style.opacity = "0";
-                    setTimeout(() => {
-                        loadingElement!.style.zIndex = "-1";
-                    }, 500);
-                }
-            }, 1000);
-
+            
             // Extracting data
             const titleName = eventData[0];
             const currentVolumeName = eventData[1];

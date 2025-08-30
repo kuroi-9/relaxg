@@ -43,29 +43,6 @@ export default function OverlayTitleModal(props: {
         router.back();
     };
 
-    const handleStop = async (titleId: string): Promise<string> => {
-        return await user.getAuthJson().then((res) => {
-            const fetchResult = fetch(
-                `https://api${props.dev ? "-dev" : ""}.relaxg.app/jobs/stop/`,
-                {
-                    method: "POST",
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json",
-                        "x-stack-access-token": res.accessToken ?? "",
-                    },
-                    body: JSON.stringify({
-                        "title-id": `${titleId}`,
-                    }),
-                },
-            ).then(() => {
-                console.log("[Jobcard] Stopping job");
-                return Promise.resolve("stopped");
-            });
-            return fetchResult;
-        });
-    };
-
     /**
      * Handle the create job post
      */
@@ -98,7 +75,7 @@ export default function OverlayTitleModal(props: {
                 response.json().then(async (value) => {
                     if (value["status"] == "ok, running") {
                         setTimeout(async () => {
-                            const result: string = await handleStop(props.id);
+                            const result: string = "stopped";
                             console.dir("[Job add result] ", result);
                             if (result === "stopped") {
                                 setTimeout(async () => {
@@ -112,7 +89,7 @@ export default function OverlayTitleModal(props: {
                                 postBtn!.textContent =
                                     "Job created ! redirecting...";
                             }
-                        }, 10000);
+                        }, 1000);
                     } else {
                         postBtn!.textContent = "Job duplicate ?";
                         postBtn!.style.borderColor = "white";

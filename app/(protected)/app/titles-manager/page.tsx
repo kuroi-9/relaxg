@@ -1,4 +1,4 @@
-export const fetchCache = "force-no-store";
+export const fetchCache = "only-no-store";
 
 import { Suspense } from "react";
 import PageContent from "./pageContent";

@@ -1,3 +1,5 @@
+export const fetchCache = "only-no-store";
+
 import { Key } from "react";
 import "@/app/globals.css";
 import TitlesWrapper from "@/app/components/titles-manager/titlesWrapper";
@@ -12,14 +14,13 @@ export interface TitleItem {
 
 export default async function PageContent() {
     const user = await stackServerApp.getUser();
-    // Fetching using ISR, so the static page will be regenerated each 60 seconds here
     const titleData = await fetch(
         `https://api${
             process.env.NEXT_ENV_MODE === "developpment" ? "-dev" : ""
         }.relaxg.app/titles/?page=1&limit=2`,
         {
-            next: { revalidate: 60 },
             method: "GET",
+            cache: "no-store",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",

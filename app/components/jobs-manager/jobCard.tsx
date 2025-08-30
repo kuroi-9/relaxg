@@ -371,13 +371,26 @@ export default function JobCard(props: {
             </div>
             <div
                 className={`${styles["job-volumes-card-container"]} ${singleJobStyles["job-card-volumes-container"]}`}
+                style={{
+                    marginTop: `${
+                        props.job.title.volumes.length === 1 &&
+                        (props.job.title.volumes[0].name === "last_pid" ||
+                            props.job.title.volumes[0].name === "*")
+                            ? "0"
+                            : "0.5rem"
+                    }`,
+                }}
             >
                 <ul
                     id={"job-volumes-card" + props.job.id}
                     className={`${styles["job-volumes-card"]} ${singleJobStyles["job-card-volumes-list"]}`}
                     style={{
                         border: `${
-                            props.job.title.volumes.length === 0 ? "0px" : "1px"
+                            props.job.title.volumes.length === 1 &&
+                            (props.job.title.volumes[0].name === "last_pid" ||
+                                props.job.title.volumes[0].name === "*")
+                                ? "0px"
+                                : "1px"
                         } solid ${
                             isRunning.current ? "var(--foreground)" : "gray"
                         }`,
@@ -387,7 +400,8 @@ export default function JobCard(props: {
                         .filter(
                             (element) =>
                                 element.name !== "launcher.lock" &&
-                                element.name !== "last_pid",
+                                element.name !== "last_pid" &&
+                                element.name !== "*",
                         )
                         .map((volume) => (
                             <div key={volume.name}>
