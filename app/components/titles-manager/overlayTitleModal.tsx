@@ -43,6 +43,29 @@ export default function OverlayTitleModal(props: {
         router.back();
     };
 
+    const handleStop = async (titleId: string): Promise<string> => {
+        return await user.getAuthJson().then((res) => {
+            const fetchResult = fetch(
+                `https://api${props.dev ? "-dev" : ""}.relaxg.app/jobs/stop/`,
+                {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        "x-stack-access-token": res.accessToken ?? "",
+                    },
+                    body: JSON.stringify({
+                        "title-id": `${titleId}`,
+                    }),
+                },
+            ).then(() => {
+                console.log("[Jobcard] Stopping job");
+                return Promise.resolve("stopped");
+            });
+            return fetchResult;
+        });
+    };
+
     /**
      * Handle the create job post
      */
@@ -72,17 +95,21 @@ export default function OverlayTitleModal(props: {
                     status: "Paused",
                 }),
             }).then((response) =>
-                response.json().then((value) => {
+                response.json().then(async (value) => {
                     if (value["status"] == "ok, running") {
-                        setTimeout(() => {
-                            document
-                                .querySelector("body")
-                                ?.classList.remove("modal-open");
-                            router.refresh();
-                            router.replace("/app/jobs-manager");
-                        }, 1000);
-                        postBtn!.removeChild(postLoadingElement);
-                        postBtn!.textContent = "Started, redirecting...";
+                        const result: string = await handleStop(props.id);
+                        console.dir("[Job add result] ", result);
+                        if (result === "stopped") {
+                            setTimeout(() => {
+                                document
+                                    .querySelector("body")
+                                    ?.classList.remove("modal-open");
+                                router.refresh();
+                                router.replace("/app/jobs-manager");
+                            }, 1000);
+                            postBtn!.removeChild(postLoadingElement);
+                            postBtn!.textContent = "Job created ! Redirecting...";
+                        }
                     } else {
                         postBtn!.textContent = "Job duplicate ?";
                         postBtn!.style.borderColor = "white";
