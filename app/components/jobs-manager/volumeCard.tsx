@@ -1,8 +1,8 @@
 "use client";
 import { VolumeItem } from "./jobsWrapper";
 import "@/app/globals.css";
-import styles from "@/app/(protected)/app/jobs-manager/jobsManager.module.css";
-import singleJobStyles from "@/app/(protected)/app/jobs-manager/singleJob.module.css";
+import styles from "@/app/styles/jobs-manager/jobsManager.module.css";
+import singleJobStyles from "@/app/styles/jobs-manager/jobsManagerJobCard.module.css";
 import { useEffect, useState } from "react";
 import { CheckMarkIcon } from "@/app/icons/global";
 

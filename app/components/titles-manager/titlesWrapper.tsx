@@ -6,7 +6,7 @@ import Link from "next/link";
 import TitleCard from "./titleCard";
 import { TitleItem } from "@/app/(protected)/app/titles-manager/pageContent";
 import SearchBar from "./searchBar";
-import styles from "@/app/(protected)/app/titles-manager/titlesManager.module.css";
+import styles from "@/app/styles/titles-manager/titlesManager.module.css";
 
 export default function TitlesWrapper(props: { titles: TitleItem[] }) {
     const [inputText, setInputText] = useState<string>("");

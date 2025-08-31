@@ -3,7 +3,7 @@
 import { Key, useEffect, useRef, useState } from "react";
 import JobCard from "./jobCard";
 import "@/app/globals.css";
-import styles from "@/app/(protected)/app/jobs-manager/jobsManager.module.css";
+import styles from "@/app/styles/jobs-manager/jobsManager.module.css";
 
 export interface VolumeItem {
     name: Key;

@@ -2,7 +2,7 @@
 
 import { Key } from "react";
 import "@/app/globals.css";
-import styles from "@/app/(protected)/app/titles-manager/titlesManager.module.css";
+import styles from "@/app/styles/titles-manager/titlesManager.module.css";
 import SecureImage from "./secureImage";
 
 export default function TitleCard(props: {

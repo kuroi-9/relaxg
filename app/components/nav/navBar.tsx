@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
 import "@/app/globals.css";
-import styles from "./navBar.module.css";
+import styles from "@/app/styles/nav/navBar.module.css";
 import { useRouter } from "next/navigation";
 
 export default function NavBar(props: {

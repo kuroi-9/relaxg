@@ -1,8 +1,8 @@
 "use client";
 
 import "@/app/globals.css";
-import "@/app/(protected)/app/titles-manager/titlesManager.module.css";
-import styles from "@/app/(protected)/app/titles-manager/titleActionsModal.module.css";
+import "@/app/styles/titles-manager/titlesManager.module.css";
+import styles from "@/app/styles/titles-manager/titlesManagerActionsModal.module.css";
 import { useRouter } from "next/navigation";
 
 export default function StandaloneTitleModal(props: { id: string }) {

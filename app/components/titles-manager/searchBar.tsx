@@ -1,7 +1,7 @@
 "use client";
 
 import "@/app/globals.css";
-import styles from "@/app/(protected)/app/titles-manager/titleSearchBar.module.css";
+import styles from "@/app/styles/titles-manager/titlesManagerSearchBar.module.css";
 
 export default function SearchBar(props: {
     filterTitlesAction: (inputText: string) => void;

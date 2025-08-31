@@ -4,7 +4,7 @@ import { type ElementRef, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 import "@/app/globals.css";
-import styles from "@/app/(protected)/app/titles-manager/titlesManager.module.css";
+import styles from "@/app/styles/titles-manager/titlesManager.module.css";
 
 export function Modal({ children }: { children: React.ReactNode }) {
     const router = useRouter();

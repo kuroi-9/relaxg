@@ -1,4 +1,4 @@
-import NavBar from "@/app/components/navBar";
+import NavBar from "@/app/components/nav/navBar";
 import { stackServerApp } from "@/stack";
 import { StackProvider, StackTheme } from "@stackframe/stack";
 

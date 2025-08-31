@@ -1,8 +1,8 @@
 "use client";
 
 import "@/app/globals.css";
-import styles from "@/app/(protected)/app/jobs-manager/jobsManager.module.css";
-import singleJobStyles from "@/app/(protected)/app/jobs-manager/singleJob.module.css";
+import styles from "@/app/styles/jobs-manager/jobsManager.module.css";
+import singleJobStyles from "@/app/styles/jobs-manager/jobsManagerJobCard.module.css";
 import { ReactNode, useCallback, useRef, useState, useEffect } from "react";
 import VolumeCard from "@/app/components/jobs-manager/volumeCard";
 import { JobItem } from "./jobsWrapper";
