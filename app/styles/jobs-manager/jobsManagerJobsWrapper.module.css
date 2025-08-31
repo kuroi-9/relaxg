@@ -1,0 +1,28 @@
+.jobs-wrapper-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.jobs-wrapper-search-loading {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    z-index: 50;
+    opacity: 1;
+    background-color: var(--background);
+}
+
+.jobs-wrapper-search-loading-span {
+    min-width: 80px !important;
+    min-height: 80px !important;
+    margin: 10%;
+    position: fixed;
+}
+
+.jobs-wrapper-content-container {
+    width: 100%;
+    visibility: hidden;
+}

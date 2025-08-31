@@ -3,7 +3,7 @@
 import { Key, useEffect, useRef, useState } from "react";
 import JobCard from "./jobCard";
 import "@/app/globals.css";
-import styles from "@/app/styles/jobs-manager/jobsManager.module.css";
+import jobsWrapperStyles from "@/app/styles/jobs-manager/jobsManagerJobsWrapper.module.css";
 
 export interface VolumeItem {
     name: Key;
@@ -360,7 +360,10 @@ export default function JobsWrapper(props: {
     //window.scrollTo(0, 0);
 
     return (
-        <section className="flex flex-col items-center">
+        <section
+            id="jobs-wrapper-section"
+            className={jobsWrapperStyles["jobs-wrapper-section"]}
+        >
             <h1 className="hidden text-lg font-semibold mb-4">
                 WebSocket status @{" "}
                 <span
@@ -375,23 +378,19 @@ export default function JobsWrapper(props: {
             </h1>
             <div
                 id="jobs-wrapper-search-loading"
-                className="w-full h-screen flex justify-center with-opacity-transition fixed z-50 "
-                style={{
-                    opacity: "1",
-                    backgroundColor: "var(--background)",
-                }}
+                className={`${jobsWrapperStyles["jobs-wrapper-search-loading"]} with-opacity-transition`}
             >
                 <span
+                    id="jobs-wrapper-search-loading-span"
                     className={
-                        styles["jobs-wrapper-search-loading"] +
-                        " big-loader-foreground "
+                        jobsWrapperStyles["jobs-wrapper-search-loading-span"] +
+                        " big-loader-foreground"
                     }
-                ></span>
+                />
             </div>
             <ul
                 id="jobs-wrapper-content-container"
-                className="w-full"
-                style={{ visibility: "hidden" }}
+                className={jobsWrapperStyles["jobs-wrapper-content-container"]}
             >
                 {jobsState.map((job) => (
                     <JobCard
