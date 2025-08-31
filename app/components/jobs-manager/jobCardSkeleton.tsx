@@ -1,14 +1,14 @@
 import "@/app/globals.css";
 import styles from "@/app/styles/jobs-manager/jobsManager.module.css";
-import singleJobStyles from "@/app/styles/jobs-manager/jobsManagerJobCard.module.css";
+import jobCardStyles from "@/app/styles/jobs-manager/jobsManagerJobCard.module.css";
 
 function JobCardSkeleton() {
     return (
         <div
-            className={`${singleJobStyles["job-card"]} job-card-skeleton border-gray-700`}
+            className={`${jobCardStyles["job-card"]} job-card-skeleton border-gray-700`}
         >
-            <div className={singleJobStyles["job-card-content"]}>
-                <div className={singleJobStyles["job-card-header"]}>
+            <div className={jobCardStyles["job-card-content"]}>
+                <div className={jobCardStyles["job-card-header"]}>
                     <div
                         className={`${styles["card-job-id-label"]} flex p-2 items-center justify-center animate-pulse bg-gray-700`}
                         style={{
@@ -17,13 +17,13 @@ function JobCardSkeleton() {
                             border: "1px solid gray",
                         }}
                     ></div>
-                    <div className={singleJobStyles["job-card-title"]}>
+                    <div className={jobCardStyles["job-card-title"]}>
                         <div className="animate-pulse bg-gray-700 w-full h-6"></div>
                     </div>
                 </div>
-                <div className={singleJobStyles["job-card-infos"]}>
+                <div className={jobCardStyles["job-card-infos"]}>
                     <div
-                        className={`${singleJobStyles["job-card-controls"]} w-full md:w-36`}
+                        className={`${jobCardStyles["job-card-controls"]} w-full md:w-36`}
                     >
                         <div
                             className={`${styles["stop-or-resume-btn"]} stop-or-resume-btn w-full secondary-btn undefined-btn flex justify-center items-center border-2 p-2 shrink-0 border-gray-700 animate-pulse bg-gray-700`}
@@ -50,7 +50,7 @@ function JobCardSkeleton() {
                     ></div>
                 </div>
                 <div
-                    className={`${singleJobStyles["job-card-progress-bar"]} animate-pulse bg-gray-700`}
+                    className={`${jobCardStyles["job-card-progress-bar"]} animate-pulse bg-gray-700`}
                     style={{
                         marginTop: 0,
                         borderColor: "#374151",
@@ -61,7 +61,7 @@ function JobCardSkeleton() {
                 >
                     <div
                         className={
-                            singleJobStyles["job-card-progress-bar-content"]
+                            jobCardStyles["job-card-progress-bar-content"]
                         }
                         style={{
                             backgroundColor: "slategray",
@@ -72,10 +72,10 @@ function JobCardSkeleton() {
                 </div>
             </div>
             <div
-                className={`${styles["job-volumes-card-container"]} ${singleJobStyles["job-card-volumes-container"]}`}
+                className={`${styles["job-volumes-card-container"]} ${jobCardStyles["job-card-volumes-container"]}`}
             >
                 <div
-                    className={`${styles["job-volumes-card"]} ${singleJobStyles["job-card-volumes-list"]} animate-pulse bg-gray-700`}
+                    className={`${styles["job-volumes-card"]} ${jobCardStyles["job-card-volumes-list"]} animate-pulse bg-gray-700`}
                     style={{
                         border: "1px solid gray",
                     }}
