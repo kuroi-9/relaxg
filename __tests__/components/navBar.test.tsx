@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import NavBar from "@/app/components/navBar";
+import NavBar from "@/app/components/nav/navBar";
 
 describe("NavBar", () => {
     it("renders navigation links", () => {
