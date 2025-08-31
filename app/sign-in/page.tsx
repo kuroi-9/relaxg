@@ -2,7 +2,7 @@
 
 import { useStackApp } from "@stackframe/stack";
 import { useState, useRef } from "react";
-import "@/app/styles/auth/login.css";
+import "@/app/styles/auth/signIn.css";
 import { LockerIcon } from "@/app/icons/global";
 import { CheckMarkIconWhite } from "@/app/icons/global";
 import { useRouter } from "next/navigation";

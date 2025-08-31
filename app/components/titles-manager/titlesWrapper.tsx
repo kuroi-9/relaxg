@@ -6,7 +6,7 @@ import Link from "next/link";
 import TitleCard from "./titleCard";
 import { TitleItem } from "@/app/(protected)/app/titles-manager/pageContent";
 import SearchBar from "./searchBar";
-import styles from "@/app/styles/titles-manager/titlesManager.module.css";
+import titlesWrapperStyles from "@/app/styles/titles-manager/titlesManagerTitlesWrapper.module.css";
 
 export default function TitlesWrapper(props: { titles: TitleItem[] }) {
     const [inputText, setInputText] = useState<string>("");
@@ -346,7 +346,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
     }, []);
 
     return (
-        <section className="titles-wrapper-container flex flex-col items-center w-full">
+        <section className={titlesWrapperStyles["titles-wrapper-section"]}>
             <div
                 id="search-bar-container"
                 className="w-full with-opacity-transition"
@@ -355,18 +355,13 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
             </div>
             <div
                 id="titles-wrapper-search-loading"
-                className="w-full h-screen flex justify-center with-opacity-transition absolute z-50"
-                style={{
-                    height: "100%",
-                    marginTop: "6rem",
-                    opacity: "1",
-                    backgroundColor: "var(--background)",
-                }}
+                className={`${titlesWrapperStyles["titles-wrapper-search-loading"]} with-opacity-transition`}
             >
                 <span
                     className={
-                        styles["titles-wrapper-search-loading"] +
-                        " big-loader-foreground "
+                        titlesWrapperStyles[
+                            "titles-wrapper-search-loading-span"
+                        ] + " big-loader-foreground "
                     }
                 ></span>
             </div>
@@ -374,14 +369,16 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
             <section
                 id="titles-wrapper-content-container"
                 className={
-                    styles["titles-list-wrapper"] +
+                    titlesWrapperStyles["titles-list-wrapper"] +
                     " animate with-opacity-transition"
                 }
             >
-                <ul className={`${styles["titles-list"]} titles-list`}>
+                <ul
+                    className={`${titlesWrapperStyles["titles-list"]} titles-list`}
+                >
                     {filteredTitles.map((title: TitleItem) => (
                         <Link
-                            className={`${styles["titles-list-item"]} titles-list-item min-w-max`}
+                            className={`${titlesWrapperStyles["titles-list-item"]} titles-list-item min-w-max`}
                             key={title.id}
                             href={{
                                 pathname: `/app/titles/${title.id}`,

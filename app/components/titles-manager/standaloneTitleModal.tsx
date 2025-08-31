@@ -2,7 +2,7 @@
 
 import "@/app/globals.css";
 import "@/app/styles/titles-manager/titlesManager.module.css";
-import styles from "@/app/styles/titles-manager/titlesManagerActionsModal.module.css";
+import styles from "@/app/styles/titles-manager/titlesManagerTitleModal.module.css";
 import { useRouter } from "next/navigation";
 
 export default function StandaloneTitleModal(props: { id: string }) {
@@ -26,18 +26,32 @@ export default function StandaloneTitleModal(props: { id: string }) {
                         <p>{props.id}</p>
                     </div>
                     <div className={styles["title-actions-modal-body"]}>
-                        <p>Please choose an action below.</p>
+                        <p>
+                            Work in progress, so you can share bookmark a title
+                            page :P
+                        </p>
                     </div>
                     <div className={styles["title-actions-modal-footer"]}>
                         <button
                             id={"post-button-" + props.id}
+                            disabled={true}
                             className={"secondary-btn"}
+                            style={{
+                                borderColor: "gray",
+                                color: "gray",
+                                outline: "none",
+                            }}
                         >
                             Create Job
                         </button>
                         <button
+                            disabled={true}
                             className={"secondary-btn"}
-                            style={{ borderColor: "gray", color: "gray" }}
+                            style={{
+                                borderColor: "gray",
+                                color: "gray",
+                                outline: "none",
+                            }}
                         >
                             Delete previous upscaling
                         </button>

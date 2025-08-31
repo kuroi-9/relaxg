@@ -2,7 +2,7 @@
 
 import { Key } from "react";
 import "@/app/globals.css";
-import styles from "@/app/styles/titles-manager/titlesManager.module.css";
+import titleCardStyles from "@/app/styles/titles-manager/titlesManagerTitleCard.module.css";
 import SecureImage from "./secureImage";
 
 export default function TitleCard(props: {
@@ -16,9 +16,11 @@ export default function TitleCard(props: {
 }) {
     return (
         <div
-            className={`${styles["title-card-container"]} ${styles["titles-list-content"]} titles-list-content`}
+            className={`${titleCardStyles["title-card-container"]} ${titleCardStyles["titles-list-content"]} titles-list-content`}
         >
-            <div className={`${styles["title-card-image-container"]} animate`}>
+            <div
+                className={`${titleCardStyles["title-card-image-container"]} animate`}
+            >
                 <SecureImage
                     titleId={props.title.id}
                     titleName={props.title["title-name"]}
@@ -26,13 +28,13 @@ export default function TitleCard(props: {
                 />
             </div>
             <div
-                className={`${styles["title-card-name-container"]} title-card bg-${
+                className={`${titleCardStyles["title-card-name-container"]} title-card bg-${
                     props.title["post-treated"] ? "green" : "black"
                 }-600`}
             >
-                <div className={styles["title-card-name"]}>
+                <div className={titleCardStyles["title-card-name"]}>
                     <h3>{props.title["title-name"]}</h3>
-                    <div className={styles["title-card-content"]}>
+                    <div className={titleCardStyles["title-card-content"]}>
                         <h4 className="card-publication-status">
                             {props.title["publication-status"]}
                         </h4>

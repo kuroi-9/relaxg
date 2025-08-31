@@ -4,7 +4,7 @@ import { type ElementRef, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 import "@/app/globals.css";
-import styles from "@/app/styles/titles-manager/titlesManager.module.css";
+import titleModalStyles from "@/app/styles/titles-manager/titlesManagerTitleModal.module.css";
 
 export function Modal({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -23,10 +23,13 @@ export function Modal({ children }: { children: React.ReactNode }) {
     }
 
     return createPortal(
-        <div className={styles["modal-backdrop"]}>
+        <div className={titleModalStyles["modal-backdrop"]}>
             <dialog ref={dialogRef} className="modal" onClose={onDismiss}>
                 {children}
-                <button onClick={onDismiss} className={styles.closeButton}>
+                <button
+                    onClick={onDismiss}
+                    className={titleModalStyles.closeButton}
+                >
                     truc
                 </button>
             </dialog>

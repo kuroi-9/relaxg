@@ -2,7 +2,7 @@
 
 import "@/app/globals.css";
 import "@/app/styles/titles-manager/titlesManager.module.css";
-import styles from "@/app/styles/titles-manager/titlesManagerActionsModal.module.css";
+import styles from "@/app/styles/titles-manager/titlesManagerTitleModal.module.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useUser } from "@stackframe/stack";

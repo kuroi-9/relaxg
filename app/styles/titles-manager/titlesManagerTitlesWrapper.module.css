@@ -1,0 +1,120 @@
+.titles-wrapper-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.titles-wrapper-search-loading {
+    width: 100%;
+    height: 100vh;
+    margin-top: 6rem;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    z-index: 50;
+    opacity: 1;
+    background-color: var(--background);
+}
+
+.titles-wrapper-search-loading-span {
+    min-width: 80px !important;
+    min-height: 80px !important;
+    margin: 10%;
+    position: fixed;
+}
+
+.titles-list-wrapper {
+    margin: 1.5em;
+    margin-top: 6rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
+    visibility: hidden;
+}
+
+.titles-list {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(100px, 1fr));
+    gap: 10px;
+    grid-auto-rows: 0;
+}
+
+@media only screen and (width <= 1249px) and (width >= 768px) {
+    .titles-list {
+        grid-template-columns: repeat(2, minmax(100px, 1fr));
+    }
+}
+
+@media only screen and (width <= 1499px) and (width >= 1250px) {
+    .titles-list {
+        grid-template-columns: repeat(4, minmax(100px, 1fr));
+    }
+}
+
+@media only screen and (width <= 1849px) and (width >= 1500px) {
+    .titles-list {
+        grid-template-columns: repeat(5, minmax(100px, 1fr));
+    }
+}
+
+@media only screen and (width >= 1850px) {
+    .titles-list {
+        grid-template-columns: repeat(6, minmax(100px, 1fr));
+    }
+}
+
+.titles-list-item,
+.titles-list-content {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: max-content;
+    align-items: center;
+}
+
+.titles-list-item {
+    /* filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, .3)); */
+    transition: filter 0.25s ease-in-out;
+    background: var(--background);
+}
+
+/* .masonry-item:hover {
+    filter: drop-shadow(0px 0px 5px rgb(159, 159, 159));
+} */
+
+.titles-list-item:active {
+    outline: 5px solid #fcd34d;
+}
+
+.titles-list-footer {
+    font-size: 0.75em;
+    opacity: 0.25;
+    text-align: center;
+    padding-top: 3em;
+    padding-bottom: 3em;
+    margin-bottom: -1.5em;
+    transition: opacity 1s ease-in-out;
+}
+
+.titles-list-footer a {
+    color: currentcolor;
+}
+
+.titles-list-footer:hover,
+.titles-list-footer:active,
+.titles-list-footer:focus {
+    opacity: 0.75;
+}
+
+@media screen and (width <= 730px) {
+    .title-card-container {
+        min-height: auto;
+    }
+}
+
+.modal-backdrop {
+    position: fixed;
+}
