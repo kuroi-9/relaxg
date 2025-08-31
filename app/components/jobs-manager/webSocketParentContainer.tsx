@@ -23,7 +23,7 @@ function WebSocketParentContainer(props: {
         Map<string, number | undefined> | undefined
     >(undefined);
 
-    const handleRefresh = async (
+    const refreshAction = async (
         jobsEta: Map<string, number | undefined> | undefined,
     ): Promise<void> => {
         const newJobs = await fetch(
@@ -51,7 +51,7 @@ function WebSocketParentContainer(props: {
     };
 
     useEffect(() => {
-        handleRefresh(undefined);
+        refreshAction(undefined);
         console.log("[SocketContainer] Jobs initial revalidation completed");
     }, []);
 
@@ -66,7 +66,7 @@ function WebSocketParentContainer(props: {
                 jobsEta={jobsEta}
                 host={props.host}
                 dev={props.dev}
-                refresh={handleRefresh}
+                refreshAction={refreshAction}
             />
         </div>
     );

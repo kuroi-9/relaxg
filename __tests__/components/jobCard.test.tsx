@@ -88,9 +88,8 @@ describe("JobCard", () => {
             <JobCard
                 job={mockJob}
                 host="test-host"
-                setJobRunningToUndefined={mockSetJobRunningToUndefined}
                 dev={false}
-                refresh={mockRefresh}
+                refreshAction={mockRefresh}
             />,
         );
 
@@ -102,9 +101,8 @@ describe("JobCard", () => {
             <JobCard
                 job={mockJob}
                 host="test-host"
-                setJobRunningToUndefined={mockSetJobRunningToUndefined}
                 dev={false}
-                refresh={mockRefresh}
+                refreshAction={mockRefresh}
             />,
         );
 
@@ -138,9 +136,8 @@ describe("JobCard", () => {
             <JobCard
                 job={jobWithEta}
                 host="test-host"
-                setJobRunningToUndefined={mockSetJobRunningToUndefined}
                 dev={false}
-                refresh={mockRefresh}
+                refreshAction={mockRefresh}
             />,
         );
 
@@ -165,9 +162,8 @@ describe("JobCard", () => {
             <JobCard
                 job={mockJob}
                 host="test-host"
-                setJobRunningToUndefined={mockSetJobRunningToUndefined}
                 dev={false}
-                refresh={mockRefresh}
+                refreshAction={mockRefresh}
             />,
         );
 
@@ -204,9 +200,8 @@ describe("JobCard", () => {
             <JobCard
                 job={stoppedJob}
                 host="test-host"
-                setJobRunningToUndefined={mockSetJobRunningToUndefined}
                 dev={false}
-                refresh={mockRefresh}
+                refreshAction={mockRefresh}
             />,
         );
 
@@ -233,9 +228,8 @@ describe("JobCard", () => {
             <JobCard
                 job={mockJob}
                 host="test-host"
-                setJobRunningToUndefined={mockSetJobRunningToUndefined}
                 dev={false}
-                refresh={mockRefresh}
+                refreshAction={mockRefresh}
             />,
         );
 
@@ -267,9 +261,8 @@ describe("JobCard", () => {
             <JobCard
                 job={completedJob}
                 host="test-host"
-                setJobRunningToUndefined={mockSetJobRunningToUndefined}
                 dev={false}
-                refresh={mockRefresh}
+                refreshAction={mockRefresh}
             />,
         );
 
@@ -288,9 +281,8 @@ describe("JobCard", () => {
             <JobCard
                 job={mockJob}
                 host="test-host"
-                setJobRunningToUndefined={mockSetJobRunningToUndefined}
                 dev={false}
-                refresh={mockRefresh}
+                refreshAction={mockRefresh}
             />,
         );
 

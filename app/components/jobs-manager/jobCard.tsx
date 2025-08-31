@@ -12,9 +12,8 @@ import { PlayButtonIcon, StopSignIcon } from "@/app/icons/global";
 export default function JobCard(props: {
     job: JobItem;
     host: string;
-    setJobRunningToUndefined: (titleName: string) => void;
     dev: boolean;
-    refresh: () => void;
+    refreshAction: () => void;
 }) {
     const stopOrResumeElement = useRef<ReactNode>();
     const stopOrResumeElementStatus = useRef<string | undefined>();
@@ -214,7 +213,7 @@ export default function JobCard(props: {
             ).then((response) => {
                 response.json().then((value) => {
                     if (value["status"] == "deleted") {
-                        props.refresh();
+                        props.refreshAction();
                     }
                 });
             });

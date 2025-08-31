@@ -212,7 +212,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
      * Typing and titles filtering delay management
      * @param _inputText
      */
-    const filterTitles = (_inputText: string) => {
+    const filterTitlesAction = (_inputText: string) => {
         if (currentTimeout.current !== undefined) {
             clearTimeout(currentTimeout.current);
             currentTimeout.current = setTimeout(() => {
@@ -351,7 +351,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                 id="search-bar-container"
                 className="w-full with-opacity-transition"
             >
-                <SearchBar filterTitles={filterTitles}></SearchBar>
+                <SearchBar filterTitlesAction={filterTitlesAction}></SearchBar>
             </div>
             <div
                 id="titles-wrapper-search-loading"

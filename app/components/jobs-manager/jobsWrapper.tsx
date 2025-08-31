@@ -40,7 +40,7 @@ export default function JobsWrapper(props: {
     jobsEta: Map<string, number | undefined> | undefined;
     host: string;
     dev: boolean;
-    refresh: (jobsEta: Map<string, number | undefined>) => Promise<void>;
+    refreshAction: (jobsEta: Map<string, number | undefined>) => Promise<void>;
 }) {
     const websocket = useRef<WebSocket>(undefined);
     const websockets = useRef<WebSocket[]>([]);
@@ -105,38 +105,6 @@ export default function JobsWrapper(props: {
     };
 
     /**
-     * Meant to set the stop/resume button to a loading state, awaiting the server response
-     * @param titleName
-     */
-    const setJobRunningToUndefined = (titleName: string) => {
-        setJobsState(() => {
-            return jobsState.map((job) => {
-                if (job.title.name === titleName) {
-                    return {
-                        ...job,
-                        title: {
-                            ...job.title,
-                            running: undefined,
-                        },
-                    };
-                } else {
-                    return job;
-                }
-            });
-        });
-
-        jobsVolumes.current.set(
-            titleName,
-            jobsVolumes.current.get(titleName)!.map((item) => {
-                return {
-                    ...item,
-                    running: false,
-                };
-            }),
-        );
-    };
-
-    /**
      * Refreshs the job lists, making deleted jobs disapear
      */
     const handleRefresh = () => {
@@ -158,7 +126,7 @@ export default function JobsWrapper(props: {
                 jobsEta.set(job.title.name, job.eta);
             }
 
-            props.refresh(jobsEta);
+            props.refreshAction(jobsEta);
         }, 500);
     };
 
@@ -430,9 +398,8 @@ export default function JobsWrapper(props: {
                         key={job.id}
                         job={job}
                         host={props.host}
-                        setJobRunningToUndefined={setJobRunningToUndefined}
                         dev={props.dev}
-                        refresh={handleRefresh}
+                        refreshAction={handleRefresh}
                     />
                 ))}
             </ul>
