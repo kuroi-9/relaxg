@@ -2,7 +2,7 @@
 
 import "@/app/globals.css";
 import styles from "@/app/styles/jobs-manager/jobsManager.module.css";
-import singleJobStyles from "@/app/styles/jobs-manager/jobsManagerJobCard.module.css";
+import jobCardStyles from "@/app/styles/jobs-manager/jobsManagerJobCard.module.css";
 import { ReactNode, useCallback, useRef, useState, useEffect } from "react";
 import VolumeCard from "@/app/components/jobs-manager/volumeCard";
 import { JobItem } from "./jobsWrapper";
@@ -281,11 +281,11 @@ export default function JobCard(props: {
     return (
         <div
             id={"job-card-" + props.job.id}
-            className={`${singleJobStyles["job-card"]} border-gray-700`}
+            className={`${jobCardStyles["job-card"]} border-gray-700`}
         >
             <h1>{props.job.completed}</h1>
-            <div className={singleJobStyles["job-card-content"]}>
-                <div className={singleJobStyles["job-card-header"]}>
+            <div className={jobCardStyles["job-card-content"]}>
+                <div className={jobCardStyles["job-card-header"]}>
                     <h1
                         id={"card-job-id-" + props.job.id}
                         className={`${styles["card-job-id-label"]} flex p-2 items-center justify-center`}
@@ -299,14 +299,14 @@ export default function JobCard(props: {
                     </h1>{" "}
                     <h1
                         id={"card-job-title-name-" + props.job.id}
-                        className={singleJobStyles["job-card-title"]}
+                        className={jobCardStyles["job-card-title"]}
                     >
                         {props.job.title.name}
                     </h1>
                 </div>
-                <div className={singleJobStyles["job-card-infos"]}>
+                <div className={jobCardStyles["job-card-infos"]}>
                     <div
-                        className={`${singleJobStyles["job-card-controls"]} w-full md:w-36`}
+                        className={`${jobCardStyles["job-card-controls"]} w-full md:w-36`}
                     >
                         {isLoading ? (
                             <button
@@ -330,7 +330,7 @@ export default function JobCard(props: {
                     <button
                         disabled={isLoading || props.job.title.running === true}
                         id={"delete-btn-" + props.job.id}
-                        className={`${singleJobStyles["job-card-button-delete"]} w-full md:w-auto md:ml-2 primary-btn`}
+                        className={`${jobCardStyles["job-card-button-delete"]} w-full md:w-auto md:ml-2 primary-btn`}
                         style={{
                             borderColor:
                                 isLoading || props.job.title.running === true
@@ -354,7 +354,7 @@ export default function JobCard(props: {
                     </button>
                 </div>
                 <div
-                    className={`${singleJobStyles["job-card-progress-bar"]} loader-bar`}
+                    className={`${jobCardStyles["job-card-progress-bar"]} loader-bar`}
                     style={{
                         borderColor:
                             isRunning.current === true ? "#fcd34d" : "#374151",
@@ -370,7 +370,7 @@ export default function JobCard(props: {
                 >
                     <div
                         className={
-                            singleJobStyles["job-card-progress-bar-content"]
+                            jobCardStyles["job-card-progress-bar-content"]
                         }
                         style={{
                             backgroundColor:
@@ -379,11 +379,7 @@ export default function JobCard(props: {
                                     : "slategray",
                         }}
                     >
-                        <p
-                            className={
-                                singleJobStyles["job-card-progress-text"]
-                            }
-                        >
+                        <p className={jobCardStyles["job-card-progress-text"]}>
                             {props.job.eta
                                 ? "Next volume ETA => " +
                                   (new Date(props.job.eta).getHours() < 10
@@ -401,7 +397,7 @@ export default function JobCard(props: {
                 </div>
             </div>
             <div
-                className={`${styles["job-volumes-card-container"]} ${singleJobStyles["job-card-volumes-container"]}`}
+                className={`${styles["job-volumes-card-container"]} ${jobCardStyles["job-card-volumes-container"]}`}
                 style={{
                     marginTop: `${
                         props.job.title.volumes.length === 1 &&
@@ -414,7 +410,7 @@ export default function JobCard(props: {
             >
                 <ul
                     id={"job-volumes-card" + props.job.id}
-                    className={`${styles["job-volumes-card"]} ${singleJobStyles["job-card-volumes-list"]}`}
+                    className={`${styles["job-volumes-card"]} ${jobCardStyles["job-card-volumes-list"]}`}
                     style={{
                         border: `${
                             props.job.title.volumes.length === 1 &&
