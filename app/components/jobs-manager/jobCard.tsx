@@ -238,7 +238,12 @@ export default function JobCard(props: {
         stopOrResumeElementStatus.current = "start";
         setIsLoading(false);
     } else {
-        if (stopOrResumeElement.current === undefined) {
+        if (
+            stopOrResumeElement.current === undefined ||
+            (stopOrResumeElementStatus.current === "start" &&
+                props.job.title.volumes.length !== 1 &&
+                !isLoading)
+        ) {
             if (props.job.completed) {
                 stopOrResumeElement.current = completedElement.current;
                 stopOrResumeElementStatus.current = "completed";
