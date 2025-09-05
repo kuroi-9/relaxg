@@ -9,6 +9,16 @@ import { JobItem } from "./jobsWrapper";
 import { useUser } from "@stackframe/stack";
 import { PlayButtonIcon, StopSignIcon } from "@/app/icons/global";
 
+/**
+ * Component that renders a job card with its children components.
+ *
+ * @param props - The properties passed to the component
+ * @param props.job - The job item containing details about the job
+ * @param props.host - The host URL for API requests
+ * @param props.dev - Boolean indicating if in development mode
+ * @param props.refreshAction - Function to call when the job needs to be refreshed
+ * @returns A React component displaying job information and controls
+ */
 export default function JobCard(props: {
     job: JobItem;
     host: string;
@@ -184,7 +194,6 @@ export default function JobCard(props: {
         });
     }, [props.job]);
 
-    // TODO: Reduce DOM manual alteration
     const handleDelete = () => {
         const deleteBtn = document.getElementById("delete-btn-" + props.job.id);
         deleteBtn!.textContent = "";
