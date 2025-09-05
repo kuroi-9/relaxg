@@ -1,7 +1,7 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import JobCard from "@/app/components/jobs-manager/jobCard";
-import { JobItem } from "@/app/components/jobs-manager/jobsWrapper";
+import { JobItem } from "@/app/interfaces/globals";
 import "@testing-library/jest-dom";
+import { render, screen, waitFor } from "@testing-library/react";
 
 // Mock fetch
 global.fetch = jest.fn(

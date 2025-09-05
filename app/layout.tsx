@@ -1,6 +1,6 @@
-import "./globals.css";
 import { StackProvider, StackTheme } from "@stackframe/stack";
 import { stackServerApp } from "../stack";
+import "./globals.css";
 
 export default function RootLayout(props: { children: React.ReactNode }) {
     return (

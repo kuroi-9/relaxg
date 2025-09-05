@@ -1,11 +1,10 @@
 "use client";
 
-import Link from "next/link";
-import React from "react";
-import { usePathname } from "next/navigation";
 import "@/app/globals.css";
 import styles from "@/app/styles/nav/navBar.module.css";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import React from "react";
 
 export default function NavBar(props: {
     redirectUrlLeave: string | undefined;

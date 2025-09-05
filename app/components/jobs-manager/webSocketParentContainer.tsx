@@ -1,10 +1,9 @@
 "use client";
 export const fetchCache = "only-no-store";
 
-import { Key } from "react";
-import JobsWrapper from "./jobsWrapper";
-import { useState, useEffect } from "react";
 import { useUser } from "@stackframe/stack";
+import { Key, useEffect, useState } from "react";
+import JobsWrapper from "./jobsWrapper";
 
 /**
  * Container component that manages jobs list data when needed

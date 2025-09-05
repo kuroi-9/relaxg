@@ -1,8 +1,8 @@
 "use client";
 
-import { Key } from "react";
 import "@/app/globals.css";
 import titleCardStyles from "@/app/styles/titles-manager/titlesManagerTitleCard.module.css";
+import { Key } from "react";
 import SecureImage from "./secureImage";
 
 /**

@@ -3,9 +3,9 @@
 import "@/app/globals.css";
 import "@/app/styles/titles-manager/titlesManager.module.css";
 import styles from "@/app/styles/titles-manager/titlesManagerTitleModal.module.css";
+import { useUser } from "@stackframe/stack";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useUser } from "@stackframe/stack";
 import SecureImage from "./secureImage";
 
 /**

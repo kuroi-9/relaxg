@@ -1,7 +1,7 @@
-import { render, screen, act } from "@testing-library/react";
 import VolumeCard from "@/app/components/jobs-manager/volumeCard";
-import { VolumeItem } from "@/app/components/jobs-manager/jobsWrapper";
+import { VolumeItem } from "@/app/interfaces/globals";
 import "@testing-library/jest-dom";
+import { act, render, screen } from "@testing-library/react";
 
 // Mock the DOM elements and methods used in volumeCard
 const mockStyleSetter = jest.fn();

@@ -1,10 +1,10 @@
 "use client";
 
+import "@/app/globals.css";
+import { JobItem, VolumeItem } from "@/app/interfaces/globals";
+import jobsWrapperStyles from "@/app/styles/jobs-manager/jobsManagerJobsWrapper.module.css";
 import { Key, useEffect, useRef, useState } from "react";
 import JobCard from "./jobCard";
-import "@/app/globals.css";
-import jobsWrapperStyles from "@/app/styles/jobs-manager/jobsManagerJobsWrapper.module.css";
-import { VolumeItem, JobItem } from "@/app/interfaces/globals";
 
 /**
  * Component that wraps and manages the display of job cards.

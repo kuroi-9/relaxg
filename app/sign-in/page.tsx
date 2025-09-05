@@ -1,12 +1,15 @@
 "use client";
 
-import { useStackApp } from "@stackframe/stack";
-import { useState, useRef } from "react";
+import { CheckMarkIconWhite, LockerIcon } from "@/app/icons/global";
 import "@/app/styles/auth/signIn.css";
-import { LockerIcon } from "@/app/icons/global";
-import { CheckMarkIconWhite } from "@/app/icons/global";
+import { useStackApp } from "@stackframe/stack";
 import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
 
+/**
+ *
+ * @returns a component used by StackAuth to sign in with credentials
+ */
 export default function CredentialSignIn() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

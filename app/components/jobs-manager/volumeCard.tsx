@@ -1,10 +1,10 @@
 "use client";
-import { VolumeItem } from "@/app/interfaces/globals";
 import "@/app/globals.css";
+import { CheckMarkIcon } from "@/app/icons/global";
+import { VolumeItem } from "@/app/interfaces/globals";
 import styles from "@/app/styles/jobs-manager/jobsManager.module.css";
 import volumeCardStyles from "@/app/styles/jobs-manager/jobsManagerVolumeCard.module.css";
 import { useEffect, useState } from "react";
-import { CheckMarkIcon } from "@/app/icons/global";
 
 /**
  * Component that renders a volume card with progress information.

@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { DatabaseSchemeTitleItem } from "@/app/interfaces/globals";
+import titlesWrapperStyles from "@/app/styles/titles-manager/titlesManagerTitlesWrapper.module.css";
 import imagesLoaded from "imagesloaded";
 import Link from "next/link";
-import TitleCard from "./titleCard";
-import { DatabaseSchemeTitleItem } from "@/app/interfaces/globals";
+import { useEffect, useRef, useState } from "react";
 import SearchBar from "./searchBar";
-import titlesWrapperStyles from "@/app/styles/titles-manager/titlesManagerTitlesWrapper.module.css";
+import TitleCard from "./titleCard";
 
 /**
  * Component that renders the list of titles in a masonry layout.

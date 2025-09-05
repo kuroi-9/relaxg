@@ -1,9 +1,9 @@
 "use client";
 
 import "@/app/globals.css";
+import { useUser } from "@stackframe/stack";
 import Image from "next/image";
 import { Key, useEffect, useState } from "react";
-import { useUser } from "@stackframe/stack";
 
 /**
  * Secure image component for the titles manager
