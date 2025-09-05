@@ -5,7 +5,7 @@ import styles from "@/app/styles/jobs-manager/jobsManager.module.css";
 import jobCardStyles from "@/app/styles/jobs-manager/jobsManagerJobCard.module.css";
 import { ReactNode, useCallback, useRef, useState, useEffect } from "react";
 import VolumeCard from "@/app/components/jobs-manager/volumeCard";
-import { JobItem } from "./jobsWrapper";
+import { JobItem } from "@/app/interfaces/globals";
 import { useUser } from "@stackframe/stack";
 import { PlayButtonIcon, StopSignIcon } from "@/app/icons/global";
 

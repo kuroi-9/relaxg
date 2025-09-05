@@ -1,11 +1,19 @@
 "use client";
-import { VolumeItem } from "./jobsWrapper";
+import { VolumeItem } from "@/app/interfaces/globals";
 import "@/app/globals.css";
 import styles from "@/app/styles/jobs-manager/jobsManager.module.css";
 import volumeCardStyles from "@/app/styles/jobs-manager/jobsManagerVolumeCard.module.css";
 import { useEffect, useState } from "react";
 import { CheckMarkIcon } from "@/app/icons/global";
 
+/**
+ * Component that renders a volume card with progress information.
+ *
+ * @param props - The properties passed to the component.
+ * @param props.volume - The volume item containing name, percentage, and completion status.
+ * @param props.running - Indicates whether the volume computation is currently running.
+ * @returns A React component displaying the volume card.
+ */
 export default function VolumeCard(props: {
     volume: VolumeItem;
     running: boolean | undefined;

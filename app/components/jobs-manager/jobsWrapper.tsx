@@ -4,31 +4,20 @@ import { Key, useEffect, useRef, useState } from "react";
 import JobCard from "./jobCard";
 import "@/app/globals.css";
 import jobsWrapperStyles from "@/app/styles/jobs-manager/jobsManagerJobsWrapper.module.css";
+import { VolumeItem, JobItem } from "@/app/interfaces/globals";
 
-export interface VolumeItem {
-    name: Key;
-    treatedPagesCount: number;
-    totalPagesCount: number;
-    percentage: number | undefined;
-    running: boolean;
-    completed: boolean;
-    downloadLink: string | undefined;
-}
-
-export interface TitleItem {
-    id: Key;
-    name: string;
-    volumes: VolumeItem[] | [];
-    running: boolean | undefined;
-}
-
-export interface JobItem {
-    id: Key;
-    title: TitleItem;
-    eta: number | undefined;
-    completed: boolean | undefined;
-}
-
+/**
+ * Component that wraps and manages the display of job cards.
+ * Receive continuously updates from the server via WebSocket and updates the job list accordingly.
+ *
+ * @param props - The properties passed to the component.
+ * @param props.jobs - An array of job objects, each containing an id, title-name, and title-id.
+ * @param props.jobsEta - A map of job names to their estimated time of arrival (ETA) in milliseconds.
+ * @param props.host - The host URL for API requests.
+ * @param props.dev - A boolean indicating whether the component is in development mode.
+ * @param props.refreshAction - A function that refreshes the job list with the provided ETA map.
+ * @returns The rendered JobsWrapper component.
+ */
 export default function JobsWrapper(props: {
     jobs: [
         {
@@ -130,7 +119,7 @@ export default function JobsWrapper(props: {
 
     /**
      * Handle the core of the websocket connection trough API.
-     * Handle the reconnection of the focus of the page is left.
+     * Handle the reconnection of the focus of the page is left, especially regarding mobiles.
      * @param websocketInRecursion
      * @returns
      */
@@ -171,6 +160,7 @@ export default function JobsWrapper(props: {
             //console.log("[SocketManager][WEBSOCKET STATUS] Disconnected");
             if (window.location.pathname === "/app/jobs-manager") {
                 websocketInterval.current = setInterval(() => {
+                    // Until a new websocket.current is opened (readyState != 3), we try again
                     if (websocket.current?.readyState === 3) {
                         //console.dir("[SocketManager][WEBSOCKET STATUS] Reconnecting...", window.location);
                         websocketInRecursion = new WebSocket(
@@ -331,6 +321,7 @@ export default function JobsWrapper(props: {
         }
 
         return () => {
+            // Cleaning up websocket and intervals to avoid leakage
             clearInterval(websocketInterval.current);
             websocket.current?.close();
             if (websocketIntervals.current !== undefined) {
@@ -347,9 +338,6 @@ export default function JobsWrapper(props: {
             return;
         };
     }, [props.host, props.jobs]);
-
-    //TODO: Find a better way to do this
-    //window.scrollTo(0, 0);
 
     return (
         <section

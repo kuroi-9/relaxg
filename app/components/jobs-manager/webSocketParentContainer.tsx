@@ -6,6 +6,17 @@ import JobsWrapper from "./jobsWrapper";
 import { useState, useEffect } from "react";
 import { useUser } from "@stackframe/stack";
 
+/**
+ * Container component that manages jobs list data when needed
+ * Fetches the latest list of jobs from the database (!= server)
+ * Especially used for refreshing the jobs list when called
+ *
+ * @param props - The component props
+ * @param props.jobs - Array of job objects containing id, title-name, and title-id
+ * @param props.host - The host URL for WebSocket connections
+ * @param props.dev - Boolean flag indicating development mode
+ * @returns JSX element containing the JobsWrapper component
+ */
 function WebSocketParentContainer(props: {
     jobs: [
         {
