@@ -46,18 +46,19 @@ function WebSocketParentContainer(props: {
 
         setJobs(newJobs);
         setJobsEta(jobsEta);
-        console.dir("[SocketContainer][Job refresh] Jobs fetch completed");
-        console.log("[SocketContainer][Job refresh] ", newJobs, jobsEta);
+        //console.dir("[SocketContainer][Job refresh] Jobs fetch completed");
+        //console.log("[SocketContainer][Job refresh] ", newJobs, jobsEta);
     };
 
     useEffect(() => {
         refreshAction(undefined);
-        console.log("[SocketContainer] Jobs initial revalidation completed");
+        //console.log("[SocketContainer] Jobs initial revalidation completed");
     }, []);
-
+    /*
     useEffect(() => {
         console.dir("[SocketContainer] Current jobs list", jobs);
     }, [jobs]);
+    */
 
     return (
         <div>

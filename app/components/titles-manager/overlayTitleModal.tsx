@@ -76,7 +76,7 @@ export default function OverlayTitleModal(props: {
                     if (value["status"] == "ok, running") {
                         setTimeout(async () => {
                             const result: string = "stopped";
-                            console.dir("[Job add result] ", result);
+                            //console.dir("[Job add result] ", result);
                             if (result === "stopped") {
                                 setTimeout(async () => {
                                     document

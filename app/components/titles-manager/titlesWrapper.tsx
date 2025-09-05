@@ -231,8 +231,8 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     }
                     setInputText(_inputText);
 
-                    // console.log("base" + baseScroll.current);
-                    // console.log("toscroll" + toScroll.current);
+                    //console.log("base" + baseScroll.current);
+                    //console.log("toscroll" + toScroll.current);
 
                     if (baseScroll.current === 0) {
                         baseScroll.current = window.pageYOffset;
@@ -267,8 +267,8 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                     }
                     setInputText(_inputText);
 
-                    // console.log("base" + baseScroll.current);
-                    // console.log("toscroll" + toScroll.current);
+                    //console.log("base" + baseScroll.current);
+                    //console.log("toscroll" + toScroll.current);
 
                     if (baseScroll.current === 0) {
                         baseScroll.current = window.pageYOffset;

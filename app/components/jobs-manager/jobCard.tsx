@@ -24,7 +24,7 @@ export default function JobCard(props: {
     const startElement = useRef<ReactNode>();
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const user = useUser({ or: "redirect" });
-    console.log("[Jobcard] Rebuilding...");
+    //console.log("[Jobcard] Rebuilding...");
 
     // Init ReactNode variables values
     resumeElement.current = (
@@ -136,11 +136,9 @@ export default function JobCard(props: {
                         }),
                     },
                 ).then(() => {
-                    console.log(
-                        "[Jobcard] Resuming job " + props.job.id + "...",
-                    );
+                    //console.log("[Jobcard] Resuming job " + props.job.id + "...");
                     const resumeInterval = setInterval(() => {
-                        console.log(props.job.title.running);
+                        //console.log(props.job.title.running);
                         if (isRunning.current) {
                             stopOrResumeElement.current = stopElement.current;
                             stopOrResumeElementStatus.current = "stop";
@@ -173,7 +171,7 @@ export default function JobCard(props: {
                     }),
                 },
             ).then(() => {
-                console.log("[Jobcard] Stopping job " + props.job.id + "...");
+                //console.log("[Jobcard] Stopping job " + props.job.id + "...");
                 const stopInterval = setInterval(() => {
                     if (!isRunning.current) {
                         setIsLoading(false);

@@ -52,8 +52,6 @@ export default function JobsWrapper(props: {
     const [initialFetchCompleted, setInitialFetchCompleted] =
         useState<boolean>(false);
 
-    console.log(props.jobsEta);
-
     // Component global init/update stage
     if (
         (jobsState.length === 0 && props.jobs.length > 0) ||
@@ -146,10 +144,7 @@ export default function JobsWrapper(props: {
                 "jobs-wrapper-search-loading",
             );
             setWebsocketReady(true);
-            console.log(
-                "[SocketManager][WEBSOCKET STATUS] Ready, initial fetch completed : ",
-                initialFetchCompleted,
-            );
+            //console.log("[SocketManager][WEBSOCKET STATUS] Ready, initial fetch completed : ", initialFetchCompleted);
 
             setTimeout(
                 () => {
@@ -173,14 +168,11 @@ export default function JobsWrapper(props: {
 
         websocket.current.onclose = () => {
             setWebsocketReady(false);
-            console.log("[SocketManager][WEBSOCKET STATUS] Disconnected");
+            //console.log("[SocketManager][WEBSOCKET STATUS] Disconnected");
             if (window.location.pathname === "/app/jobs-manager") {
                 websocketInterval.current = setInterval(() => {
                     if (websocket.current?.readyState === 3) {
-                        console.dir(
-                            "[SocketManager][WEBSOCKET STATUS] Reconnecting...",
-                            window.location,
-                        );
+                        //console.dir("[SocketManager][WEBSOCKET STATUS] Reconnecting...", window.location);
                         websocketInRecursion = new WebSocket(
                             `wss://api${props.dev ? "-dev" : ""}.relaxg.app`,
                         );
@@ -195,7 +187,7 @@ export default function JobsWrapper(props: {
                 websocketIntervals.current.push(websocketInterval.current);
                 websockets.current.push(websocket.current!);
             } else {
-                console.log("[SocketManager] Websocket connection terminated.");
+                //console.log("[SocketManager] Websocket connection terminated.");
                 return;
             }
         };
