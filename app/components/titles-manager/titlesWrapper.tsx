@@ -8,6 +8,12 @@ import { TitleItem } from "@/app/(protected)/app/titles-manager/pageContent";
 import SearchBar from "./searchBar";
 import titlesWrapperStyles from "@/app/styles/titles-manager/titlesManagerTitlesWrapper.module.css";
 
+/**
+ * Component that renders the list of titles in a masonry layout.
+ *
+ * @param props - The component props
+ * @param props.titles - The list of titles to render
+ */
 export default function TitlesWrapper(props: { titles: TitleItem[] }) {
     const [inputText, setInputText] = useState<string>("");
     const currentTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
@@ -197,17 +203,6 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
         }
     }
 
-    useEffect(() => {
-        /* Resize all the grid items on the load and resize events */
-        const TitlesList = ["load", "resize"];
-        TitlesList.forEach(function (event) {
-            window.addEventListener(event, resizeAllTitlesList);
-        });
-
-        /* Do a resize once more when all the images finish loading */
-        waitForImages();
-    });
-
     /**
      * Typing and titles filtering delay management
      * @param _inputText
@@ -334,6 +329,17 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
             currentMaxScroll.current = value;
         }
     };
+
+    useEffect(() => {
+        // Resize all the grid items on the load and resize events
+        const TitlesList = ["load", "resize"];
+        TitlesList.forEach(function (event) {
+            window.addEventListener(event, resizeAllTitlesList);
+        });
+
+        // Do a resize once more when all the images finish loading
+        waitForImages();
+    });
 
     useEffect(() => {
         window.addEventListener(

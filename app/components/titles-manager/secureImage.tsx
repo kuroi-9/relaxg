@@ -5,6 +5,15 @@ import Image from "next/image";
 import { Key, useEffect, useState } from "react";
 import { useUser } from "@stackframe/stack";
 
+/**
+ * Secure image component for the titles manager
+ * Use the current user's access token to fetch the secured image from the API
+ *
+ * @param props - The component props
+ * @param props.titleId - The unique identifier for the title
+ * @param props.titleName - The name of the title
+ * @param props.dev - Whether the application is in development mode
+ */
 export default function SecureImage(props: {
     titleId: Key | null | undefined;
     titleName: string;

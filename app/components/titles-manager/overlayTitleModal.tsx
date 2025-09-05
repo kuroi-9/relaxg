@@ -8,6 +8,15 @@ import { useEffect, useState } from "react";
 import { useUser } from "@stackframe/stack";
 import SecureImage from "./secureImage";
 
+/**
+ * Modal for displaying the title details right after clicking on the title
+ *
+ * @param props - The component props
+ * @param props.id - The unique identifier for the title
+ * @param props.hostIp - The host IP address
+ * @param props.dev - Whether the app is running in development mode
+ * @returns
+ */
 export default function OverlayTitleModal(props: {
     id: string;
     hostIp: string;

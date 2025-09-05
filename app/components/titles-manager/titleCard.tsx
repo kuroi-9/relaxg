@@ -5,6 +5,19 @@ import "@/app/globals.css";
 import titleCardStyles from "@/app/styles/titles-manager/titlesManagerTitleCard.module.css";
 import SecureImage from "./secureImage";
 
+/**
+ * Component that renders a title card with a title name,
+ * an image, a publication status, and a post-treated status.
+ *
+ * @param props - The component props
+ * @param props.title - The title object
+ * @param props.title.id - The ID string for the title
+ * @param props.title["title-name"] - The title name
+ * @param props.title["publication-status"] - The publication status
+ * @param props.title["post-treated"] - Whether the title is post-treated
+ * @param props.dev - Whether the component is in development mode
+ * @returns
+ */
 export default function TitleCard(props: {
     title: {
         id: Key | null | undefined;

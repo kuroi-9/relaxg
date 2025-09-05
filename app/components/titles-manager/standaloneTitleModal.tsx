@@ -5,6 +5,12 @@ import "@/app/styles/titles-manager/titlesManager.module.css";
 import styles from "@/app/styles/titles-manager/titlesManagerTitleModal.module.css";
 import { useRouter } from "next/navigation";
 
+/**
+ *
+ * @param props - The component props
+ * @param props.id - The ID string for the title
+ * @returns
+ */
 export default function StandaloneTitleModal(props: { id: string }) {
     const router = useRouter();
 
