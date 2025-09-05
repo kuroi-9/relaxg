@@ -137,8 +137,13 @@ export default function OverlayTitleModal(props: {
                             Create Job
                         </button>
                         <button
+                            disabled={true}
                             className={"secondary-btn"}
-                            style={{ borderColor: "gray", color: "gray" }}
+                            style={{
+                                borderColor: "gray",
+                                color: "gray",
+                                outline: "none",
+                            }}
                         >
                             Delete previous upscaling
                         </button>

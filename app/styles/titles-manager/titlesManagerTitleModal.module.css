@@ -78,14 +78,15 @@
 
 .title-actions-modal-footer {
     display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
+    flex-flow: row;
+    justify-content: center;
+    gap: 0.5rem;
     align-items: end;
     flex-shrink: 0;
 }
 
 .title-actions-modal-footer > button {
-    min-width: 33%;
+    min-width: 30%;
     min-height: 50px;
     max-height: 50px;
 }
@@ -120,7 +121,6 @@
     }
 
     .title-actions-modal-footer > button {
-        margin-bottom: 0.5rem;
         width: 100%;
     }
 
