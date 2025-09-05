@@ -17,6 +17,13 @@ export interface TitleItem {
     running: boolean | undefined;
 }
 
+export interface DatabaseSchemeTitleItem {
+    id: Key | null | undefined;
+    "title-name": string;
+    "publication-status": string;
+    "post-treated": boolean;
+}
+
 export interface JobItem {
     id: Key;
     title: TitleItem;

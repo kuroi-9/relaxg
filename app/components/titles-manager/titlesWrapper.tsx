@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import imagesLoaded from "imagesloaded";
 import Link from "next/link";
 import TitleCard from "./titleCard";
-import { TitleItem } from "@/app/(protected)/app/titles-manager/pageContent";
+import { DatabaseSchemeTitleItem } from "@/app/interfaces/globals";
 import SearchBar from "./searchBar";
 import titlesWrapperStyles from "@/app/styles/titles-manager/titlesManagerTitlesWrapper.module.css";
 
@@ -14,7 +14,9 @@ import titlesWrapperStyles from "@/app/styles/titles-manager/titlesManagerTitles
  * @param props - The component props
  * @param props.titles - The list of titles to render
  */
-export default function TitlesWrapper(props: { titles: TitleItem[] }) {
+export default function TitlesWrapper(props: {
+    titles: DatabaseSchemeTitleItem[];
+}) {
     const [inputText, setInputText] = useState<string>("");
     const currentTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
     const currentSearchBarInputVisibilityTimeout = useRef<
@@ -382,7 +384,7 @@ export default function TitlesWrapper(props: { titles: TitleItem[] }) {
                 <ul
                     className={`${titlesWrapperStyles["titles-list"]} titles-list`}
                 >
-                    {filteredTitles.map((title: TitleItem) => (
+                    {filteredTitles.map((title: DatabaseSchemeTitleItem) => (
                         <Link
                             className={`${titlesWrapperStyles["titles-list-item"]} titles-list-item min-w-max`}
                             key={title.id}

@@ -1,17 +1,14 @@
 export const fetchCache = "only-no-store";
 
-import { Key } from "react";
-import "@/app/globals.css";
 import TitlesWrapper from "@/app/components/titles-manager/titlesWrapper";
+import "@/app/globals.css";
+import { DatabaseSchemeTitleItem } from "@/app/interfaces/globals";
 import { stackServerApp } from "@/stack";
 
-export interface TitleItem {
-    id: Key | null | undefined;
-    "title-name": string;
-    "publication-status": string;
-    "post-treated": boolean;
-}
-
+/**
+ *
+ * @returns Returns the content data for the titles page in a asynchronous way.
+ */
 export default async function PageContent() {
     const user = await stackServerApp.getUser();
     const titleData = await fetch(
@@ -31,7 +28,7 @@ export default async function PageContent() {
             },
         },
     ).then((res) => res.json());
-    const titles: TitleItem[] = [];
+    const titles: DatabaseSchemeTitleItem[] = [];
 
     if (titleData.error) {
         return (

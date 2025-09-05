@@ -3,6 +3,10 @@ export const fetchCache = "only-no-store";
 import WebSocketParentContainer from "@/app/components/jobs-manager/webSocketParentContainer";
 import { stackServerApp } from "@/stack";
 
+/**
+ *
+ * @returns Returns the content data for the jobs page in a asynchronous way.
+ */
 export default async function JobsPageContent() {
     const user = await stackServerApp.getUser();
     const jobs = await fetch(
