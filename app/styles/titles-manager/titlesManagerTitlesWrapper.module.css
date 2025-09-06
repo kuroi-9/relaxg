@@ -11,6 +11,8 @@
     margin-top: 6rem;
     display: flex;
     justify-content: center;
+    align-items: start;
+    padding-top: 5rem;
     position: absolute;
     z-index: 50;
     opacity: 1;
@@ -22,6 +24,11 @@
     min-height: 80px !important;
     margin: 10%;
     position: fixed;
+}
+
+.titles-wrapper-search-loading-p {
+    position: fixed;
+    margin-top: 10rem;
 }
 
 .titles-list-wrapper {

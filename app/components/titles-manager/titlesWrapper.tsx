@@ -33,6 +33,8 @@ export default function TitlesWrapper(props: {
     const currentMinScroll = useRef<number>(0);
     const currentMaxScroll = useRef<number>(0);
     const [jumpNeeded, setJumpNeeded] = useState<boolean>(false);
+    const totalImagesCount = useRef<number>(0);
+    const [loadedImagesCount, setLoadedImagesCount] = useState<number>(0);
 
     if (filteredTitles.length === 0) {
         const contentContainer = document.getElementById(
@@ -146,6 +148,7 @@ export default function TitlesWrapper(props: {
      */
     function waitForImages() {
         const allItems = document.querySelectorAll(".titles-list-item");
+        totalImagesCount.current = allItems.length;
         if (allItems) {
             for (let i = 0; i < allItems.length; i++) {
                 // We set the image as in a loading state
@@ -159,6 +162,15 @@ export default function TitlesWrapper(props: {
                         imagesInLoadingState.current?.indexOf(i),
                         1,
                     );
+                    setLoadedImagesCount((prevCount) => {
+                        if (prevCount < totalImagesCount.current) {
+                            return prevCount + 1;
+                        } else {
+                            // Prevent the counter from increasing twice on the first loading
+                            // (happens once in a session's lifetime)
+                            return prevCount;
+                        }
+                    });
                     if (imagesInLoadingState.current.length === 0) {
                         const contentContainer = document.getElementById(
                             "titles-wrapper-content-container",
@@ -341,7 +353,7 @@ export default function TitlesWrapper(props: {
 
         // Do a resize once more when all the images finish loading
         waitForImages();
-    });
+    }, []);
 
     useEffect(() => {
         window.addEventListener(
@@ -365,13 +377,28 @@ export default function TitlesWrapper(props: {
                 id="titles-wrapper-search-loading"
                 className={`${titlesWrapperStyles["titles-wrapper-search-loading"]} with-opacity-transition`}
             >
-                <span
-                    className={
-                        titlesWrapperStyles[
-                            "titles-wrapper-search-loading-span"
-                        ] + " big-loader-foreground "
-                    }
-                ></span>
+                <div className="flex items-center justify-center">
+                    <span
+                        className={
+                            titlesWrapperStyles[
+                                "titles-wrapper-search-loading-span"
+                            ] + " big-loader-foreground "
+                        }
+                    />
+                    <p
+                        className={
+                            titlesWrapperStyles[
+                                "titles-wrapper-search-loading-p"
+                            ]
+                        }
+                        style={{
+                            visibility:
+                                loadedImagesCount !== 0 ? "visible" : "hidden",
+                        }}
+                    >
+                        {loadedImagesCount}/{totalImagesCount.current}
+                    </p>
+                </div>
             </div>
 
             <section
