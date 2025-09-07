@@ -2,11 +2,13 @@
 
 import { DatabaseSchemeTitleItem } from "@/app/interfaces/globals";
 import titlesWrapperStyles from "@/app/styles/titles-manager/titlesManagerTitlesWrapper.module.css";
+import titlesSeachBarStyles from "@/app/styles/titles-manager/titlesManagerSearchBar.module.css";
 import imagesLoaded from "imagesloaded";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import SearchBar from "./searchBar";
 import TitleCard from "./titleCard";
+import { relative } from "path/win32";
 
 /**
  * Component that renders the list of titles in a masonry layout.
@@ -18,23 +20,24 @@ export default function TitlesWrapper(props: {
     titles: DatabaseSchemeTitleItem[];
 }) {
     const [inputText, setInputText] = useState<string>("");
-    const currentTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
-    const currentSearchBarInputVisibilityTimeout = useRef<
-        NodeJS.Timeout | undefined
-    >(undefined);
-    const imagesInLoadingState = useRef<number[]>([]);
     const filteredTitles = props.titles.filter((title) => {
         return title["title-name"]
             .toLocaleLowerCase()
             .includes(inputText.toLocaleLowerCase());
     });
+    const currentTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
+    const imagesInLoadingState = useRef<number[]>([]);
+    const totalImagesCount = useRef<number>(0);
+    const maxImagesCount = useRef<number>(0);
+    const [loadedImagesCount, setLoadedImagesCount] = useState<number>(0);
+    const currentSearchBarInputVisibilityTimeout = useRef<
+        NodeJS.Timeout | undefined
+    >(undefined);
     const baseScroll = useRef<number>(0);
     const toScroll = useRef<number>(0);
     const currentMinScroll = useRef<number>(0);
     const currentMaxScroll = useRef<number>(0);
     const [jumpNeeded, setJumpNeeded] = useState<boolean>(false);
-    const totalImagesCount = useRef<number>(0);
-    const [loadedImagesCount, setLoadedImagesCount] = useState<number>(0);
 
     if (filteredTitles.length === 0) {
         const contentContainer = document.getElementById(
@@ -313,8 +316,9 @@ export default function TitlesWrapper(props: {
                 "title-manager-search-bar-input",
             );
             if (searchBarContainer) {
-                //searchBarContainer.style.opacity = "0";
-                searchBarContainer.style.display = "none";
+                searchBarContainer.style.opacity = "0";
+                searchBarContainer.style.position = "absolute";
+                searchBarContainer.style.top = "0";
             }
             if (searchBarInput) {
                 searchBarInput.setAttribute("disabled", "true");
@@ -334,8 +338,8 @@ export default function TitlesWrapper(props: {
                 "title-manager-search-bar-input",
             );
             if (searchBarContainer) {
-                searchBarContainer.style.display = "block";
-                //searchBarContainer.style.opacity = "1";
+                searchBarContainer.style.opacity = "1";
+                searchBarContainer.style.position = "relative";
             }
             if (searchBarInput) {
                 searchBarInput.removeAttribute("disabled");
@@ -344,7 +348,12 @@ export default function TitlesWrapper(props: {
         }
     };
 
+    // We load the images when the user finishes typing
+    // (the user is doing a search)
     useEffect(() => {
+        totalImagesCount.current = filteredTitles.length;
+        setLoadedImagesCount(0);
+
         // Resize all the grid items on the load and resize events
         const TitlesList = ["load", "resize"];
         TitlesList.forEach(function (event) {
@@ -353,9 +362,12 @@ export default function TitlesWrapper(props: {
 
         // Do a resize once more when all the images finish loading
         waitForImages();
-    }, []);
+    }, [inputText]);
 
+    // Called at the start of the component lifecycle, only once and never again
     useEffect(() => {
+        maxImagesCount.current = filteredTitles.length;
+
         window.addEventListener(
             "scroll",
             function () {
@@ -369,7 +381,10 @@ export default function TitlesWrapper(props: {
         <section className={titlesWrapperStyles["titles-wrapper-section"]}>
             <div
                 id="search-bar-container"
-                className="w-full with-opacity-transition"
+                className={
+                    titlesSeachBarStyles["search-bar-container"] +
+                    " with-opacity-transition"
+                }
             >
                 <SearchBar filterTitlesAction={filterTitlesAction}></SearchBar>
             </div>
@@ -377,7 +392,7 @@ export default function TitlesWrapper(props: {
                 id="titles-wrapper-search-loading"
                 className={`${titlesWrapperStyles["titles-wrapper-search-loading"]} with-opacity-transition`}
             >
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center with-opacity-transition">
                     <span
                         className={
                             titlesWrapperStyles[
@@ -391,12 +406,8 @@ export default function TitlesWrapper(props: {
                                 "titles-wrapper-search-loading-p"
                             ]
                         }
-                        style={{
-                            visibility:
-                                loadedImagesCount !== 0 ? "visible" : "hidden",
-                        }}
                     >
-                        {loadedImagesCount}/{totalImagesCount.current}
+                        {loadedImagesCount}/{filteredTitles.length}
                     </p>
                 </div>
             </div>
