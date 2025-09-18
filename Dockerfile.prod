@@ -11,7 +11,6 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 COPY .env .
-COPY .env.local .
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
