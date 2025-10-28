@@ -1,3 +1,10 @@
+EOL repo NOTE: The project is no longer being worked on here. You can have a look at this article to preview what's next:
+https://www.loicdelon.fr/blog/inferenceprocess
+Then, you can check these repositories - They define the next iteration of the RelaxG project:
+https://github.com/kuroi-9/relaxg_second_inference
+https://github.com/kuroi-9/relaxg_second_server
+https://github.com/kuroi-9/relaxg_second_front
+
 # RelaxG 
 A mobile-first tool to help with manga upscaling.
 
